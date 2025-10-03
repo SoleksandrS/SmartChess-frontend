@@ -1,0 +1,7 @@
+@use "assets/styles/colors" as colors;
+
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: colors.$bg;
+}

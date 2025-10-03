@@ -1,0 +1,5 @@
+@use "../../assets/styles/colors" as colors;
+
+.page {
+  color: colors.$text-primary;
+}

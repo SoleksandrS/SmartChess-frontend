@@ -1,5 +1,7 @@
+import { PageContent } from "./components";
+
 function App() {
-  return <div>SmartChess</div>;
+  return <PageContent />;
 }
 
 export default App;
