@@ -1,4 +1,4 @@
-import { PageContent } from "./components";
+import { PageContent } from './components';
 
 function App() {
   return <PageContent />;
