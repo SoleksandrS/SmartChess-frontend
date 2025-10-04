@@ -17,7 +17,7 @@ export function ChessRulesModal({ isOpen, onClose }: IChessRulesModalProps) {
   const currentContent = sections.find((s) => s.key === activeSection)?.content;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className={styles['modal']}>
+    <Modal onClose={onClose} className={styles['modal']}>
       <div className={styles['sidebar']}>
         {sections.map((s) => (
           <div
@@ -32,8 +32,8 @@ export function ChessRulesModal({ isOpen, onClose }: IChessRulesModalProps) {
       <div className={styles['content']}>
         <h2>{sections.find((s) => s.key === activeSection)?.title}</h2>
         <div className={styles['content-list']}>
-          {currentContent?.map((text) => (
-            <p>{text}</p>
+          {currentContent?.map((text, idx) => (
+            <p key={idx}>{text}</p>
           ))}
         </div>
       </div>

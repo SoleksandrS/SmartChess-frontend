@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ReactModal from 'react-modal';
 
 const customStyles: ReactModal.Styles = {
@@ -13,15 +14,22 @@ const customStyles: ReactModal.Styles = {
 };
 
 interface IModalProps {
-  isOpen: boolean;
   onClose: () => void;
   className: string;
   children: React.ReactNode;
 }
 
-export function Modal({ isOpen, onClose, className, children }: IModalProps) {
+export function Modal({ onClose, className, children }: IModalProps) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
-    <ReactModal isOpen={isOpen} onRequestClose={onClose} style={customStyles} className={className}>
+    <ReactModal isOpen onRequestClose={onClose} style={customStyles} className={className}>
       {children}
     </ReactModal>
   );
