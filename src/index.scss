@@ -1,7 +1,33 @@
 @use 'assets/styles/colors' as colors;
 
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   height: 100vh;
   background-color: colors.$bg;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
 }
