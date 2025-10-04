@@ -1,0 +1,26 @@
+@use 'styles/colors' as colors;
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: colors.$bg;
+  border-top: 1px solid colors.$border;
+  color: colors.$text-secondary;
+  font-size: 0.9rem;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.copyright {
+  margin: 0;
+}
+
+.contact-email {
+  color: colors.$accent-ai;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: colors.$accent-user;
+  }
+}
