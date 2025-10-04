@@ -1,7 +1,7 @@
-import { PageContent } from './components';
+import { MainLayout } from './layouts';
 
 function App() {
-  return <PageContent />;
+  return <MainLayout />;
 }
 
 export default App;
