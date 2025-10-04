@@ -1,16 +1,22 @@
 @use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 2rem;
   background-color: colors.$bg;
   color: colors.$text-primary;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   position: sticky;
   top: 0;
   z-index: 10;
+
+  .header-container {
+    max-width: vars.$max-width;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem vars.$container-padding;
+  }
 }
 
 .logo-section {
