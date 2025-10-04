@@ -1,0 +1,78 @@
+@use 'styles/colors' as colors;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background-color: colors.$bg;
+  color: colors.$text-primary;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .logo-placeholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, colors.$accent-user, colors.$accent-ai);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px colors.$accent-user;
+  }
+  to {
+    box-shadow: 0 0 15px colors.$accent-ai;
+  }
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .auth-button {
+    background-color: transparent;
+    border: 1px solid colors.$border;
+    color: colors.$text-primary;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: colors.$accent-ai;
+      color: colors.$bg;
+      box-shadow: 0 0 10px colors.$accent-ai;
+    }
+  }
+
+  .profile-icon {
+    color: colors.$accent-user;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+}
