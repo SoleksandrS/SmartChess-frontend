@@ -1,5 +1,112 @@
+@use 'sass:color';
 @use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
 
 .page {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: colors.$bg;
+  padding: vars.$container-padding;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: color.adjust(colors.$bg, $lightness: -4%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
   color: colors.$text-primary;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.label {
+  text-align: left;
+  display: block;
+  font-weight: 500;
+  color: colors.$text-secondary;
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-top: 0.4rem;
+  border: 1px solid colors.$border;
+  border-radius: 8px;
+  background-color: transparent;
+  color: colors.$text-primary;
+  font-size: 1rem;
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: colors.$accent-ai;
+    box-shadow: 0 0 6px colors.$accent-ai;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: colors.$text-secondary;
+  }
+}
+
+.error {
+  display: block;
+  color: colors.$error;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.submit-button {
+  background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #1e1e2e;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px colors.$accent-ai;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.login-hint {
+  margin-top: 1rem;
+  color: colors.$text-secondary;
+  font-size: 0.9rem;
+
+  a {
+    color: colors.$accent-ai;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: colors.$accent-user;
+    }
+  }
 }
