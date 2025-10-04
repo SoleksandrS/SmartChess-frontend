@@ -21,30 +21,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.submit-button {
-  background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem;
-  color: colors.$bg;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 0 12px colors.$accent-ai;
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
 .hint {
   margin-top: 1rem;
   color: colors.$text-secondary;

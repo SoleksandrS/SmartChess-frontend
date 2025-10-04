@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Button } from 'components';
 
 import styles from './Form.module.scss';
 
@@ -16,9 +17,9 @@ export function Form({ title, onSubmit, children, submitLabel, hint }: IFormProp
     <form onSubmit={onSubmit} className={styles['form']}>
       <h2 className={styles['title']}>{title}</h2>
       {children}
-      <button type="submit" className={styles['submit-button']}>
+      <Button type="submit" variant="primary">
         {submitLabel}
-      </button>
+      </Button>
       {hint && (
         <p className={styles['hint']}>
           {hint.text} <NavLink to={hint.path}>{hint.link}</NavLink>

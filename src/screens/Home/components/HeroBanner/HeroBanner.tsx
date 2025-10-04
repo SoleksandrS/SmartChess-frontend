@@ -1,3 +1,5 @@
+import { Button } from 'components';
+
 import styles from './HeroBanner.module.scss';
 
 export function HeroBanner() {
@@ -8,8 +10,8 @@ export function HeroBanner() {
         Improve your skills, challenge AI, and climb the leaderboard
       </p>
       <div className={styles['buttons']}>
-        <button className={styles['primary-button']}>Play Now</button>
-        <button className={styles['secondary-button']}>Learn Chess</button>
+        <Button variant="secondary">Play Now</Button>
+        <Button variant="transparent">Learn Chess</Button>
       </div>
     </section>
   );
