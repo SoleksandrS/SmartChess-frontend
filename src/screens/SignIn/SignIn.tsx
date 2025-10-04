@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { ROUTES } from 'constants/routes';
 import type { SignInForm } from './SignIn.models';
+import { Form, Input } from 'components';
 
 import styles from './SignIn.module.scss';
 
@@ -18,51 +18,26 @@ export function SignIn() {
 
   return (
     <section className={styles['page']}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles['form']}>
-        <h2 className={styles['title']}>Sign In</h2>
-
-        <label className={styles['label']}>
-          Email
-          <input
-            type="email"
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: 'Invalid email address'
-              }
-            })}
-            className={styles['input']}
-            placeholder="you@example.com"
-          />
-          {errors.email && <span className={styles['error']}>{errors.email.message}</span>}
-        </label>
-
-        <label className={styles['label']}>
-          Password
-          <input
-            type="password"
-            {...register('password', {
-              required: 'Password is required',
-              minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters'
-              }
-            })}
-            className={styles['input']}
-            placeholder="••••••••"
-          />
-          {errors.password && <span className={styles['error']}>{errors.password.message}</span>}
-        </label>
-
-        <button type="submit" className={styles['submit-button']}>
-          Sign In
-        </button>
-
-        <p className={styles['register-hint']}>
-          Don’t have an account? <NavLink to={ROUTES.SIGNUP}>Sign Up</NavLink>
-        </p>
-      </form>
+      <Form
+        title="Sign In"
+        onSubmit={handleSubmit(onSubmit)}
+        submitLabel="Sign In"
+        hint={{ text: "Don't have an account?", link: 'Sign Up', path: ROUTES.SIGNUP }}>
+        <Input
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          register={register('email', { required: 'Email is required' })}
+          error={errors.email}
+        />
+        <Input
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          register={register('password', { required: 'Password is required' })}
+          error={errors.password}
+        />
+      </Form>
     </section>
   );
 }

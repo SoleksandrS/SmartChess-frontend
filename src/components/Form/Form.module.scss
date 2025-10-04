@@ -1,0 +1,62 @@
+@use 'sass:color';
+@use 'styles/colors' as colors;
+
+.form {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: color.adjust(colors.$bg, $lightness: -4%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  color: colors.$text-primary;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.submit-button {
+  background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: colors.$bg;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px colors.$accent-ai;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.hint {
+  margin-top: 1rem;
+  color: colors.$text-secondary;
+  font-size: 0.9rem;
+
+  a {
+    color: colors.$accent-ai;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: colors.$accent-user;
+    }
+  }
+}
