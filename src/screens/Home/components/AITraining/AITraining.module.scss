@@ -1,0 +1,46 @@
+@use 'sass:color';
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.ai-training {
+  padding: 4rem vars.$container-padding;
+  text-align: center;
+  background-color: color.adjust(colors.$bg, $lightness: -4%);
+  border-radius: 16px;
+  margin: 4rem auto;
+  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: colors.$accent-user;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: colors.$text-secondary;
+  }
+
+  .cta-button {
+    background: linear-gradient(90deg, colors.$accent-user, colors.$accent-ai);
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    color: colors.$bg;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px colors.$accent-ai;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
