@@ -1,0 +1,43 @@
+@use 'sass:color';
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.leaderboard {
+  padding: 4rem vars.$container-padding;
+  text-align: center;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: colors.$accent-ai;
+  }
+
+  .table {
+    width: 60%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: color.adjust(colors.$bg, $lightness: -4%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+    th,
+    td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid colors.$border;
+    }
+
+    th {
+      background-color: color.adjust(colors.$bg, $lightness: -8%);
+      color: colors.$accent-ai;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    td {
+      color: colors.$text-secondary;
+    }
+  }
+}

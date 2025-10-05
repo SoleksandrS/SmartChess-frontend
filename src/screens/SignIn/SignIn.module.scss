@@ -1,5 +1,11 @@
 @use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
 
 .page {
-  color: colors.$text-primary;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: colors.$bg;
+  padding: vars.$container-padding;
 }
