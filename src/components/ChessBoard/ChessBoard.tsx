@@ -1,0 +1,116 @@
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Chess, Move, type Square } from 'chess.js';
+import { Chessboard, type SquareHandlerArgs } from 'react-chessboard';
+
+export interface ChessBoardRef {
+  move: (from: Square, to: Square, promotion?: string) => boolean;
+}
+
+interface IChessBoardProps {
+  fen?: string;
+  boardOrientation?: 'white' | 'black';
+  onMove: (move: Move, fen: string) => void;
+  onGameOver: (status: 'checkmate' | 'draw') => void;
+}
+
+const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
+  ({ fen, boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
+    const chessGameRef = useRef(new Chess(fen));
+    const chessGame = chessGameRef.current;
+
+    const [position, setPosition] = useState(chessGame.fen());
+    const [moveFrom, setMoveFrom] = useState('');
+    const [optionSquares, setOptionSquares] = useState({});
+
+    function updatePosition() {
+      setPosition(chessGame.fen());
+
+      if (chessGame.isCheckmate()) onGameOver('checkmate');
+      if (chessGame.isDraw()) onGameOver('draw');
+    }
+
+    function handlePlayerMove(from: Square, to: Square) {
+      const move = chessGame.move({ from, to, promotion: 'q' });
+      onMove(move, chessGame.fen());
+      updatePosition();
+    }
+
+    function getMoveOptions(square: Square) {
+      const moves = chessGame.moves({ square, verbose: true });
+
+      if (moves.length === 0) {
+        setOptionSquares({});
+        return false;
+      }
+
+      const newSquares: Record<string, React.CSSProperties> = {};
+
+      for (const move of moves) {
+        newSquares[move.to] = {
+          background:
+            chessGame.get(move.to) && chessGame.get(move.to)?.color !== chessGame.get(square)?.color
+              ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
+              : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
+          borderRadius: '50%'
+        };
+      }
+
+      newSquares[square] = { background: 'rgba(255, 255, 0, 0.4)' };
+
+      setOptionSquares(newSquares);
+
+      return true;
+    }
+
+    function onSquareClick({ square, piece }: SquareHandlerArgs) {
+      if (!moveFrom && piece) {
+        const hasMoveOptions = getMoveOptions(square as Square);
+        if (hasMoveOptions) setMoveFrom(square);
+        return;
+      }
+
+      const moves = chessGame.moves({ square: moveFrom as Square, verbose: true });
+      const foundMove = moves.find((m) => m.from === moveFrom && m.to === square);
+
+      if (!foundMove) {
+        const hasMoveOptions = getMoveOptions(square as Square);
+        setMoveFrom(hasMoveOptions ? square : '');
+        return;
+      }
+
+      try {
+        handlePlayerMove(moveFrom as Square, square as Square);
+        setMoveFrom('');
+        setOptionSquares({});
+      } catch {
+        const hasMoveOptions = getMoveOptions(square as Square);
+        if (hasMoveOptions) setMoveFrom(square);
+        return;
+      }
+    }
+
+    useImperativeHandle(ref, () => ({
+      move: (from: Square, to: Square, promotion = 'q') => {
+        const move = chessGame.move({ from, to, promotion });
+        if (!move) return false;
+        updatePosition();
+        return true;
+      }
+    }));
+
+    const chessboardOptions = {
+      boardStyle: { width: '480px' },
+      squareStyles: optionSquares,
+      position,
+      boardOrientation,
+      allowDragging: false,
+      onSquareClick
+    };
+
+    return <Chessboard options={chessboardOptions} />;
+  }
+);
+
+ChessBoard.displayName = 'ChessBoard';
+
+export default ChessBoard;
