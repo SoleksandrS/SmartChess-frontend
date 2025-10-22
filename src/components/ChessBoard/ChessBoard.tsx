@@ -21,6 +21,11 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     const [moveFrom, setMoveFrom] = useState('');
     const [optionSquares, setOptionSquares] = useState({});
 
+    function checkIsMyTurn() {
+      const playerColor = boardOrientation[0];
+      return chessGame.turn() === playerColor;
+    }
+
     function updatePosition() {
       setPosition(chessGame.fen());
 
@@ -29,6 +34,8 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     }
 
     function handlePlayerMove(from: Square, to: Square) {
+      if (!checkIsMyTurn()) return;
+
       const move = chessGame.move({ from, to, promotion: 'q' });
       onMove(move, chessGame.fen());
       updatePosition();
@@ -62,6 +69,8 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     }
 
     function onSquareClick({ square, piece }: SquareHandlerArgs) {
+      if (!checkIsMyTurn()) return;
+
       if (!moveFrom && piece) {
         const hasMoveOptions = getMoveOptions(square as Square);
         if (hasMoveOptions) setMoveFrom(square);
