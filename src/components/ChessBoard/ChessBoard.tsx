@@ -21,27 +21,27 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     const [moveFrom, setMoveFrom] = useState('');
     const [optionSquares, setOptionSquares] = useState({});
 
-    function checkIsMyTurn() {
+    const checkIsMyTurn = () => {
       const playerColor = boardOrientation[0];
       return chessGame.turn() === playerColor;
-    }
+    };
 
-    function updatePosition() {
+    const updatePosition = () => {
       setPosition(chessGame.fen());
 
       if (chessGame.isCheckmate()) onGameOver('checkmate');
       if (chessGame.isDraw()) onGameOver('draw');
-    }
+    };
 
-    function handlePlayerMove(from: Square, to: Square) {
+    const handlePlayerMove = (from: Square, to: Square) => {
       if (!checkIsMyTurn()) return;
 
       const move = chessGame.move({ from, to, promotion: 'q' });
       onMove(move, chessGame.fen());
       updatePosition();
-    }
+    };
 
-    function getMoveOptions(square: Square) {
+    const getMoveOptions = (square: Square) => {
       const moves = chessGame.moves({ square, verbose: true });
 
       if (moves.length === 0) {
@@ -66,9 +66,9 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
       setOptionSquares(newSquares);
 
       return true;
-    }
+    };
 
-    function onSquareClick({ square, piece }: SquareHandlerArgs) {
+    const onSquareClick = ({ square, piece }: SquareHandlerArgs) => {
       if (!checkIsMyTurn()) return;
 
       if (!moveFrom && piece) {
@@ -95,7 +95,7 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
         if (hasMoveOptions) setMoveFrom(square);
         return;
       }
-    }
+    };
 
     useImperativeHandle(ref, () => ({
       updateBoard: (fen: string) => {
