@@ -3,19 +3,18 @@ import { Chess, Move, type Square } from 'chess.js';
 import { Chessboard, type SquareHandlerArgs } from 'react-chessboard';
 
 export interface ChessBoardRef {
-  move: (from: Square, to: Square, promotion?: string) => boolean;
+  updateBoard: (fen: string) => void;
 }
 
 interface IChessBoardProps {
-  fen?: string;
   boardOrientation?: 'white' | 'black';
   onMove: (move: Move, fen: string) => void;
   onGameOver: (status: 'checkmate' | 'draw') => void;
 }
 
 const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
-  ({ fen, boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
-    const chessGameRef = useRef(new Chess(fen));
+  ({ boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
+    const chessGameRef = useRef(new Chess());
     const chessGame = chessGameRef.current;
 
     const [position, setPosition] = useState(chessGame.fen());
@@ -90,11 +89,10 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     }
 
     useImperativeHandle(ref, () => ({
-      move: (from: Square, to: Square, promotion = 'q') => {
-        const move = chessGame.move({ from, to, promotion });
-        if (!move) return false;
+      updateBoard: (fen: string) => {
+        if (fen === chessGame.fen()) return;
+        chessGame.load(fen);
         updatePosition();
-        return true;
       }
     }));
 
