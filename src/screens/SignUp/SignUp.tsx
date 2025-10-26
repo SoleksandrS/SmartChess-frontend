@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { api, ENDPOINTS } from 'services/api';
 import { ROUTES } from 'constants/routes';
 import type { SignUpForm } from './SignUp.models';
 import { Form, Input } from 'components';
@@ -6,6 +8,7 @@ import { Form, Input } from 'components';
 import styles from './SignUp.module.scss';
 
 export function SignUp() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,8 +18,13 @@ export function SignUp() {
 
   const password = watch('password', '');
 
-  const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-    console.log('data', data);
+  const onSubmit: SubmitHandler<SignUpForm> = async (form) => {
+    try {
+      await api.post(ENDPOINTS.SIGN_UP, form);
+      await navigate(ROUTES.SIGNIN);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

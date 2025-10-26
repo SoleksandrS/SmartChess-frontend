@@ -1,5 +1,7 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { api, ENDPOINTS } from 'services/api';
 import { ROUTES } from 'constants/routes';
+import { STORAGE_KEYS } from 'constants/localStorage';
 import type { SignInForm } from './SignIn.models';
 import { Form, Input } from 'components';
 
@@ -12,8 +14,13 @@ export function SignIn() {
     formState: { errors }
   } = useForm<SignInForm>();
 
-  const onSubmit: SubmitHandler<SignInForm> = (data) => {
-    console.log('data', data);
+  const onSubmit: SubmitHandler<SignInForm> = async (form) => {
+    try {
+      const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, form);
+      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
