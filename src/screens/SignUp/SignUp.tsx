@@ -3,7 +3,7 @@ import type { AppDispatch, TState } from 'store';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { ROUTES } from 'constants/routes';
 import type { SignUpForm } from './SignUp.models';
-import { Form, Input } from 'components';
+import { Form, Input, MainLoader } from 'components';
 import { signUpThunk } from 'store/modules/auth/auth.thunk';
 
 import styles from './SignUp.module.scss';
@@ -26,7 +26,6 @@ export function SignUp() {
 
   return (
     <section className={styles['page']}>
-      {`${loading}`}
       <Form
         title="Sign Up"
         onSubmit={handleSubmit(onSubmit)}
@@ -64,6 +63,8 @@ export function SignUp() {
           error={errors.confirmPassword}
         />
       </Form>
+
+      {loading && <MainLoader />}
     </section>
   );
 }
