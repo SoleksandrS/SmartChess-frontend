@@ -1,13 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { api, ENDPOINTS } from 'services/api';
 import { ROUTES } from 'constants/routes';
-import { STORAGE_KEYS } from 'constants/localStorage';
 import type { SignInForm } from './SignIn.models';
 import { Form, Input } from 'components';
+import { signInThunk } from 'store/modules/auth/auth.thunk';
 
 import styles from './SignIn.module.scss';
 
 export function SignIn() {
+  const loading = useSelector((state: TState) => state.auth.loading);
+  const dispatch: AppDispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -15,16 +18,12 @@ export function SignIn() {
   } = useForm<SignInForm>();
 
   const onSubmit: SubmitHandler<SignInForm> = async (form) => {
-    try {
-      const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, form);
-      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
-    } catch (err) {
-      alert(err);
-    }
+    await dispatch(signInThunk(form));
   };
 
   return (
     <section className={styles['page']}>
+      {`${loading}`}
       <Form
         title="Sign In"
         onSubmit={handleSubmit(onSubmit)}
