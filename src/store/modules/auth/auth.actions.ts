@@ -1,11 +1,6 @@
 import type { ActionCreator } from 'redux';
 import type { ICurrentUser, IStoreAction } from 'models/index.ts';
-import { SET_USER_DATA, SET_LOADING, SET_APP_LOADING } from './auth.constants.ts';
-
-export const setAppLoading: ActionCreator<IStoreAction> = (payload: boolean) => ({
-  type: SET_APP_LOADING,
-  payload
-});
+import { SET_USER_DATA, SET_LOADING } from './auth.constants.ts';
 
 export const setLoading: ActionCreator<IStoreAction> = (payload: boolean) => ({
   type: SET_LOADING,

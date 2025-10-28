@@ -1,19 +1,26 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, TState } from 'store';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from 'store';
 import { STORAGE_KEYS } from 'constants/localStorage';
 import { getUserDataThunk } from 'store/modules/auth/auth.thunk';
 import { GridLoader } from 'react-spinners';
 import Router from './routers/Router';
 
 function App() {
-  const appLoading = useSelector((state: TState) => state.auth.appLoading);
   const dispatch: AppDispatch = useDispatch();
+
+  const [appLoading, setAppLoading] = useState(false);
+
+  const makeRequest = useCallback(async () => {
+    setAppLoading(true);
+    await dispatch(getUserDataThunk());
+    setAppLoading(false);
+  }, [dispatch]);
 
   useEffect(() => {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-    if (token) void dispatch(getUserDataThunk());
-  }, [dispatch]);
+    if (token) void makeRequest();
+  }, [makeRequest]);
 
   return appLoading ? (
     <div style={{ margin: 'auto' }}>
