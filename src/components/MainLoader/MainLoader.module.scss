@@ -1,0 +1,11 @@
+@use 'styles/colors' as colors;
+
+.overlay {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 10000;
+  background-color: colors.$shadow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
