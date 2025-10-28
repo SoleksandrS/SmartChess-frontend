@@ -3,8 +3,7 @@ import type { TState } from 'store';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { MainLayout } from 'layouts';
-import { Home, NotFound, SignIn, SignUp } from 'screens';
-import { GameVsAI } from 'screens/GameVsAI/GameVsAI';
+import { GameVsAI, Home, NotFound, SignIn, SignUp } from 'screens';
 
 const unauthRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
