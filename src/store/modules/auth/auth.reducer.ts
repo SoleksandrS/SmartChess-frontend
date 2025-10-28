@@ -1,9 +1,9 @@
 import { SET_USER_DATA, SET_LOADING } from './auth.constants.ts';
-import type { IStoreAction } from 'models/index.ts';
+import type { ICurrentUser, IStoreAction } from 'models/index.ts';
 
 interface IInitialState {
   loading: boolean;
-  data: unknown;
+  data: ICurrentUser | null;
 }
 
 export const initialState: IInitialState = {
@@ -17,7 +17,7 @@ export default (state = { ...initialState }, action: IStoreAction) => {
       return { ...state, loading: action.payload as boolean };
 
     case SET_USER_DATA:
-      return { ...state, loading: false, data: action.payload as object };
+      return { ...state, loading: false, data: action.payload as ICurrentUser };
 
     default:
       return state;

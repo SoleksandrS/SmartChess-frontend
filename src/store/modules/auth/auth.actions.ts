@@ -1,5 +1,5 @@
 import type { ActionCreator } from 'redux';
-import type { IStoreAction } from 'models/index.ts';
+import type { ICurrentUser, IStoreAction } from 'models/index.ts';
 import { SET_USER_DATA, SET_LOADING } from './auth.constants.ts';
 
 export const setLoading: ActionCreator<IStoreAction> = (payload: boolean) => ({
@@ -7,7 +7,7 @@ export const setLoading: ActionCreator<IStoreAction> = (payload: boolean) => ({
   payload
 });
 
-export const setUserData: ActionCreator<IStoreAction> = (payload: object) => ({
+export const setUserData: ActionCreator<IStoreAction> = (payload: ICurrentUser) => ({
   type: SET_USER_DATA,
   payload
 });

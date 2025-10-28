@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
+import type { ICurrentUser } from 'models';
 import { STORAGE_KEYS } from 'constants/localStorage';
-import { setLoading } from './auth.actions';
+import { setLoading, setUserData } from './auth.actions';
 
 interface ISignInBody {
   email: string;
@@ -39,6 +40,18 @@ export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) 
   } catch (err) {
     console.error(err);
   } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const getUserDataThunk = () => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
+
+  try {
+    const { data } = await api.get<ICurrentUser>(ENDPOINTS.CURRENT_USER);
+    dispatch(setUserData(data));
+  } catch (err) {
+    console.error(err);
     dispatch(setLoading(false));
   }
 };
