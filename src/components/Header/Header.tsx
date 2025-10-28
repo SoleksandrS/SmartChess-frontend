@@ -1,13 +1,21 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import type { TState } from 'store';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
+import { STORAGE_KEYS } from 'constants/localStorage';
+import { clearAuthData } from 'store/modules/auth/auth.actions';
 import { HeaderDropdownMenu } from 'components';
 
 import styles from './Header.module.scss';
 
 export function Header() {
   const userData = useSelector((state: TState) => state.auth.data);
+  const dispatch: AppDispatch = useDispatch();
+
+  const onLogout = () => {
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    dispatch(clearAuthData());
+  };
 
   return (
     <header className={styles['header']}>
@@ -23,10 +31,7 @@ export function Header() {
               Sign In
             </NavLink>
           ) : (
-            <HeaderDropdownMenu
-              username={userData.username}
-              onLogout={() => console.log('LOGOUT')}
-            />
+            <HeaderDropdownMenu username={userData.username} onLogout={onLogout} />
           )}
         </div>
       </div>
