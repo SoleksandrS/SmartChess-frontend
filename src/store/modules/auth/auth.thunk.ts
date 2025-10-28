@@ -4,7 +4,7 @@ import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
 import type { ICurrentUser } from 'models';
 import { STORAGE_KEYS } from 'constants/localStorage';
-import { setLoading, setUserData } from './auth.actions';
+import { setAppLoading, setLoading, setUserData } from './auth.actions';
 
 interface ISignInBody {
   email: string;
@@ -45,13 +45,13 @@ export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) 
 };
 
 export const getUserDataThunk = () => async (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
+  dispatch(setAppLoading(true));
 
   try {
     const { data } = await api.get<ICurrentUser>(ENDPOINTS.CURRENT_USER);
     dispatch(setUserData(data));
   } catch (err) {
     console.error(err);
-    dispatch(setLoading(false));
+    dispatch(setAppLoading(false));
   }
 };
