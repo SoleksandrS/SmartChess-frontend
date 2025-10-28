@@ -1,0 +1,86 @@
+@use 'sass:color';
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-data {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust(colors.$bg, $lightness: 6%);
+  }
+
+  .profile-icon {
+    display: inline-flex;
+    color: colors.$accent-user;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .profile-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .username {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: colors.$text-primary;
+    font-weight: 500;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 140px;
+  background: color.adjust(colors.$bg, $lightness: 4%);
+  border: 1px solid rgba(colors.$accent-user, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 6px 0;
+  z-index: 10;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: colors.$text-primary;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust(colors.$accent-user, $lightness: 10%);
+    color: colors.$bg;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

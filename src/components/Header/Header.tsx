@@ -2,8 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { TState } from 'store';
 import { ROUTES } from 'constants/routes';
-
-import { FaUserCircle } from 'react-icons/fa';
+import { HeaderDropdownMenu } from 'components';
 
 import styles from './Header.module.scss';
 
@@ -24,12 +23,10 @@ export function Header() {
               Sign In
             </NavLink>
           ) : (
-            <div className={styles['user-data']}>
-              <div className={styles['profile-icon']}>
-                <FaUserCircle size={28} />
-              </div>
-              <span className={styles['username']}>{userData.username}</span>
-            </div>
+            <HeaderDropdownMenu
+              username={userData.username}
+              onLogout={() => console.log('LOGOUT')}
+            />
           )}
         </div>
       </div>

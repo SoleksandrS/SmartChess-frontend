@@ -1,4 +1,5 @@
 export { Header } from './Header/Header';
+export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
 export { Footer } from './Footer/Footer';
 export { MainLoader } from './MainLoader/MainLoader';
 export { Form } from './Form/Form';
