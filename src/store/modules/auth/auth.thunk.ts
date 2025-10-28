@@ -22,6 +22,7 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
     const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, body);
     localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
     console.log('data', data);
+    await dispatch(getUserDataThunk());
   } catch (err) {
     console.error(err);
   } finally {
