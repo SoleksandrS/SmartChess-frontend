@@ -21,7 +21,6 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
   try {
     const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, body);
     localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
-    console.log('data', data);
     await dispatch(getUserDataThunk());
   } catch (err) {
     console.error(err);
@@ -35,8 +34,7 @@ export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) 
   dispatch(setLoading(true));
 
   try {
-    const { data } = await api.post<unknown>(ENDPOINTS.SIGN_UP, body);
-    console.log('data', data);
+    await api.post(ENDPOINTS.SIGN_UP, body);
     await navigate(ROUTES.SIGNIN);
   } catch (err) {
     console.error(err);
