@@ -73,12 +73,28 @@
     }
   }
 
-  .profile-icon {
-    color: colors.$accent-user;
-    transition: transform 0.3s ease;
+  .user-data {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 
-    &:hover {
-      transform: scale(1.1) rotate(5deg);
+    .profile-icon {
+      display: inline-flex;
+      color: colors.$accent-user;
+      transition: transform 0.3s ease;
+    }
+
+    .username {
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: colors.$text-primary;
+      font-weight: 500;
     }
   }
 }
