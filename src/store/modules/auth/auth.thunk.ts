@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
 import type { ICurrentUser } from 'models';
 import { STORAGE_KEYS } from 'constants/localStorage';
+import { navigate } from 'utils/navigation';
 import { setLoading, setUserData } from './auth.actions';
 
 interface ISignInBody {
@@ -16,8 +16,6 @@ interface ISignUpBody extends ISignInBody {
 }
 
 export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) => {
-  const navigate = useNavigate();
-
   dispatch(setLoading(true));
 
   try {
@@ -33,7 +31,6 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
 };
 
 export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) => {
-  const navigate = useNavigate();
   dispatch(setLoading(true));
 
   try {
