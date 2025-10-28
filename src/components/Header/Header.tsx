@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
@@ -11,10 +11,12 @@ import styles from './Header.module.scss';
 export function Header() {
   const userData = useSelector((state: TState) => state.auth.data);
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLogout = () => {
     localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
     dispatch(clearAuthData());
+    void navigate(ROUTES.HOME);
   };
 
   return (

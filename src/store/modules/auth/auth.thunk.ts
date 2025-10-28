@@ -16,12 +16,15 @@ interface ISignUpBody extends ISignInBody {
 }
 
 export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) => {
+  const navigate = useNavigate();
+
   dispatch(setLoading(true));
 
   try {
     const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, body);
     localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
     await dispatch(getUserDataThunk());
+    await navigate(ROUTES.HOME);
   } catch (err) {
     console.error(err);
   } finally {
