@@ -33,6 +33,12 @@ export function GameVsAI() {
     };
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if (!game?.fen || !boardRef.current) return;
+    if (game.fen === boardRef.current.getBoardFen()) return;
+    boardRef.current.updateBoard(game.fen);
+  }, [game]);
+
   return (
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>

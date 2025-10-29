@@ -3,6 +3,7 @@ import { Chess, Move, type Square } from 'chess.js';
 import { Chessboard, type SquareHandlerArgs } from 'react-chessboard';
 
 export interface ChessBoardRef {
+  getBoardFen: () => string;
   updateBoard: (fen: string) => void;
 }
 
@@ -100,6 +101,7 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     };
 
     useImperativeHandle(ref, () => ({
+      getBoardFen: () => chessGame.fen(),
       updateBoard: (fen: string) => {
         if (fen === chessGame.fen()) return;
         chessGame.load(fen);
