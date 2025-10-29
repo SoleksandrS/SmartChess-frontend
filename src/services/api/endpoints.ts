@@ -1,6 +1,4 @@
 export class ENDPOINTS {
-  static GAMES = `/games`;
-
   // ==========================
   // Auth
   // ==========================
@@ -13,4 +11,9 @@ export class ENDPOINTS {
   // ==========================
   static USERS = `/users`;
   static CURRENT_USER = `${this.USERS}/current`;
+
+  // ==========================
+  // Games
+  // ==========================
+  static GAMES = `/games`;
 }
