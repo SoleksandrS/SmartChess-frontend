@@ -1,4 +1,4 @@
-import { SET_DATA, SET_LOADING, CLEAR_DATA } from './game.constants.ts';
+import { SET_DATA, SET_LOADING, CLEAR_DATA, UPDATE_DATA } from './game.constants.ts';
 import type { IGame, IStoreAction } from 'models/index.ts';
 
 interface IInitialState {
@@ -18,6 +18,13 @@ export default (state = { ...initialState }, action: IStoreAction) => {
 
     case SET_DATA:
       return { ...state, loading: false, data: action.payload as IGame };
+
+    case UPDATE_DATA:
+      return {
+        ...state,
+        loading: false,
+        data: state.data ? ({ ...state.data, ...action.payload } as IGame) : null
+      };
 
     case CLEAR_DATA:
       return { ...state, loading: false, data: null };

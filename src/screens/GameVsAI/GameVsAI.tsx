@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import type { Move } from 'chess.js';
-import { getGameDataThunk } from 'store/modules/game/game.thunk';
+import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
 import ChessBoard, { type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
 import { MainLoader } from 'components';
@@ -19,8 +19,7 @@ export function GameVsAI() {
   const boardRef = useRef<ChessBoardRef>(null);
 
   const onMoveHandler = (move: Move, fen: string) => {
-    console.log('move', move);
-    console.log('fen', fen);
+    if (game) void dispatch(makeGameMoveThunk(game.id, move.lan));
   };
 
   const onGameOverHandler = (status: string) => {
