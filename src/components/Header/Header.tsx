@@ -1,13 +1,23 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
-
-import { FaUserCircle } from 'react-icons/fa';
+import { STORAGE_KEYS } from 'constants/localStorage';
+import { clearAuthData } from 'store/modules/auth/auth.actions';
+import { HeaderDropdownMenu } from 'components';
 
 import styles from './Header.module.scss';
 
 export function Header() {
-  const [isAuth] = useState(false);
+  const userData = useSelector((state: TState) => state.auth.data);
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    dispatch(clearAuthData());
+    void navigate(ROUTES.HOME);
+  };
 
   return (
     <header className={styles['header']}>
@@ -18,14 +28,12 @@ export function Header() {
         </NavLink>
 
         <div className={styles['user-section']}>
-          {!isAuth ? (
+          {!userData ? (
             <NavLink to={ROUTES.SIGNIN} className={styles['auth-button']}>
               Sign In
             </NavLink>
           ) : (
-            <div className={styles['profile-icon']}>
-              <FaUserCircle size={28} />
-            </div>
+            <HeaderDropdownMenu username={userData.username} onLogout={onLogout} />
           )}
         </div>
       </div>

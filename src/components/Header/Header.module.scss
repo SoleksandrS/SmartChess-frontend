@@ -72,13 +72,4 @@
       box-shadow: 0 0 10px colors.$accent-ai;
     }
   }
-
-  .profile-icon {
-    color: colors.$accent-user;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: scale(1.1) rotate(5deg);
-    }
-  }
 }

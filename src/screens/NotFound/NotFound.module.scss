@@ -1,0 +1,37 @@
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.content {
+  margin: auto;
+  color: colors.$text-primary;
+  max-width: 600px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 10rem;
+  font-weight: 800;
+  color: colors.$accent-ai;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(colors.$accent-ai, 0.5);
+  animation: glow 3s ease-in-out infinite;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: colors.$text-secondary;
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  font-size: 1rem;
+  color: colors.$text-secondary;
+  margin-bottom: 2rem;
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(colors.$accent-ai, 0.3); }
+  50% { text-shadow: 0 0 40px rgba(colors.$accent-ai, 0.8); }
+}

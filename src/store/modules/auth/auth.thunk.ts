@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
 import type { ICurrentUser } from 'models';
 import { STORAGE_KEYS } from 'constants/localStorage';
+import { navigate } from 'utils/navigation';
 import { setLoading, setUserData } from './auth.actions';
 
 interface ISignInBody {
@@ -21,7 +21,8 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
   try {
     const { data } = await api.post<{ access_token: string }>(ENDPOINTS.SIGN_IN, body);
     localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, data.access_token);
-    console.log('data', data);
+    await dispatch(getUserDataThunk());
+    await navigate(ROUTES.HOME);
   } catch (err) {
     console.error(err);
   } finally {
@@ -30,12 +31,10 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
 };
 
 export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) => {
-  const navigate = useNavigate();
   dispatch(setLoading(true));
 
   try {
-    const { data } = await api.post<unknown>(ENDPOINTS.SIGN_UP, body);
-    console.log('data', data);
+    await api.post(ENDPOINTS.SIGN_UP, body);
     await navigate(ROUTES.SIGNIN);
   } catch (err) {
     console.error(err);
