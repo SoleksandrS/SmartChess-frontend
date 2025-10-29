@@ -15,14 +15,15 @@ export const getGameDataThunk = (id: string) => async (dispatch: AppDispatch) =>
   }
 };
 
-export const makeGameMoveThunk = (id: string, move: string) => async (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
+export const makeGameMoveThunk =
+  (id: string, move: string, fen: string) => async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
 
-  try {
-    const { data } = await api.put<string>(`${ENDPOINTS.GAMES}/${id}/move`, { move });
-    dispatch(updateGameData({ fen: data }));
-  } catch (err) {
-    console.error(err);
-    dispatch(setLoading(false));
-  }
-};
+    try {
+      const { data } = await api.put<string>(`${ENDPOINTS.GAMES}/${id}/move`, { move });
+      dispatch(updateGameData({ fen: data }));
+    } catch (err) {
+      console.error(err);
+      dispatch(updateGameData({ fen }));
+    }
+  };

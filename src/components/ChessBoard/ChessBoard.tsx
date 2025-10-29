@@ -37,8 +37,9 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     const handlePlayerMove = (from: Square, to: Square) => {
       if (!checkIsMyTurn()) return;
 
+      const fen = chessGame.fen();
       const move = chessGame.move({ from, to, promotion: 'q' });
-      onMove(move, chessGame.fen());
+      onMove(move, fen);
       updatePosition();
     };
 

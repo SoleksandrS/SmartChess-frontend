@@ -19,7 +19,7 @@ export function GameVsAI() {
   const boardRef = useRef<ChessBoardRef>(null);
 
   const onMoveHandler = (move: Move, fen: string) => {
-    if (game) void dispatch(makeGameMoveThunk(game.id, move.lan));
+    if (game) void dispatch(makeGameMoveThunk(game.id, move.lan, fen));
   };
 
   const onGameOverHandler = (status: string) => {
