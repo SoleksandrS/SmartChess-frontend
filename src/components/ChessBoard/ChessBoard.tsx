@@ -7,14 +7,15 @@ export interface ChessBoardRef {
 }
 
 interface IChessBoardProps {
+  initFen?: string;
   boardOrientation?: 'white' | 'black';
   onMove: (move: Move, fen: string) => void;
   onGameOver: (status: 'checkmate' | 'draw') => void;
 }
 
 const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
-  ({ boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
-    const chessGameRef = useRef(new Chess());
+  ({ initFen, boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
+    const chessGameRef = useRef(new Chess(initFen));
     const chessGame = chessGameRef.current;
 
     const [position, setPosition] = useState(chessGame.fen());
