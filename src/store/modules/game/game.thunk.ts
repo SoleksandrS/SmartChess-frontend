@@ -7,7 +7,7 @@ export const getGameDataThunk = (id: string) => async (dispatch: AppDispatch) =>
   dispatch(setLoading(true));
 
   try {
-    const { data } = await api.get<IGame>(`${ENDPOINTS.GAMES}/${id}`);
+    const { data } = await api.get<IGame>(ENDPOINTS.GAME(id));
     dispatch(setGameData(data));
   } catch (err) {
     console.error(err);
@@ -20,7 +20,7 @@ export const makeGameMoveThunk =
     dispatch(setLoading(true));
 
     try {
-      const { data } = await api.put<string>(`${ENDPOINTS.GAMES}/${id}/move`, { move });
+      const { data } = await api.put<string>(ENDPOINTS.GAME_MOVE(id), { move });
       dispatch(updateGameData({ fen: data }));
     } catch (err) {
       console.error(err);

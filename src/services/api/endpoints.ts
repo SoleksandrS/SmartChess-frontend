@@ -16,4 +16,6 @@ export class ENDPOINTS {
   // Games
   // ==========================
   static GAMES = `/games`;
+  static GAME = (id: string) => `${this.GAMES}/${id}`;
+  static GAME_MOVE = (id: string) => `${this.GAME(id)}/move`;
 }
