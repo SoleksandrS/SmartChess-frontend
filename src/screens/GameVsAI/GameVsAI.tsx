@@ -22,10 +22,6 @@ export function GameVsAI() {
     if (game) void dispatch(makeGameMoveThunk(game.id, move.lan, fen));
   };
 
-  const onGameOverHandler = (status: string) => {
-    console.log('status', status);
-  };
-
   useEffect(() => {
     if (id) void dispatch(getGameDataThunk(id));
     return () => {
@@ -42,14 +38,7 @@ export function GameVsAI() {
   return (
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>
-      {game && (
-        <ChessBoard
-          ref={boardRef}
-          initFen={game.fen}
-          onMove={onMoveHandler}
-          onGameOver={onGameOverHandler}
-        />
-      )}
+      {game && <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMoveHandler} />}
       {loading && <MainLoader />}
     </div>
   );

@@ -11,11 +11,10 @@ interface IChessBoardProps {
   initFen?: string;
   boardOrientation?: 'white' | 'black';
   onMove: (move: Move, fen: string) => void;
-  onGameOver: (status: 'checkmate' | 'draw') => void;
 }
 
 const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
-  ({ initFen, boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
+  ({ initFen, boardOrientation = 'white', onMove }: IChessBoardProps, ref) => {
     const chessGameRef = useRef(new Chess(initFen));
     const chessGame = chessGameRef.current;
 
@@ -30,9 +29,6 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
 
     const updatePosition = () => {
       setPosition(chessGame.fen());
-
-      if (chessGame.isCheckmate()) onGameOver('checkmate');
-      if (chessGame.isDraw()) onGameOver('draw');
     };
 
     const handlePlayerMove = (from: Square, to: Square) => {
