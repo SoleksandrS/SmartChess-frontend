@@ -16,11 +16,16 @@ export enum EChessSide {
   BLACK = 'b'
 }
 
+export enum EChessResult {
+  DRAW = 'draw',
+  CHECKMATE = 'checkmate'
+}
+
 export interface IGame {
   id: string;
   fen: string;
   turn: EChessSide;
-  result: string;
+  result: EChessResult | null;
   whitePlayerId?: number;
   blackPlayerId?: number;
   whitePlayer?: { username: string };
@@ -30,11 +35,6 @@ export interface IGame {
     turn: EChessSide;
     move: string;
   }[];
-}
-
-export enum EChessResult {
-  DRAW = 'draw',
-  CHECKMATE = 'checkmate'
 }
 
 export enum EGameStatus {

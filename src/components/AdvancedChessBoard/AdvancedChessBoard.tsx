@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
-
 import { useEffect, useRef, useState } from 'react';
 import type { Move } from 'chess.js';
 import { EChessResult, EChessSide, EGameStatus, type ICurrentUser, type IGame } from 'models';
@@ -35,7 +33,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
 
   useEffect(() => {
     if (!game.result || !game.turn || !user.id) return;
-    if (!Object.values(EChessResult).includes(game.result as EChessResult)) return;
+    if (!Object.values(EChessResult).includes(game.result)) return;
     if (game.result === EChessResult.DRAW) return updateGameStatus(EGameStatus.DRAW);
     if (game.turn === EChessSide.WHITE && game.whitePlayerId === user.id)
       return updateGameStatus(EGameStatus.WIN);
