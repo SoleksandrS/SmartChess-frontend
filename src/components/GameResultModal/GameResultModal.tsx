@@ -3,8 +3,10 @@ import { Button } from 'components/Button/Button';
 
 import styles from './GameResultModal.module.scss';
 
+export type TGameResultModalValue = 'win' | 'lose' | 'draw';
+
 interface IGameResultModalProps {
-  result: 'win' | 'lose' | 'draw';
+  result: TGameResultModalValue;
   onClose: () => void;
 }
 

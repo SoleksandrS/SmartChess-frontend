@@ -16,6 +16,13 @@ export interface IGame {
   fen: string;
   turn: string;
   result: string;
+  whitePlayerId?: number;
+  blackPlayerId?: number;
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
+}
+
+export enum EChessResult {
+  DRAW = 'draw',
+  CHECKMATE = 'checkmate'
 }
