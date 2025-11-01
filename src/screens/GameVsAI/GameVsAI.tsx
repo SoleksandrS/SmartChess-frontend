@@ -9,6 +9,7 @@ import {
   ChessBoard,
   type ChessBoardRef,
   GameResultModal,
+  GameSidebarData,
   MainLoader,
   type TGameResultModalValue
 } from 'components';
@@ -62,7 +63,18 @@ export function GameVsAI() {
   return (
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>
-      {game && <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMoveHandler} />}
+      {game && (
+        <div className={styles['chess-board']}>
+          <GameSidebarData
+            whitePlayer={game?.whitePlayer?.username || 'AI'}
+            blackPlayer={game?.blackPlayer?.username || 'AI'}
+            currentTurn={'w'}
+            moveCount={0}
+            status={'playing'}
+          />
+          <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMoveHandler} />
+        </div>
+      )}
       {isResultOpened && (
         <GameResultModal result={gameResult} onClose={() => setIsResultOpened(false)} />
       )}

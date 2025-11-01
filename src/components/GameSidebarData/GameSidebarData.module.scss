@@ -1,0 +1,64 @@
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.sidebar {
+  background: #1e1e2e;
+  border-radius: 16px;
+  padding: 24px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  color: colors.$text-primary;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: colors.$accent-ai;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px 14px;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: colors.$accent-ai;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+}
+
+.player-row,
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.value {
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  text-align: right;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
