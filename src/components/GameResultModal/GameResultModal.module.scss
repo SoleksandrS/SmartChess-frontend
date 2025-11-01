@@ -1,0 +1,72 @@
+@use 'sass:color';
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  background: color.adjust(colors.$bg, $lightness: 6%);
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  animation: popUp 0.3s ease;
+}
+
+.title {
+  font-size: 2rem;
+  color: colors.$accent-ai;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: colors.$text-secondary;
+  margin-bottom: 1.5rem;
+}
+
+.animation {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.animation-win {
+  background: radial-gradient(circle, #4caf50 0%, #1e1e2e 80%);
+}
+
+.animation-draw {
+  background: radial-gradient(circle, #ffeb3b 0%, #1e1e2e 80%);
+}
+
+.animation-lose {
+  background: radial-gradient(circle, #f44336 0%, #1e1e2e 80%);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.1); opacity: 1; }
+}

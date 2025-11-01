@@ -6,6 +6,7 @@ import type { Move } from 'chess.js';
 import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
 import ChessBoard, { type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
+import { GameResultModal } from 'components/GameResultModal/GameResultModal';
 import { MainLoader } from 'components';
 
 import styles from './GameVsAI.module.scss';
@@ -39,6 +40,7 @@ export function GameVsAI() {
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>
       {game && <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMoveHandler} />}
+      <GameResultModal result="draw" onClose={() => console.log('exa')} />
       {loading && <MainLoader />}
     </div>
   );
