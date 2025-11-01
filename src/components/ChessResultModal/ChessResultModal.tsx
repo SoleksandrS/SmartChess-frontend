@@ -4,12 +4,12 @@ import { Button } from 'components/Button/Button';
 
 import styles from './ChessResultModal.module.scss';
 
-interface IChessResultModalProps {
+interface IProps {
   result: EGameStatus;
   onClose: () => void;
 }
 
-export function ChessResultModal({ result, onClose }: IChessResultModalProps) {
+export function ChessResultModal({ result, onClose }: IProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', handleKey);

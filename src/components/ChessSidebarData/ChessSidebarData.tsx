@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
 import { EChessSide } from 'models';
 
 import styles from './ChessSidebarData.module.scss';
 
-interface IChessSidebarDataProps {
+interface IProps {
   whitePlayer: string;
   blackPlayer: string;
   currentTurn: EChessSide;
@@ -18,7 +16,7 @@ export function ChessSidebarData({
   currentTurn,
   moveCount,
   status
-}: IChessSidebarDataProps) {
+}: IProps) {
   const getStatusLabel = () => {
     switch (status) {
       case 'win':

@@ -2,7 +2,7 @@ import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import styles from './Input.module.scss';
 
-interface IInputProps {
+interface IProps {
   label: string;
   type?: string;
   placeholder?: string;
@@ -10,7 +10,7 @@ interface IInputProps {
   error?: FieldError;
 }
 
-export function Input({ label, type = 'text', placeholder, register, error }: IInputProps) {
+export function Input({ label, type = 'text', placeholder, register, error }: IProps) {
   return (
     <label className={styles['label']}>
       {label}

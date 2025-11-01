@@ -4,12 +4,12 @@ import { FaUserCircle } from 'react-icons/fa';
 
 import styles from './HeaderDropdownMenu.module.scss';
 
-interface IHeaderDropdownMenuProps {
+interface IProps {
   username: string;
   onLogout: () => void;
 }
 
-export function HeaderDropdownMenu({ username, onLogout }: IHeaderDropdownMenuProps) {
+export function HeaderDropdownMenu({ username, onLogout }: IProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);

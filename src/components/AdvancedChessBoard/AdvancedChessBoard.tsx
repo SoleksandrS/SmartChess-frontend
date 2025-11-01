@@ -8,13 +8,13 @@ import { ChessResultModal } from 'components/ChessResultModal/ChessResultModal';
 
 import styles from './AdvancedChessBoard.module.scss';
 
-interface IAdvancedChessBoardProps {
+interface IProps {
   user: ICurrentUser;
   game: IGame;
   onMove: (move: Move, fen: string) => void;
 }
 
-export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardProps) {
+export function AdvancedChessBoard({ user, game, onMove }: IProps) {
   const [gameStatus, setGameStatus] = useState<EGameStatus>(EGameStatus.PLAYING);
   const [isResultOpened, setIsResultOpened] = useState(false);
 

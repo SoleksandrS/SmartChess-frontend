@@ -4,12 +4,12 @@ import { sections, type SectionKey } from './ChessRulesModal.models';
 
 import styles from './ChessRulesModal.module.scss';
 
-interface IChessRulesModalProps {
+interface IProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function ChessRulesModal({ isOpen, onClose }: IChessRulesModalProps) {
+export function ChessRulesModal({ isOpen, onClose }: IProps) {
   const [activeSection, setActiveSection] = useState<SectionKey>('general');
 
   if (!isOpen) return null;

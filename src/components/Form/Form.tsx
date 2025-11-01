@@ -4,7 +4,7 @@ import { Button } from 'components';
 
 import styles from './Form.module.scss';
 
-interface IFormProps {
+interface IProps {
   title: string;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   children: ReactNode;
@@ -12,7 +12,7 @@ interface IFormProps {
   hint?: { text: string; link: string; path: string };
 }
 
-export function Form({ title, onSubmit, children, submitLabel, hint }: IFormProps) {
+export function Form({ title, onSubmit, children, submitLabel, hint }: IProps) {
   return (
     <form onSubmit={onSubmit} className={styles['form']}>
       <h2 className={styles['title']}>{title}</h2>
