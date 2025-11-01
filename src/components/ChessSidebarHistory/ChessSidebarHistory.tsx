@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
 import { EChessSide } from 'models';
 
 import styles from './ChessSidebarHistory.module.scss';
@@ -10,11 +8,11 @@ interface MoveRecord {
   move: string; // e.g. "e2e4"
 }
 
-interface IChessSidebarHistoryProps {
+interface IProps {
   moves: MoveRecord[];
 }
 
-export function ChessSidebarHistory({ moves }: IChessSidebarHistoryProps) {
+export function ChessSidebarHistory({ moves }: IProps) {
   const formatMove = (move: string) => {
     if (move.length !== 4) return move;
     return `${move.slice(0, 2)} → ${move.slice(2, 4)}`;

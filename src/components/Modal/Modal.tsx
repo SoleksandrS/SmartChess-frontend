@@ -13,13 +13,13 @@ const customStyles: ReactModal.Styles = {
   }
 };
 
-interface IModalProps {
+interface IProps {
   onClose: () => void;
   className: string;
   children: React.ReactNode;
 }
 
-export function Modal({ onClose, className, children }: IModalProps) {
+export function Modal({ onClose, className, children }: IProps) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
