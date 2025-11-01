@@ -5,6 +5,7 @@ export { Footer } from './Footer/Footer';
 export { Form } from './Form/Form';
 export { GameResultModal } from './GameResultModal/GameResultModal';
 export { GameSidebarData } from './GameSidebarData/GameSidebarData';
+export { GameSidebarHistory } from './GameSidebarHistory/GameSidebarHistory';
 export { Header } from './Header/Header';
 export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
 export { Input } from './Input/Input';
