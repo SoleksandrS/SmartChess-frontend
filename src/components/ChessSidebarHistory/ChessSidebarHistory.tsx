@@ -1,4 +1,4 @@
-import styles from './GameSidebarHistory.module.scss';
+import styles from './ChessSidebarHistory.module.scss';
 
 interface MoveRecord {
   number: number;
@@ -6,11 +6,11 @@ interface MoveRecord {
   move: string; // e.g. "e2e4"
 }
 
-interface IGameSidebarHistoryProps {
+interface IChessSidebarHistoryProps {
   moves: MoveRecord[];
 }
 
-export function GameSidebarHistory({ moves }: IGameSidebarHistoryProps) {
+export function ChessSidebarHistory({ moves }: IChessSidebarHistoryProps) {
   const formatMove = (move: string) => {
     if (move.length !== 4) return move;
     return `${move.slice(0, 2)} → ${move.slice(2, 4)}`;

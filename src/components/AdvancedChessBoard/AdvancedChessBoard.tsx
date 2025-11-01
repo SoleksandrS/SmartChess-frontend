@@ -6,13 +6,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Move } from 'chess.js';
 import { EChessResult, type ICurrentUser, type IGame } from 'models';
-import { GameSidebarData } from 'components/GameSidebarData/GameSidebarData';
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
-import { GameSidebarHistory } from 'components/GameSidebarHistory/GameSidebarHistory';
+import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
+import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
 import {
-  GameResultModal,
-  type TGameResultModalValue
-} from 'components/GameResultModal/GameResultModal';
+  ChessResultModal,
+  type TChessResultModalValue
+} from 'components/ChessResultModal/ChessResultModal';
 
 import styles from './AdvancedChessBoard.module.scss';
 
@@ -23,12 +23,12 @@ interface IAdvancedChessBoardProps {
 }
 
 export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardProps) {
-  const [gameResult, setGameResult] = useState<TGameResultModalValue>('draw');
+  const [gameResult, setGameResult] = useState<TChessResultModalValue>('draw');
   const [isResultOpened, setIsResultOpened] = useState(false);
 
   const boardRef = useRef<ChessBoardRef>(null);
 
-  const updateGameResult = (value: TGameResultModalValue) => {
+  const updateGameResult = (value: TChessResultModalValue) => {
     setGameResult(value);
     setIsResultOpened(true);
   };
@@ -51,7 +51,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
   return (
     <>
       <div className={styles['chess-board']}>
-        <GameSidebarData
+        <ChessSidebarData
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
           currentTurn={'w'}
@@ -59,7 +59,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
           status={'playing'}
         />
         <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMove} />
-        <GameSidebarHistory
+        <ChessSidebarHistory
           moves={game.moves.map(({ moveNumber, turn, ...rest }) => ({
             ...rest,
             side: turn,
@@ -68,7 +68,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
         />
       </div>
       {isResultOpened && (
-        <GameResultModal result={gameResult} onClose={() => setIsResultOpened(false)} />
+        <ChessResultModal result={gameResult} onClose={() => setIsResultOpened(false)} />
       )}
     </>
   );

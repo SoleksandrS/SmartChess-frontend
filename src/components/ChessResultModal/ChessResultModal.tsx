@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { Button } from 'components/Button/Button';
 
-import styles from './GameResultModal.module.scss';
+import styles from './ChessResultModal.module.scss';
 
-export type TGameResultModalValue = 'win' | 'lose' | 'draw';
+export type TChessResultModalValue = 'win' | 'lose' | 'draw';
 
-interface IGameResultModalProps {
-  result: TGameResultModalValue;
+interface IChessResultModalProps {
+  result: TChessResultModalValue;
   onClose: () => void;
 }
 
-export function GameResultModal({ result, onClose }: IGameResultModalProps) {
+export function ChessResultModal({ result, onClose }: IChessResultModalProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', handleKey);

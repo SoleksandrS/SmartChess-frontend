@@ -1,6 +1,6 @@
-import styles from './GameSidebarData.module.scss';
+import styles from './ChessSidebarData.module.scss';
 
-interface IGameSidebarDataProps {
+interface IChessSidebarDataProps {
   whitePlayer: string;
   blackPlayer: string;
   currentTurn: 'w' | 'b';
@@ -8,13 +8,13 @@ interface IGameSidebarDataProps {
   status: 'playing' | 'win' | 'draw' | 'lose';
 }
 
-export function GameSidebarData({
+export function ChessSidebarData({
   whitePlayer,
   blackPlayer,
   currentTurn,
   moveCount,
   status
-}: IGameSidebarDataProps) {
+}: IChessSidebarDataProps) {
   const getStatusLabel = () => {
     switch (status) {
       case 'win':
