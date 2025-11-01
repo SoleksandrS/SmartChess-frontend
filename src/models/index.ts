@@ -20,6 +20,11 @@ export interface IGame {
   blackPlayerId?: number;
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
+  moves: {
+    moveNumber: number;
+    turn: 'w' | 'b';
+    move: string;
+  }[];
 }
 
 export enum EChessResult {

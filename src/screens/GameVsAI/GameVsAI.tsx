@@ -74,7 +74,13 @@ export function GameVsAI() {
             status={'playing'}
           />
           <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMoveHandler} />
-          <GameSidebarHistory moves={[{ number: 1, side: 'w', move: 'e1e2' }]} />
+          <GameSidebarHistory
+            moves={game.moves.map(({ moveNumber, turn, ...rest }) => ({
+              ...rest,
+              side: turn,
+              number: moveNumber
+            }))}
+          />
         </div>
       )}
       {isResultOpened && (
