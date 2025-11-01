@@ -3,18 +3,19 @@ import { Chess, Move, type Square } from 'chess.js';
 import { Chessboard, type SquareHandlerArgs } from 'react-chessboard';
 
 export interface ChessBoardRef {
+  getBoardFen: () => string;
   updateBoard: (fen: string) => void;
 }
 
 interface IChessBoardProps {
+  initFen?: string;
   boardOrientation?: 'white' | 'black';
   onMove: (move: Move, fen: string) => void;
-  onGameOver: (status: 'checkmate' | 'draw') => void;
 }
 
 const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
-  ({ boardOrientation = 'white', onMove, onGameOver }: IChessBoardProps, ref) => {
-    const chessGameRef = useRef(new Chess());
+  ({ initFen, boardOrientation = 'white', onMove }: IChessBoardProps, ref) => {
+    const chessGameRef = useRef(new Chess(initFen));
     const chessGame = chessGameRef.current;
 
     const [position, setPosition] = useState(chessGame.fen());
@@ -28,16 +29,14 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
 
     const updatePosition = () => {
       setPosition(chessGame.fen());
-
-      if (chessGame.isCheckmate()) onGameOver('checkmate');
-      if (chessGame.isDraw()) onGameOver('draw');
     };
 
     const handlePlayerMove = (from: Square, to: Square) => {
       if (!checkIsMyTurn()) return;
 
+      const fen = chessGame.fen();
       const move = chessGame.move({ from, to, promotion: 'q' });
-      onMove(move, chessGame.fen());
+      onMove(move, fen);
       updatePosition();
     };
 
@@ -98,6 +97,7 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
     };
 
     useImperativeHandle(ref, () => ({
+      getBoardFen: () => chessGame.fen(),
       updateBoard: (fen: string) => {
         if (fen === chessGame.fen()) return;
         chessGame.load(fen);
@@ -120,4 +120,4 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
 
 ChessBoard.displayName = 'ChessBoard';
 
-export default ChessBoard;
+export { ChessBoard };

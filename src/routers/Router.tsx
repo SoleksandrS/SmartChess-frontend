@@ -14,7 +14,7 @@ const unauthRoutes = [
 
 const authRoutes = [
   { path: ROUTES.HOME, element: <Home /> },
-  { path: ROUTES.GAME_VS_AI, element: <GameVsAI /> },
+  { path: `${ROUTES.GAME_VS_AI}/:id`, element: <GameVsAI /> },
   { path: '*', element: <NotFound /> }
 ];
 

@@ -1,25 +1,39 @@
-import { useRef } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
 import type { Move } from 'chess.js';
-import ChessBoard, { type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
+import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
+import { clearGameData } from 'store/modules/game/game.actions';
+import { AdvancedChessBoard, MainLoader } from 'components';
 
 import styles from './GameVsAI.module.scss';
 
 export function GameVsAI() {
-  const boardRef = useRef<ChessBoardRef>(null);
+  const userData = useSelector((state: TState) => state.auth.data);
+  const game = useSelector((state: TState) => state.game.data);
+  const loading = useSelector((state: TState) => state.game.loading);
+  const dispatch: AppDispatch = useDispatch();
+  const { id } = useParams();
 
   const onMoveHandler = (move: Move, fen: string) => {
-    console.log('move', move);
-    console.log('fen', fen);
+    if (game) void dispatch(makeGameMoveThunk(game.id, move.lan, fen));
   };
 
-  const onGameOverHandler = (status: string) => {
-    console.log('status', status);
-  };
+  useEffect(() => {
+    if (id) void dispatch(getGameDataThunk(id));
+    return () => {
+      dispatch(clearGameData());
+    };
+  }, [dispatch, id]);
 
   return (
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>
-      <ChessBoard ref={boardRef} onMove={onMoveHandler} onGameOver={onGameOverHandler} />
+      {userData && game && (
+        <AdvancedChessBoard user={userData} game={game} onMove={onMoveHandler} />
+      )}
+      {loading && <MainLoader />}
     </div>
   );
 }
