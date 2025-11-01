@@ -20,8 +20,8 @@ export const makeGameMoveThunk =
     dispatch(setLoading(true));
 
     try {
-      const { data } = await api.put<string>(ENDPOINTS.GAME_MOVE(id), { move });
-      dispatch(updateGameData({ fen: data }));
+      const { data } = await api.put<Partial<IGame>>(ENDPOINTS.GAME_MOVE(id), { move });
+      dispatch(updateGameData(data));
     } catch (err) {
       console.error(err);
       dispatch(updateGameData({ fen }));
