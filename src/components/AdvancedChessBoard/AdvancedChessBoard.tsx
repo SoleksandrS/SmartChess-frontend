@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { Move } from 'chess.js';
-import { EChessResult, type ICurrentUser, type IGame } from 'models';
+import { EChessResult, EChessSide, type ICurrentUser, type IGame } from 'models';
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
 import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
 import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
@@ -43,8 +43,10 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
     if (!game.result || !game.turn || !user.id) return;
     if (!Object.values(EChessResult).includes(game.result as EChessResult)) return;
     if (game.result === EChessResult.DRAW) return updateGameResult('draw');
-    if (game.turn === 'w' && game.whitePlayerId === user.id) return updateGameResult('win');
-    if (game.turn === 'b' && game.blackPlayerId === user.id) return updateGameResult('win');
+    if (game.turn === EChessSide.WHITE && game.whitePlayerId === user.id)
+      return updateGameResult('win');
+    if (game.turn === EChessSide.BLACK && game.blackPlayerId === user.id)
+      return updateGameResult('win');
     return updateGameResult('lose');
   }, [game, user.id]);
 
@@ -54,7 +56,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
         <ChessSidebarData
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
-          currentTurn={'w'}
+          currentTurn={EChessSide.WHITE}
           moveCount={0}
           status={'playing'}
         />

@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
+import { EChessSide } from 'models';
+
 import styles from './ChessSidebarHistory.module.scss';
 
 interface MoveRecord {
   number: number;
-  side: 'w' | 'b';
+  side: EChessSide;
   move: string; // e.g. "e2e4"
 }
 
@@ -29,9 +33,9 @@ export function ChessSidebarHistory({ moves }: IChessSidebarHistoryProps) {
               <span className={styles['move-number']}>{number}.</span>
               <span
                 className={`${styles['side']} ${
-                  side === 'w' ? styles['side-white'] : styles['side-black']
+                  side === EChessSide.WHITE ? styles['side-white'] : styles['side-black']
                 }`}>
-                {side === 'w' ? 'White' : 'Black'}
+                {side === EChessSide.WHITE ? 'White' : 'Black'}
               </span>
               <span className={styles['move']}>{formatMove(move)}</span>
             </div>

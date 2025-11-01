@@ -11,10 +11,15 @@ export interface ICurrentUser {
   email: string;
 }
 
+export enum EChessSide {
+  WHITE = 'w',
+  BLACK = 'b'
+}
+
 export interface IGame {
   id: string;
   fen: string;
-  turn: string;
+  turn: EChessSide;
   result: string;
   whitePlayerId?: number;
   blackPlayerId?: number;
@@ -22,7 +27,7 @@ export interface IGame {
   blackPlayer?: { username: string };
   moves: {
     moveNumber: number;
-    turn: 'w' | 'b';
+    turn: EChessSide;
     move: string;
   }[];
 }

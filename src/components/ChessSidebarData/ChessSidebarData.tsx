@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
+import { EChessSide } from 'models';
+
 import styles from './ChessSidebarData.module.scss';
 
 interface IChessSidebarDataProps {
   whitePlayer: string;
   blackPlayer: string;
-  currentTurn: 'w' | 'b';
+  currentTurn: EChessSide;
   moveCount: number;
   status: 'playing' | 'win' | 'draw' | 'lose';
 }
@@ -52,7 +56,9 @@ export function ChessSidebarData({
         </div>
         <div className={styles['info-row']}>
           <span className={styles['label']}>Turn:</span>
-          <span className={styles['value']}>{currentTurn === 'w' ? 'White' : 'Black'}</span>
+          <span className={styles['value']}>
+            {currentTurn === EChessSide.WHITE ? 'White' : 'Black'}
+          </span>
         </div>
         <div className={styles['info-row']}>
           <span className={styles['label']}>Status:</span>
