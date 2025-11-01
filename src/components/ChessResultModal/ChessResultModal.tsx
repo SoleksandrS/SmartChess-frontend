@@ -30,9 +30,9 @@ export function ChessResultModal({ result, onClose }: IChessResultModalProps) {
   const getSubtitle = () => {
     switch (result) {
       case EGameStatus.WIN:
-        return 'Checkmate! You defeated the AI.';
+        return 'Checkmate! You defeated your opponent.';
       case EGameStatus.LOSE:
-        return 'The AI took your king... better luck next time.';
+        return 'Your opponent took your king... better luck next time.';
       case EGameStatus.DRAW:
         return 'Neither side could prevail.';
     }
