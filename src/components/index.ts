@@ -1,3 +1,4 @@
+export { AdvancedChessBoard } from './AdvancedChessBoard/AdvancedChessBoard';
 export { Button } from './Button/Button';
 export { ChessBoard } from './ChessBoard/ChessBoard';
 export { ChessRulesModal } from './ChessRulesModal/ChessRulesModal';

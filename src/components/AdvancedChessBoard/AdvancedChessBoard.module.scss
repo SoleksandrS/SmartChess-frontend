@@ -1,0 +1,7 @@
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.chess-board {
+  display: flex;
+  gap: 32px;
+}
