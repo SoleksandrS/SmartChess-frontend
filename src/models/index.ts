@@ -36,3 +36,10 @@ export enum EChessResult {
   DRAW = 'draw',
   CHECKMATE = 'checkmate'
 }
+
+export enum EGameStatus {
+  WIN = 'win',
+  LOSE = 'lose',
+  DRAW = 'draw',
+  PLAYING = 'playing'
+}

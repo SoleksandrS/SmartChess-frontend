@@ -14,4 +14,3 @@ export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
 
 export type { ChessBoardRef } from './ChessBoard/ChessBoard';
-export type { TChessResultModalValue as TGameResultModalValue } from './ChessResultModal/ChessResultModal';

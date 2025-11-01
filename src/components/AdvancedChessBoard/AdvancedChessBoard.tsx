@@ -1,18 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import { useEffect, useRef, useState } from 'react';
 import type { Move } from 'chess.js';
-import { EChessResult, EChessSide, type ICurrentUser, type IGame } from 'models';
+import { EChessResult, EChessSide, EGameStatus, type ICurrentUser, type IGame } from 'models';
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
 import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
 import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
-import {
-  ChessResultModal,
-  type TChessResultModalValue
-} from 'components/ChessResultModal/ChessResultModal';
+import { ChessResultModal } from 'components/ChessResultModal/ChessResultModal';
 
 import styles from './AdvancedChessBoard.module.scss';
 
@@ -23,13 +17,13 @@ interface IAdvancedChessBoardProps {
 }
 
 export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardProps) {
-  const [gameResult, setGameResult] = useState<TChessResultModalValue>('draw');
+  const [gameStatus, setGameStatus] = useState<EGameStatus>(EGameStatus.PLAYING);
   const [isResultOpened, setIsResultOpened] = useState(false);
 
   const boardRef = useRef<ChessBoardRef>(null);
 
-  const updateGameResult = (value: TChessResultModalValue) => {
-    setGameResult(value);
+  const updateGameStatus = (value: EGameStatus) => {
+    setGameStatus(value);
     setIsResultOpened(true);
   };
 
@@ -42,12 +36,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
   useEffect(() => {
     if (!game.result || !game.turn || !user.id) return;
     if (!Object.values(EChessResult).includes(game.result as EChessResult)) return;
-    if (game.result === EChessResult.DRAW) return updateGameResult('draw');
+    if (game.result === EChessResult.DRAW) return updateGameStatus(EGameStatus.DRAW);
     if (game.turn === EChessSide.WHITE && game.whitePlayerId === user.id)
-      return updateGameResult('win');
+      return updateGameStatus(EGameStatus.WIN);
     if (game.turn === EChessSide.BLACK && game.blackPlayerId === user.id)
-      return updateGameResult('win');
-    return updateGameResult('lose');
+      return updateGameStatus(EGameStatus.WIN);
+    return updateGameStatus(EGameStatus.LOSE);
   }, [game, user.id]);
 
   return (
@@ -58,7 +52,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
           blackPlayer={game?.blackPlayer?.username || 'AI'}
           currentTurn={EChessSide.WHITE}
           moveCount={0}
-          status={'playing'}
+          status={gameStatus}
         />
         <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMove} />
         <ChessSidebarHistory
@@ -70,7 +64,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IAdvancedChessBoardPr
         />
       </div>
       {isResultOpened && (
-        <ChessResultModal result={gameResult} onClose={() => setIsResultOpened(false)} />
+        <ChessResultModal result={gameStatus} onClose={() => setIsResultOpened(false)} />
       )}
     </>
   );

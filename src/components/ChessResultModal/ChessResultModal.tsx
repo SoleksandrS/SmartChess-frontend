@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
+import { EGameStatus } from 'models';
 import { Button } from 'components/Button/Button';
 
 import styles from './ChessResultModal.module.scss';
 
-export type TChessResultModalValue = 'win' | 'lose' | 'draw';
-
 interface IChessResultModalProps {
-  result: TChessResultModalValue;
+  result: EGameStatus;
   onClose: () => void;
 }
 
@@ -19,22 +18,22 @@ export function ChessResultModal({ result, onClose }: IChessResultModalProps) {
 
   const getTitle = () => {
     switch (result) {
-      case 'win':
+      case EGameStatus.WIN:
         return 'You Won!';
-      case 'lose':
+      case EGameStatus.LOSE:
         return 'You Lost!';
-      case 'draw':
+      case EGameStatus.DRAW:
         return 'It’s a Draw!';
     }
   };
 
   const getSubtitle = () => {
     switch (result) {
-      case 'win':
+      case EGameStatus.WIN:
         return 'Checkmate! You defeated the AI.';
-      case 'lose':
+      case EGameStatus.LOSE:
         return 'The AI took your king... better luck next time.';
-      case 'draw':
+      case EGameStatus.DRAW:
         return 'Neither side could prevail.';
     }
   };
