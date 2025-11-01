@@ -120,4 +120,4 @@ const ChessBoard = forwardRef<ChessBoardRef, IChessBoardProps>(
 
 ChessBoard.displayName = 'ChessBoard';
 
-export default ChessBoard;
+export { ChessBoard };

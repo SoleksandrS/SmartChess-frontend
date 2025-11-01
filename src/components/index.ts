@@ -1,9 +1,13 @@
+export { Button } from './Button/Button';
+export { ChessBoard } from './ChessBoard/ChessBoard';
+export { ChessRulesModal } from './ChessRulesModal/ChessRulesModal';
+export { Footer } from './Footer/Footer';
+export { Form } from './Form/Form';
+export { GameResultModal } from './GameResultModal/GameResultModal';
 export { Header } from './Header/Header';
 export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
-export { Footer } from './Footer/Footer';
-export { MainLoader } from './MainLoader/MainLoader';
-export { Form } from './Form/Form';
 export { Input } from './Input/Input';
-export { Button } from './Button/Button';
+export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
-export { ChessRulesModal } from './ChessRulesModal/ChessRulesModal';
+
+export type { ChessBoardRef } from './ChessBoard/ChessBoard';

@@ -5,9 +5,7 @@ import type { AppDispatch, TState } from 'store';
 import type { Move } from 'chess.js';
 import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
-import ChessBoard, { type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
-import { GameResultModal } from 'components/GameResultModal/GameResultModal';
-import { MainLoader } from 'components';
+import { ChessBoard, type ChessBoardRef, GameResultModal, MainLoader } from 'components';
 
 import styles from './GameVsAI.module.scss';
 
