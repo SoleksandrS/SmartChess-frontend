@@ -14,27 +14,33 @@ export const initialState: IInitialState = {
 
 export default (state = { ...initialState }, action: IStoreAction) => {
   switch (action.type) {
-    case SET_LOADING:
-      return { ...state, loading: action.payload as boolean };
+    case SET_LOADING: {
+      const payload = action.payload as boolean;
+      return { ...state, loading: payload };
+    }
 
-    case SET_DATA:
-      return { ...state, loading: false, data: action.payload as IGame };
+    case SET_DATA: {
+      const payload = action.payload as IGame;
+      return { ...state, loading: false, data: payload };
+    }
 
     case UPDATE_DATA: {
-      const payload3 = action.payload as TMakeMoveBody;
+      const payload = action.payload as TMakeMoveBody;
       return {
         ...state,
         loading: false,
         data: state.data
-          ? { ...state.data, ...payload3.values, moves: [...state.data.moves, ...payload3.moves] }
+          ? { ...state.data, ...payload.values, moves: [...state.data.moves, ...payload.moves] }
           : null
       };
     }
 
-    case CLEAR_DATA:
+    case CLEAR_DATA: {
       return { ...state, loading: false, data: null };
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 };
