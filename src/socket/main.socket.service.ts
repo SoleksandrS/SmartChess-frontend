@@ -5,7 +5,17 @@ import { updateGameData } from 'store/modules/game/game.actions';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
 
 class MainSocketService {
+  private static instance: MainSocketService;
+
   constructor(private readonly socket: Socket) {}
+
+  static setInstance(socket: Socket) {
+    MainSocketService.instance = new MainSocketService(socket);
+    return this.getInstance();
+  }
+  static getInstance() {
+    return MainSocketService.instance;
+  }
 
   public initConnection(id: number, dispatch: AppDispatch) {
     if (!this.socket) return console.warn('[MainSocketService] Socket is not initialized');

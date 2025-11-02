@@ -29,7 +29,7 @@ function App() {
     if (!userData?.id) return;
 
     socketService.connect();
-    const mainSocketService = new MainSocketService(socketService.getSocket());
+    const mainSocketService = MainSocketService.setInstance(socketService.getSocket());
     mainSocketService.initConnection(userData.id, dispatch);
 
     return () => {
