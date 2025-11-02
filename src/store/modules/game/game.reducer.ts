@@ -30,7 +30,7 @@ export default (state = { ...initialState }, action: IStoreAction) => {
         ...state,
         loading: false,
         data: state.data
-          ? { ...state.data, ...payload.values, moves: [...state.data.moves, ...payload.moves] }
+          ? { ...state.data, ...payload.values, moves: [...payload.moves, ...state.data.moves] }
           : null
       };
     }
