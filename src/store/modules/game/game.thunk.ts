@@ -25,5 +25,7 @@ export const makeGameMoveThunk =
     } catch (err) {
       console.error(err);
       dispatch(updateGameData({ values: { fen } }));
+    } finally {
+      dispatch(setLoading(false));
     }
   };
