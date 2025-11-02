@@ -25,9 +25,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     setIsResultOpened(true);
   };
 
+  const onPreviewMove = (fen: string) => {
+    boardRef.current?.updatePreview(fen);
+  };
+
   useEffect(() => {
     if (!game.fen || !boardRef.current) return;
-    if (game.fen === boardRef.current.getBoardFen()) return;
     boardRef.current.updateBoard(game.fen);
   }, [game]);
 
@@ -48,18 +51,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
         <ChessSidebarData
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
-          currentTurn={EChessSide.WHITE}
-          moveCount={0}
+          currentTurn={game.turn}
+          moveCount={game.moveNumber}
           status={gameStatus}
         />
         <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMove} />
-        <ChessSidebarHistory
-          moves={game.moves.map(({ moveNumber, turn, ...rest }) => ({
-            ...rest,
-            side: turn,
-            number: moveNumber
-          }))}
-        />
+        <ChessSidebarHistory moves={game.moves} onPreviewMove={onPreviewMove} />
       </div>
       {isResultOpened && (
         <ChessResultModal result={gameStatus} onClose={() => setIsResultOpened(false)} />

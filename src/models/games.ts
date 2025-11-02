@@ -11,17 +11,21 @@ export enum EChessResult {
 export interface IGame {
   id: string;
   fen: string;
+  moveNumber: number;
   turn: EChessSide;
   result: EChessResult | null;
   whitePlayerId?: number;
   blackPlayerId?: number;
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
-  moves: {
-    moveNumber: number;
-    turn: EChessSide;
-    move: string;
-  }[];
+  moves: IGameMove[];
+}
+
+export interface IGameMove {
+  number: number;
+  side: EChessSide;
+  move: string;
+  fenAfter?: string;
 }
 
 export enum EGameStatus {

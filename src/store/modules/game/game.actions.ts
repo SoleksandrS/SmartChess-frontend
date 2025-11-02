@@ -1,6 +1,7 @@
 import type { ActionCreator } from 'redux';
 import type { IGame, IStoreAction } from 'models/index.ts';
 import { SET_DATA, SET_LOADING, CLEAR_DATA, UPDATE_DATA } from './game.constants.ts';
+import type { TMakeMoveBody } from './game.types.ts';
 
 export const setLoading: ActionCreator<IStoreAction> = (payload: boolean) => ({
   type: SET_LOADING,
@@ -12,7 +13,7 @@ export const setGameData: ActionCreator<IStoreAction> = (payload: IGame) => ({
   payload
 });
 
-export const updateGameData: ActionCreator<IStoreAction> = (payload: Partial<IGame>) => ({
+export const updateGameData: ActionCreator<IStoreAction> = (payload: TMakeMoveBody) => ({
   type: UPDATE_DATA,
   payload
 });

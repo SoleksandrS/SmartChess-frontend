@@ -5,6 +5,7 @@ import { Chessboard, type SquareHandlerArgs } from 'react-chessboard';
 export interface ChessBoardRef {
   getBoardFen: () => string;
   updateBoard: (fen: string) => void;
+  updatePreview: (fen: string) => void;
 }
 
 interface IProps {
@@ -19,6 +20,7 @@ const ChessBoard = forwardRef<ChessBoardRef, IProps>(
     const chessGame = chessGameRef.current;
 
     const [position, setPosition] = useState(chessGame.fen());
+    const [preview, setPreview] = useState('');
     const [moveFrom, setMoveFrom] = useState('');
     const [optionSquares, setOptionSquares] = useState({});
 
@@ -68,7 +70,7 @@ const ChessBoard = forwardRef<ChessBoardRef, IProps>(
     };
 
     const onSquareClick = ({ square, piece }: SquareHandlerArgs) => {
-      if (!checkIsMyTurn()) return;
+      if (!checkIsMyTurn() || preview) return;
 
       if (!moveFrom && piece) {
         const hasMoveOptions = getMoveOptions(square as Square);
@@ -102,13 +104,18 @@ const ChessBoard = forwardRef<ChessBoardRef, IProps>(
         if (fen === chessGame.fen()) return;
         chessGame.load(fen);
         updatePosition();
+      },
+      updatePreview: (fen: string) => {
+        setPreview(fen);
+        setMoveFrom('');
+        setOptionSquares({});
       }
     }));
 
     const chessboardOptions = {
       boardStyle: { width: '480px' },
       squareStyles: optionSquares,
-      position,
+      position: preview || position,
       boardOrientation,
       allowDragging: false,
       onSquareClick
