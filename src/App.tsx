@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import type { AppDispatch } from 'store';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
+import { MainSocketService } from 'socket/main.socket.service';
+import { socketService } from 'socket/socket';
 import { STORAGE_KEYS } from 'constants/localStorage';
 import { getUserDataThunk } from 'store/modules/auth/auth.thunk';
 import { GridLoader } from 'react-spinners';
 import Router from './routers/Router';
 
 function App() {
+  const userData = useSelector((state: TState) => state.auth.data);
+  const socketLoading = useSelector((state: TState) => state.socket.loading);
   const dispatch: AppDispatch = useDispatch();
 
   const [appLoading, setAppLoading] = useState(false);
@@ -22,7 +26,19 @@ function App() {
     if (token) void makeRequest();
   }, [makeRequest]);
 
-  return appLoading ? (
+  useEffect(() => {
+    if (!userData?.id) return;
+
+    socketService.connect();
+    const mainSocketService = MainSocketService.setInstance(socketService.getSocket());
+    mainSocketService.initConnection(userData.id, dispatch);
+
+    return () => {
+      mainSocketService.disconnect();
+    };
+  }, [dispatch, userData]);
+
+  return appLoading || socketLoading ? (
     <div style={{ margin: 'auto' }}>
       <GridLoader size={60} color="#4ff7b7ff" />
     </div>

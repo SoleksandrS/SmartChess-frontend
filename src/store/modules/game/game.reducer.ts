@@ -25,14 +25,11 @@ export default (state = { ...initialState }, action: IStoreAction) => {
     }
 
     case UPDATE_DATA: {
+      if (!state.data) return state;
       const payload = action.payload as TMakeMoveBody;
-      return {
-        ...state,
-        loading: false,
-        data: state.data
-          ? { ...state.data, ...payload.values, moves: [...payload.moves, ...state.data.moves] }
-          : null
-      };
+      const moves = [...payload.moves, ...state.data.moves];
+      const data = { ...state.data, ...payload.values, moves };
+      return { ...state, data };
     }
 
     case CLEAR_DATA: {
