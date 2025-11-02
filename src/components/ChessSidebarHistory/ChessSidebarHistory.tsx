@@ -1,15 +1,9 @@
-import { EChessSide } from 'models';
+import { EChessSide, type IGameMove } from 'models';
 
 import styles from './ChessSidebarHistory.module.scss';
 
-interface MoveRecord {
-  number: number;
-  side: EChessSide;
-  move: string; // e.g. "e2e4"
-}
-
 interface IProps {
-  moves: MoveRecord[];
+  moves: IGameMove[];
 }
 
 export function ChessSidebarHistory({ moves }: IProps) {

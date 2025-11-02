@@ -48,18 +48,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
         <ChessSidebarData
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
-          currentTurn={EChessSide.WHITE}
-          moveCount={0}
+          currentTurn={game.turn}
+          moveCount={game.moveNumber}
           status={gameStatus}
         />
         <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMove} />
-        <ChessSidebarHistory
-          moves={game.moves.map(({ moveNumber, turn, ...rest }) => ({
-            ...rest,
-            side: turn,
-            number: moveNumber
-          }))}
-        />
+        <ChessSidebarHistory moves={game.moves} />
       </div>
       {isResultOpened && (
         <ChessResultModal result={gameStatus} onClose={() => setIsResultOpened(false)} />
