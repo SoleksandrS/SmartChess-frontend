@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Move } from 'chess.js';
 import { EChessResult, EChessSide, EGameStatus, type ICurrentUser, type IGame } from 'models';
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
@@ -29,6 +29,11 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     boardRef.current?.updatePreview(fen);
   };
 
+  const boardOrientation = useMemo(() => {
+    if (game.blackPlayerId === user.id) return 'black';
+    if (game.whitePlayerId === user.id) return 'white';
+  }, [game.blackPlayerId, game.whitePlayerId, user.id]);
+
   useEffect(() => {
     if (!game.fen || !boardRef.current) return;
     boardRef.current.updateBoard(game.fen);
@@ -55,7 +60,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
           moveCount={game.moveNumber}
           status={gameStatus}
         />
-        <ChessBoard ref={boardRef} initFen={game.fen} onMove={onMove} />
+        <ChessBoard
+          ref={boardRef}
+          initFen={game.fen}
+          boardOrientation={boardOrientation}
+          onMove={onMove}
+        />
         <ChessSidebarHistory moves={game.moves} onPreviewMove={onPreviewMove} />
       </div>
       {isResultOpened && (
