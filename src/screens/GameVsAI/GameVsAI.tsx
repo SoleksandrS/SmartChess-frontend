@@ -6,6 +6,7 @@ import type { Move } from 'chess.js';
 import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
 import { AdvancedChessBoard, MainLoader } from 'components';
+import { MainSocketService } from 'socket/main.socket.service';
 
 import styles from './GameVsAI.module.scss';
 
@@ -26,6 +27,12 @@ export function GameVsAI() {
       dispatch(clearGameData());
     };
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (!id) return;
+    const service = MainSocketService.getInstance();
+    service.joinToGame(id);
+  }, [id]);
 
   return (
     <div className={styles['page']}>

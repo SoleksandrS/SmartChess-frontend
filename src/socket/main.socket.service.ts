@@ -42,6 +42,11 @@ class MainSocketService {
     });
   }
 
+  public joinToGame(gameId: string) {
+    if (!this.socket) return;
+    this.socket.emit(ESocketEvent.JOIN_TO_GAME, { gameId });
+  }
+
   public disconnect() {
     if (!this.socket) return;
 
