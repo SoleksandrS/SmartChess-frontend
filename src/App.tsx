@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import type { AppDispatch } from 'store';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
+import { MainSocketService } from 'socket/main.socket.service';
+import { socketService } from 'socket/socket';
 import { STORAGE_KEYS } from 'constants/localStorage';
 import { getUserDataThunk } from 'store/modules/auth/auth.thunk';
 import { GridLoader } from 'react-spinners';
 import Router from './routers/Router';
 
 function App() {
+  const userData = useSelector((state: TState) => state.auth.data);
   const dispatch: AppDispatch = useDispatch();
 
   const [appLoading, setAppLoading] = useState(false);
@@ -21,6 +24,14 @@ function App() {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
     if (token) void makeRequest();
   }, [makeRequest]);
+
+  useEffect(() => {
+    if (userData?.id) {
+      socketService.connect();
+      const mainSocketService = new MainSocketService(socketService.getSocket());
+      mainSocketService.initConnection(userData.id, dispatch);
+    }
+  }, [dispatch, userData]);
 
   return appLoading ? (
     <div style={{ margin: 'auto' }}>
