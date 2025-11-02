@@ -24,7 +24,7 @@ export const makeGameMoveThunk =
       await api.put<TMakeMoveBody>(ENDPOINTS.GAME_MOVE(id), { move });
     } catch (err) {
       console.error(err);
-      dispatch(updateGameData({ values: { fen } }));
+      dispatch(updateGameData({ values: { fen }, moves: [] }));
     } finally {
       dispatch(setLoading(false));
     }
