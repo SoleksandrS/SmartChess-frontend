@@ -1,6 +1,7 @@
 import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
 import type { IGame } from 'models';
+import type { TMakeMoveBody } from './game.types';
 import { setLoading, setGameData, updateGameData } from './game.actions';
 
 export const getGameDataThunk = (id: string) => async (dispatch: AppDispatch) => {
@@ -20,7 +21,7 @@ export const makeGameMoveThunk =
     dispatch(setLoading(true));
 
     try {
-      const { data } = await api.put<Partial<IGame>>(ENDPOINTS.GAME_MOVE(id), { move });
+      const { data } = await api.put<TMakeMoveBody>(ENDPOINTS.GAME_MOVE(id), { move });
       dispatch(updateGameData(data));
     } catch (err) {
       console.error(err);

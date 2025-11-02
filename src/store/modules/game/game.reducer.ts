@@ -1,5 +1,6 @@
 import { SET_DATA, SET_LOADING, CLEAR_DATA, UPDATE_DATA } from './game.constants.ts';
 import type { IGame, IStoreAction } from 'models/index.ts';
+import type { TMakeMoveBody } from './game.types.ts';
 
 interface IInitialState {
   loading: boolean;
@@ -19,12 +20,16 @@ export default (state = { ...initialState }, action: IStoreAction) => {
     case SET_DATA:
       return { ...state, loading: false, data: action.payload as IGame };
 
-    case UPDATE_DATA:
+    case UPDATE_DATA: {
+      const payload3 = action.payload as TMakeMoveBody;
       return {
         ...state,
         loading: false,
-        data: state.data ? ({ ...state.data, ...action.payload } as IGame) : null
+        data: state.data
+          ? { ...state.data, ...payload3.values, moves: [...state.data.moves, ...payload3.moves] }
+          : null
       };
+    }
 
     case CLEAR_DATA:
       return { ...state, loading: false, data: null };
