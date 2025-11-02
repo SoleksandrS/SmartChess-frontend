@@ -26,11 +26,15 @@ function App() {
   }, [makeRequest]);
 
   useEffect(() => {
-    if (userData?.id) {
-      socketService.connect();
-      const mainSocketService = new MainSocketService(socketService.getSocket());
-      mainSocketService.initConnection(userData.id, dispatch);
-    }
+    if (!userData?.id) return;
+
+    socketService.connect();
+    const mainSocketService = new MainSocketService(socketService.getSocket());
+    mainSocketService.initConnection(userData.id, dispatch);
+
+    return () => {
+      mainSocketService.disconnect();
+    };
   }, [dispatch, userData]);
 
   return appLoading ? (
