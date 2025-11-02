@@ -29,10 +29,10 @@ export function GameVsAI() {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (!id) return;
+    if (!game?.id) return;
     const service = MainSocketService.getInstance();
-    service.joinToGame(id);
-  }, [id]);
+    service.joinToGame(game.id);
+  }, [game?.id]);
 
   return (
     <div className={styles['page']}>
