@@ -21,10 +21,9 @@ export const makeGameMoveThunk =
     dispatch(setLoading(true));
 
     try {
-      const { data } = await api.put<TMakeMoveBody>(ENDPOINTS.GAME_MOVE(id), { move });
-      dispatch(updateGameData(data));
+      await api.put<TMakeMoveBody>(ENDPOINTS.GAME_MOVE(id), { move });
     } catch (err) {
       console.error(err);
-      dispatch(updateGameData({ fen }));
+      dispatch(updateGameData({ values: { fen } }));
     }
   };
