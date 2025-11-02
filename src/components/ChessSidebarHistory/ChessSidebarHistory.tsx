@@ -4,9 +4,10 @@ import styles from './ChessSidebarHistory.module.scss';
 
 interface IProps {
   moves: IGameMove[];
+  onPreviewMove: (fen: string) => void;
 }
 
-export function ChessSidebarHistory({ moves }: IProps) {
+export function ChessSidebarHistory({ moves, onPreviewMove }: IProps) {
   const formatMove = (move: string) => {
     if (move.length !== 4) return move;
     return `${move.slice(0, 2)} → ${move.slice(2, 4)}`;
@@ -19,9 +20,12 @@ export function ChessSidebarHistory({ moves }: IProps) {
       {moves.length === 0 ? (
         <div className={styles['empty']}>No moves yet</div>
       ) : (
-        <div className={styles['moves-list']}>
-          {moves.map(({ number, side, move }) => (
-            <div key={`${number}-${side}`} className={styles['move-row']}>
+        <div className={styles['moves-list']} onMouseLeave={() => onPreviewMove('')}>
+          {moves.map(({ number, side, move, fenAfter }) => (
+            <div
+              key={`${number}-${side}`}
+              className={styles['move-row']}
+              onMouseEnter={() => fenAfter && onPreviewMove(fenAfter)}>
               <span className={styles['move-number']}>{number}.</span>
               <span
                 className={`${styles['side']} ${
