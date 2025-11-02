@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io-client';
 import { ESocketEvent } from './ESocketEvent';
 import type { AppDispatch } from 'store';
+import { setSocketLoading } from 'store/modules/socket/socket.actions';
 import { updateGameData } from 'store/modules/game/game.actions';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
 
@@ -20,6 +21,8 @@ class MainSocketService {
   public initConnection(id: number, dispatch: AppDispatch) {
     if (!this.socket) return console.warn('[MainSocketService] Socket is not initialized');
 
+    dispatch(setSocketLoading(true));
+
     const emitConnect = () => {
       this.socket.emit(ESocketEvent.MAIN_CONNECT, { id });
       console.log('[MainSocketService] Sent connect event with userId:', id);
@@ -27,6 +30,11 @@ class MainSocketService {
 
     if (this.socket.connected) emitConnect();
     else this.socket.once('connect', emitConnect);
+
+    this.socket.on(ESocketEvent.MAIN_CONNECT, (data: boolean) => {
+      console.log('[MainSocketService] Socket handshake:', data);
+      if (data) dispatch(setSocketLoading(false));
+    });
 
     this.socket.on(ESocketEvent.UPDATE_GAME, (data: TMakeMoveBody) => {
       console.log('[MainSocketService] Received game updates:', data);

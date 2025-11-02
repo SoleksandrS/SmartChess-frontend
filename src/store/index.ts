@@ -1,9 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
+import socket from './modules/socket/socket.reducer';
 import auth from './modules/auth/auth.reducer';
 import game from './modules/game/game.reducer';
 
-const rootReducer = combineReducers({ auth, game });
+const rootReducer = combineReducers({ socket, auth, game });
 
 export const store = configureStore({ reducer: rootReducer });
 

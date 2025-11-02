@@ -10,6 +10,7 @@ import Router from './routers/Router';
 
 function App() {
   const userData = useSelector((state: TState) => state.auth.data);
+  const socketLoading = useSelector((state: TState) => state.socket.loading);
   const dispatch: AppDispatch = useDispatch();
 
   const [appLoading, setAppLoading] = useState(false);
@@ -37,7 +38,7 @@ function App() {
     };
   }, [dispatch, userData]);
 
-  return appLoading ? (
+  return appLoading || socketLoading ? (
     <div style={{ margin: 'auto' }}>
       <GridLoader size={60} color="#4ff7b7ff" />
     </div>
