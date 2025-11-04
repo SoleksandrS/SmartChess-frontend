@@ -2,4 +2,4 @@ export { Home } from './Home/Home';
 export { SignIn } from './SignIn/SignIn';
 export { SignUp } from './SignUp/SignUp';
 export { NotFound } from './NotFound/NotFound';
-export { GameVsAI } from './GameVsAI/GameVsAI';
+export { Game } from './Game/Game';
