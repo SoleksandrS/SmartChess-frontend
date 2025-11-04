@@ -4,6 +4,7 @@ import type { AppDispatch } from 'store';
 import type { ICurrentUser } from 'models';
 import { STORAGE_KEYS } from 'constants/localStorage';
 import { navigate } from 'utils/navigation';
+import { catchErrorWithToastr } from 'utils/catchErrorWithToastr';
 import { setLoading, setUserData } from './auth.actions';
 
 interface ISignInBody {
@@ -24,7 +25,7 @@ export const signInThunk = (body: ISignInBody) => async (dispatch: AppDispatch) 
     await dispatch(getUserDataThunk());
     await navigate(ROUTES.HOME);
   } catch (err) {
-    console.error(err);
+    catchErrorWithToastr(err);
   } finally {
     dispatch(setLoading(false));
   }
@@ -37,7 +38,7 @@ export const signUpThunk = (body: ISignUpBody) => async (dispatch: AppDispatch) 
     await api.post(ENDPOINTS.SIGN_UP, body);
     await navigate(ROUTES.SIGNIN);
   } catch (err) {
-    console.error(err);
+    catchErrorWithToastr(err);
   } finally {
     dispatch(setLoading(false));
   }
@@ -50,7 +51,7 @@ export const getUserDataThunk = () => async (dispatch: AppDispatch) => {
     const { data } = await api.get<ICurrentUser>(ENDPOINTS.CURRENT_USER);
     dispatch(setUserData(data));
   } catch (err) {
-    console.error(err);
+    catchErrorWithToastr(err);
     dispatch(setLoading(false));
   }
 };
