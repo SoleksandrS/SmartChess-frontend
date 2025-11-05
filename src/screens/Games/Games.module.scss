@@ -1,0 +1,140 @@
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.page {
+  max-width: vars.$max-width;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: colors.$text-primary;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: colors.$accent-ai;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    background: colors.$accent-ai;
+    color: white;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 300px;
+  color: rgba(255, 255, 255, 0.7);
+
+  .icon {
+    color: colors.$accent-ai;
+    animation: float 3s ease-in-out infinite;
+  }
+}
+
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.game-card {
+  background: #1e1e2e;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .opponent {
+    font-size: 18px;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .meta {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .play-button,
+  .join-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: colors.$accent-ai;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: colors.$accent-user;
+    }
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}

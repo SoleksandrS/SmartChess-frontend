@@ -3,3 +3,4 @@ export { SignIn } from './SignIn/SignIn';
 export { SignUp } from './SignUp/SignUp';
 export { NotFound } from './NotFound/NotFound';
 export { Game } from './Game/Game';
+export { Games } from './Games/Games';
