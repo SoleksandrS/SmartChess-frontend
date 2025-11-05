@@ -1,0 +1,96 @@
+@use 'styles/colors' as colors;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #1e1e2e;
+  padding: 30px;
+  border-radius: 16px;
+  width: 420px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  color: colors.$text-primary;
+  position: relative;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: colors.$accent-ai;
+  }
+}
+
+.title {
+  font-size: 24px;
+  color: colors.$accent-ai;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+
+.options {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  width: 180px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    border-color: colors.$accent-ai;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+  }
+
+  h3 {
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-top: auto;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .icon {
+    color: colors.$accent-ai;
+  }
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}

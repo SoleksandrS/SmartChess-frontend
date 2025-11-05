@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
-import { Button } from 'components/Button/Button';
-import { MainLoader } from 'components/MainLoader/MainLoader';
+import { Button, MainLoader, NewGameModal } from 'components';
 
 import styles from './Games.module.scss';
 
@@ -10,12 +9,15 @@ export function Games() {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState<'my' | 'join'>('my');
+  const [showModal, setShowModal] = useState(false);
   const loading = false;
 
   const userGames: any[] = [];
   const joinableGames: any[] = [];
 
-  const handleCreateGame = async () => {
+  const handleSelectGameType = async (mode: 'ai' | 'player') => {
+    setShowModal(false);
+    console.log('mode', mode);
     const newGame = { id: 1 };
     void navigate(`/game/${newGame.id}`);
   };
@@ -72,7 +74,7 @@ export function Games() {
     <div className={styles['page']}>
       <div className={styles['header']}>
         <h1 className={styles['title']}>Games</h1>
-        <Button onClick={() => void handleCreateGame()}>
+        <Button onClick={() => setShowModal(true)}>
           <FaPlus /> New Game
         </Button>
       </div>
@@ -92,6 +94,10 @@ export function Games() {
 
       {activeTab === 'my' && renderGamesList(userGames)}
       {activeTab === 'join' && renderGamesList(joinableGames, true)}
+
+      {showModal && (
+        <NewGameModal onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
+      )}
     </div>
   );
 }
