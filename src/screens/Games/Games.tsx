@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
+import { ROUTES } from 'constants/routes';
 import { Button, MainLoader, NewGameModal } from 'components';
+
+import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
 
 import styles from './Games.module.scss';
 
@@ -19,7 +21,7 @@ export function Games() {
     setShowModal(false);
     console.log('mode', mode);
     const newGame = { id: 1 };
-    void navigate(`/game/${newGame.id}`);
+    void navigate(`${ROUTES.GAMES}/${newGame.id}`);
   };
 
   const renderGamesList = (games: any[], isJoinable = false) => {
