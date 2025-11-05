@@ -4,6 +4,7 @@ import { store } from 'store';
 import App from './App.tsx';
 
 import './index.scss';
+import 'toastr/build/toastr.min.css';
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>

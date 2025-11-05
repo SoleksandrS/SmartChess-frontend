@@ -5,12 +5,12 @@ import type { AppDispatch, TState } from 'store';
 import type { Move } from 'chess.js';
 import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
-import { AdvancedChessBoard, MainLoader } from 'components';
+import { AdvancedChessBoard, MainLoader, NotFoundGame } from 'components';
 import { MainSocketService } from 'socket/main.socket.service';
 
-import styles from './GameVsAI.module.scss';
+import styles from './Game.module.scss';
 
-export function GameVsAI() {
+export function Game() {
   const userData = useSelector((state: TState) => state.auth.data);
   const game = useSelector((state: TState) => state.game.data);
   const loading = useSelector((state: TState) => state.game.loading);
@@ -37,8 +37,10 @@ export function GameVsAI() {
   return (
     <div className={styles['page']}>
       <h1 className={styles['title']}>Play vs AI</h1>
-      {userData && game && (
+      {userData && game ? (
         <AdvancedChessBoard user={userData} game={game} onMove={onMoveHandler} />
+      ) : (
+        <NotFoundGame />
       )}
       {loading && <MainLoader />}
     </div>
