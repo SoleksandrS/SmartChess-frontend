@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from 'constants/routes';
+import { Button } from 'components';
+
 import { FaChessKnight } from 'react-icons/fa';
-import { Button } from 'components/Button/Button';
 
 import styles from './NotFoundGame.module.scss';
 
@@ -8,7 +10,7 @@ export function NotFoundGame() {
   const navigate = useNavigate();
 
   const onClick = () => {
-    void navigate('/');
+    void navigate(ROUTES.GAMES);
   };
 
   return (
@@ -21,7 +23,7 @@ export function NotFoundGame() {
         It seems this chess game doesn’t exist or has already been finished.
       </p>
 
-      <Button onClick={onClick}>Go to Home</Button>
+      <Button onClick={onClick}>Go to Games</Button>
     </div>
   );
 }
