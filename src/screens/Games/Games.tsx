@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
+import { getMyGamesDataThunk } from 'store/modules/games/games.thunk';
+import type { ISimpleGame } from 'models';
 import { Button, MainLoader, NewGameModal } from 'components';
 
 import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
@@ -8,14 +12,15 @@ import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
 import styles from './Games.module.scss';
 
 export function Games() {
+  const loading = useSelector((state: TState) => state.games.loading);
+  const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState<'my' | 'join'>('my');
   const [showModal, setShowModal] = useState(false);
-  const loading = false;
 
-  const userGames: any[] = [];
-  const joinableGames: any[] = [];
+  const joinableGames: ISimpleGame[] = [];
 
   const handleSelectGameType = async (mode: 'ai' | 'player') => {
     setShowModal(false);
@@ -24,7 +29,15 @@ export function Games() {
     void navigate(`${ROUTES.GAMES}/${newGame.id}`);
   };
 
-  const renderGamesList = (games: any[], isJoinable = false) => {
+  useEffect(() => {
+    if (activeTab === 'my') {
+      void dispatch(getMyGamesDataThunk());
+    } else {
+      console.log('');
+    }
+  }, [dispatch, activeTab]);
+
+  const renderGamesList = (games: ISimpleGame[], isJoinable = false) => {
     if (loading) return <MainLoader />;
 
     if (games.length === 0) {
@@ -94,7 +107,7 @@ export function Games() {
         </button>
       </div>
 
-      {activeTab === 'my' && renderGamesList(userGames)}
+      {activeTab === 'my' && renderGamesList(games)}
       {activeTab === 'join' && renderGamesList(joinableGames, true)}
 
       {showModal && (
