@@ -10,7 +10,15 @@ export enum EChessResult {
 
 export type ISimpleGame = Pick<
   IGame,
-  'id' | 'moveNumber' | 'turn' | 'result' | 'whitePlayer' | 'blackPlayer'
+  | 'id'
+  | 'moveNumber'
+  | 'turn'
+  | 'result'
+  | 'whitePlayerId'
+  | 'blackPlayerId'
+  | 'whitePlayer'
+  | 'blackPlayer'
+  | 'createdAt'
 >;
 
 export interface IGame {
@@ -24,6 +32,7 @@ export interface IGame {
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
   moves: IGameMove[];
+  createdAt: Date;
 }
 
 export interface IGameMove {
