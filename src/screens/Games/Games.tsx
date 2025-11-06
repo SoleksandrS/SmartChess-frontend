@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
 import { getMyGamesDataThunk } from 'store/modules/games/games.thunk';
-import type { ISimpleGame } from 'models';
-import { Button, MainLoader, NewGameModal } from 'components';
+import { EChessResult, EChessSide, type ISimpleGame } from 'models';
+import { Button, NewGameModal } from 'components';
 
-import { FaChessKnight, FaPlus, FaPlay, FaUsers } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 
 import styles from './Games.module.scss';
 
@@ -37,52 +37,44 @@ export function Games() {
     }
   }, [dispatch, activeTab]);
 
-  const renderGamesList = (games: ISimpleGame[], isJoinable = false) => {
-    if (loading) return <MainLoader />;
-
-    if (games.length === 0) {
-      return (
-        <div className={styles['empty']}>
-          <FaChessKnight className={styles['icon']} size={60} />
-          <p>No games found.</p>
-        </div>
-      );
-    }
+  const renderGameRow = (game: ISimpleGame) => {
+    const white = game.whitePlayer?.username ?? 'AI';
+    const black = game.blackPlayer?.username ?? 'AI';
+    const result =
+      game.result === EChessResult.CHECKMATE && game.turn === EChessSide.WHITE
+        ? 'White wins'
+        : game.result === EChessResult.CHECKMATE && game.turn === EChessSide.BLACK
+          ? 'Black wins'
+          : game.result === EChessResult.DRAW
+            ? 'Draw'
+            : 'In progress';
 
     return (
-      <div className={styles['games-list']}>
-        {games.map((game) => (
-          <div key={game.id} className={styles['game-card']}>
-            <div className={styles['info']}>
-              <h3 className={styles['opponent']}>
-                {isJoinable
-                  ? `Host: ${game.host.username}`
-                  : game.opponent
-                    ? `vs ${game.opponent.username}`
-                    : 'vs AI'}
-              </h3>
-              <p className={styles['meta']}>
-                {new Date(game.createdAt).toLocaleDateString()} • {game.movesCount} moves
-              </p>
-            </div>
-
-            {isJoinable ? (
-              <Button
-                onClick={() => navigate(`/game/${game.id}`)}
-                className={styles['join-button']}>
-                <FaUsers /> Join Game
-              </Button>
-            ) : (
-              <Button
-                onClick={() => navigate(`/game/${game.id}`)}
-                className={styles['play-button']}>
-                <FaPlay /> Continue
-              </Button>
-            )}
-          </div>
-        ))}
+      <div
+        key={game.id}
+        className={styles['game-row']}
+        onClick={() => void navigate(`${ROUTES.GAMES}/${game.id}`)}>
+        <div className={styles['players']}>
+          <span className={styles['player']}>{white}</span>
+          <span className={styles['vs']}>vs</span>
+          <span className={styles['player']}>{black}</span>
+        </div>
+        <div className={styles['info']}>
+          <span className={styles['moves']}>Moves: {game.moveNumber}</span>
+          <span className={styles['turn']}>
+            Turn: {game.turn === EChessSide.WHITE ? 'White' : 'Black'}
+          </span>
+        </div>
+        <div className={styles['result']}>{result}</div>
+        <div className={styles['date']}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
     );
+  };
+
+  const renderGamesList = (games: ISimpleGame[], placeholder: string) => {
+    if (loading) return <p>Loading...</p>;
+    if (!games || games.length === 0) return <p className={styles['empty']}>{placeholder}</p>;
+    return <div className={styles['games-list']}>{games.map(renderGameRow)}</div>;
   };
 
   return (
@@ -103,12 +95,18 @@ export function Games() {
         <button
           className={`${styles['tab']} ${activeTab === 'join' ? styles['active'] : ''}`}
           onClick={() => setActiveTab('join')}>
-          Joinable Games 🚧
+          Joinable Games
         </button>
       </div>
 
-      {activeTab === 'my' && renderGamesList(games)}
-      {activeTab === 'join' && renderGamesList(joinableGames, true)}
+      {activeTab === 'my' && renderGamesList(games, 'No games yet. Create one!')}
+
+      {activeTab === 'join' && (
+        <div className={styles['joinable-section']}>
+          <p className={styles['work-in-progress']}>🚧 Feature in progress...</p>
+          {renderGamesList(joinableGames, 'No joinable games yet.')}
+        </div>
+      )}
 
       {showModal && (
         <NewGameModal onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
