@@ -15,3 +15,17 @@ export const getMyGamesDataThunk = () => async (dispatch: AppDispatch) => {
     dispatch(setLoading(false));
   }
 };
+
+export const createGameVsAIThunk =
+  (userId: number, callback: (id: string) => void) => async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+
+    try {
+      const { data } = await api.post<ISimpleGame>(ENDPOINTS.GAMES, { whitePlayerId: userId });
+      callback(data.id);
+    } catch (err) {
+      catchErrorWithToastr(err);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };

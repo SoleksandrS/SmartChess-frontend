@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
-import { getMyGamesDataThunk } from 'store/modules/games/games.thunk';
+import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, NewGameModal } from 'components';
 
@@ -12,6 +12,7 @@ import { FaPlus } from 'react-icons/fa';
 import styles from './Games.module.scss';
 
 export function Games() {
+  const userData = useSelector((state: TState) => state.auth.data);
   const loading = useSelector((state: TState) => state.games.loading);
   const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
   const dispatch: AppDispatch = useDispatch();
@@ -22,11 +23,13 @@ export function Games() {
 
   const joinableGames: ISimpleGame[] = [];
 
-  const handleSelectGameType = async (mode: 'ai' | 'player') => {
-    setShowModal(false);
-    console.log('mode', mode);
-    const newGame = { id: 1 };
-    void navigate(`${ROUTES.GAMES}/${newGame.id}`);
+  const handleSelectGameType = (mode: 'ai' | 'player') => {
+    if (!userData) return;
+
+    if (mode === 'ai') {
+      const callback = (id: string) => void navigate(`${ROUTES.GAMES}/${id}`);
+      void dispatch(createGameVsAIThunk(userData.id, callback));
+    }
   };
 
   useEffect(() => {
