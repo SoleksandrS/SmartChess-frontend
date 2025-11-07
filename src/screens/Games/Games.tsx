@@ -11,6 +11,14 @@ import { FaPlus } from 'react-icons/fa';
 
 import styles from './Games.module.scss';
 
+const statusBtns = [
+  { value: 'all', text: 'All' },
+  { value: 'active', text: 'Active' },
+  { value: 'win', text: 'Wins' },
+  { value: 'lose', text: 'Losses' },
+  { value: 'draw', text: 'Draws' }
+];
+
 export function Games() {
   const userData = useSelector((state: TState) => state.auth.data);
   const loading = useSelector((state: TState) => state.games.loading);
@@ -22,9 +30,14 @@ export function Games() {
   const [showModal, setShowModal] = useState(false);
 
   const activeTab = searchParams.get('tab') || 'my';
+  const statusFilter = searchParams.get('status') || 'all';
 
   const handleTabChange = (tab: string) => {
     setSearchParams({ tab });
+  };
+
+  const handleGameStatusChange = (status: string) => {
+    setSearchParams({ tab: activeTab, status });
   };
 
   const joinableGames: ISimpleGame[] = [];
@@ -106,6 +119,19 @@ export function Games() {
           onClick={() => handleTabChange('join')}>
           Joinable Games
         </button>
+
+        {activeTab === 'my' && (
+          <div className={styles['filters']}>
+            {statusBtns.map(({ value, text }) => (
+              <button
+                key={value}
+                className={`${styles['btn']} ${statusFilter === value ? styles['selected'] : ''}`}
+                onClick={() => handleGameStatusChange(value)}>
+                {text}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {activeTab === 'my' && renderGamesList(games, 'No games yet. Create one!')}
