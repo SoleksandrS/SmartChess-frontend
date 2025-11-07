@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
@@ -16,10 +16,16 @@ export function Games() {
   const loading = useSelector((state: TState) => state.games.loading);
   const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
   const dispatch: AppDispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState<'my' | 'join'>('my');
   const [showModal, setShowModal] = useState(false);
+
+  const activeTab = searchParams.get('tab') || 'my';
+
+  const handleTabChange = (tab: string) => {
+    setSearchParams({ tab });
+  };
 
   const joinableGames: ISimpleGame[] = [];
 
@@ -92,12 +98,12 @@ export function Games() {
       <div className={styles['tabs']}>
         <button
           className={`${styles['tab']} ${activeTab === 'my' ? styles['active'] : ''}`}
-          onClick={() => setActiveTab('my')}>
+          onClick={() => handleTabChange('my')}>
           My Games
         </button>
         <button
           className={`${styles['tab']} ${activeTab === 'join' ? styles['active'] : ''}`}
-          onClick={() => setActiveTab('join')}>
+          onClick={() => handleTabChange('join')}>
           Joinable Games
         </button>
       </div>
