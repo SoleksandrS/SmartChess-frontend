@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
 import queryString from 'query-string';
 import { ROUTES } from 'constants/routes';
+import { LIMITS } from 'constants/limits';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, NewGameModal } from 'components';
@@ -12,7 +13,6 @@ import { FaPlus } from 'react-icons/fa';
 
 import styles from './Games.module.scss';
 
-const LIMIT = 5;
 const statusBtns = [
   { value: 'all', text: 'All' },
   { value: 'active', text: 'Active' },
@@ -37,7 +37,7 @@ export function Games() {
 
   const query = useMemo(() => {
     const status = statusFilter !== 'all' ? statusFilter : undefined;
-    return { status, page, limit: LIMIT };
+    return { status, page, limit: LIMITS.GAMES };
   }, [page, statusFilter]);
 
   const handleTabChange = (tab: string) => {
