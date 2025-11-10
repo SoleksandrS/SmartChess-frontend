@@ -5,6 +5,7 @@ import type { AppDispatch, TState } from 'store';
 import queryString from 'query-string';
 import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
+import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, NewGameModal } from 'components';
@@ -15,10 +16,10 @@ import styles from './Games.module.scss';
 
 const statusBtns = [
   { value: 'all', text: 'All' },
-  { value: 'active', text: 'Active' },
-  { value: 'win', text: 'Wins' },
-  { value: 'lose', text: 'Losses' },
-  { value: 'draw', text: 'Draws' }
+  { value: EPageGamesStatus.ACTIVE, text: 'Active' },
+  { value: EPageGamesStatus.WIN, text: 'Wins' },
+  { value: EPageGamesStatus.LOSE, text: 'Losses' },
+  { value: EPageGamesStatus.DRAW, text: 'Draws' }
 ];
 
 export function Games() {
@@ -36,7 +37,8 @@ export function Games() {
   const page = +(searchParams.get('page') || '1');
 
   const query = useMemo(() => {
-    const status = statusFilter !== 'all' ? statusFilter : undefined;
+    const isStatus = Object.values(EPageGamesStatus).includes(statusFilter as EPageGamesStatus);
+    const status = isStatus ? statusFilter : undefined;
     return { status, page, limit: LIMITS.GAMES };
   }, [page, statusFilter]);
 
