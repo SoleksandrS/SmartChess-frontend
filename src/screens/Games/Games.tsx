@@ -31,6 +31,7 @@ export function Games() {
 
   const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
+  const page = +(searchParams.get('page') || '1');
 
   const handleTabChange = (tab: string) => {
     setSearchParams({ tab });
@@ -40,6 +41,11 @@ export function Games() {
     setSearchParams({ tab: activeTab, status });
   };
 
+  const handlePageChange = (page: number) => {
+    setSearchParams({ tab: activeTab, status: statusFilter, page: String(page) });
+  };
+
+  const totalPages = 10;
   const joinableGames: ISimpleGame[] = [];
 
   const handleSelectGameType = (mode: 'ai' | 'player') => {
@@ -99,6 +105,32 @@ export function Games() {
     return <div className={styles['games-list']}>{games.map(renderGameRow)}</div>;
   };
 
+  const getPaginationRange = (current: number, total: number) => {
+    const delta = 2;
+    const range: (number | string)[] = [];
+    const rangeWithDots: (number | string)[] = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+        range.push(i);
+      }
+    }
+
+    let prev: number | undefined;
+    for (const i of range) {
+      if (prev) {
+        if (typeof i === 'number' && i - prev > 2) rangeWithDots.push('...');
+        else if (typeof i === 'number' && i - prev === 2) rangeWithDots.push(prev + 1);
+      }
+      rangeWithDots.push(i);
+      if (typeof i === 'number') prev = i;
+    }
+
+    return rangeWithDots;
+  };
+
+  const pages = getPaginationRange(page, totalPages);
+
   return (
     <div className={styles['page']}>
       <div className={styles['header']}>
@@ -142,6 +174,37 @@ export function Games() {
           {renderGamesList(joinableGames, 'No joinable games yet.')}
         </div>
       )}
+
+      <div className={styles['pagination']}>
+        <button
+          disabled={page <= 1}
+          onClick={() => handlePageChange(page - 1)}
+          className={styles['btn']}>
+          ←
+        </button>
+
+        {pages.map((p, i) =>
+          p === '...' ? (
+            <span key={`dots-${i}`} className={styles['dots']}>
+              ...
+            </span>
+          ) : (
+            <button
+              key={p}
+              onClick={() => handlePageChange(Number(p))}
+              className={`${styles['btn']} ${page === p ? styles['active'] : ''}`}>
+              {p}
+            </button>
+          )
+        )}
+
+        <button
+          disabled={page >= totalPages}
+          onClick={() => handlePageChange(page + 1)}
+          className={styles['btn']}>
+          →
+        </button>
+      </div>
 
       {showModal && (
         <NewGameModal onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
