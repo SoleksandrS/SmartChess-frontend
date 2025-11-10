@@ -4,17 +4,19 @@ import type { ISimpleGame } from 'models';
 import { catchErrorWithToastr } from 'utils/catchErrorWithToastr';
 import { setLoading, setGamesData } from './games.actions';
 
-export const getMyGamesDataThunk = () => async (dispatch: AppDispatch) => {
-  dispatch(setLoading(true));
+export const getMyGamesDataThunk =
+  (search: string = '') =>
+  async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
 
-  try {
-    const { data } = await api.get<ISimpleGame[]>(ENDPOINTS.MY_GAMES);
-    dispatch(setGamesData(data));
-  } catch (err) {
-    catchErrorWithToastr(err);
-    dispatch(setLoading(false));
-  }
-};
+    try {
+      const { data } = await api.get<ISimpleGame[]>(ENDPOINTS.MY_GAMES + search);
+      dispatch(setGamesData(data));
+    } catch (err) {
+      catchErrorWithToastr(err);
+      dispatch(setLoading(false));
+    }
+  };
 
 export const createGameVsAIThunk =
   (userId: number, callback: (id: string) => void) => async (dispatch: AppDispatch) => {

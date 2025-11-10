@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
+import queryString from 'query-string';
 import { ROUTES } from 'constants/routes';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
@@ -11,6 +12,7 @@ import { FaPlus } from 'react-icons/fa';
 
 import styles from './Games.module.scss';
 
+const LIMIT = 5;
 const statusBtns = [
   { value: 'all', text: 'All' },
   { value: 'active', text: 'Active' },
@@ -32,6 +34,11 @@ export function Games() {
   const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
   const page = +(searchParams.get('page') || '1');
+
+  const query = useMemo(() => {
+    const status = statusFilter !== 'all' ? statusFilter : undefined;
+    return { status, page, limit: LIMIT };
+  }, [page, statusFilter]);
 
   const handleTabChange = (tab: string) => {
     setSearchParams({ tab });
@@ -58,12 +65,14 @@ export function Games() {
   };
 
   useEffect(() => {
+    const search = `?${queryString.stringify(query)}`;
+
     if (activeTab === 'my') {
-      void dispatch(getMyGamesDataThunk());
+      void dispatch(getMyGamesDataThunk(search));
     } else {
       console.log('');
     }
-  }, [dispatch, activeTab]);
+  }, [dispatch, activeTab, query]);
 
   const renderGameRow = (game: ISimpleGame) => {
     const white = game.whitePlayer?.username ?? 'AI';
