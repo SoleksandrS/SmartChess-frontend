@@ -1,6 +1,7 @@
 import { ENDPOINTS, api } from 'services/api';
 import type { AppDispatch } from 'store';
 import type { ISimpleGame } from 'models';
+import type { IAdvancedResponse } from 'types/response.types';
 import { catchErrorWithToastr } from 'utils/catchErrorWithToastr';
 import { setLoading, setGamesData } from './games.actions';
 
@@ -10,7 +11,7 @@ export const getMyGamesDataThunk =
     dispatch(setLoading(true));
 
     try {
-      const { data } = await api.get<ISimpleGame[]>(ENDPOINTS.MY_GAMES + search);
+      const { data } = await api.get<IAdvancedResponse<ISimpleGame[]>>(ENDPOINTS.MY_GAMES + search);
       dispatch(setGamesData(data));
     } catch (err) {
       catchErrorWithToastr(err);
