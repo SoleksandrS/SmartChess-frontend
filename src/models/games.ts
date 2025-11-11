@@ -8,6 +8,19 @@ export enum EChessResult {
   CHECKMATE = 'checkmate'
 }
 
+export type ISimpleGame = Pick<
+  IGame,
+  | 'id'
+  | 'moveNumber'
+  | 'turn'
+  | 'result'
+  | 'whitePlayerId'
+  | 'blackPlayerId'
+  | 'whitePlayer'
+  | 'blackPlayer'
+  | 'createdAt'
+>;
+
 export interface IGame {
   id: string;
   fen: string;
@@ -19,6 +32,7 @@ export interface IGame {
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
   moves: IGameMove[];
+  createdAt: Date;
 }
 
 export interface IGameMove {

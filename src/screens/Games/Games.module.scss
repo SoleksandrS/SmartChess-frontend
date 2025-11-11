@@ -1,0 +1,197 @@
+@use 'styles/colors' as colors;
+@use 'styles/variables' as vars;
+
+.page {
+  max-width: vars.$max-width;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: colors.$text-primary;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: colors.$accent-ai;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    background: colors.$accent-ai;
+    color: white;
+  }
+}
+
+.filters {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+
+  .btn {
+    background: none;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.selected {
+      background: #5a8dee;
+      color: white;
+    }
+
+    &:hover {
+      background: #333;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.title {
+  font-size: 28px;
+  color: colors.$accent-ai;
+  margin-bottom: 20px;
+}
+
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+.players {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .player {
+    font-weight: 500;
+  }
+
+  .vs {
+    opacity: 0.6;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.result {
+  text-align: center;
+  font-weight: 600;
+  color: colors.$accent-ai;
+}
+
+.date {
+  text-align: right;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.empty {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 30px;
+}
+
+.work-in-progress {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  margin-top: 8px;
+
+  .btn {
+    background: none;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &.active {
+      background: #5a8dee;
+      color: #fff;
+      border-color: #5a8dee;
+    }
+
+    &:hover:not(:disabled):not(.activePage) {
+      background: #333;
+      color: white;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  .dots {
+    color: #555;
+    padding: 0 6px;
+  }
+}

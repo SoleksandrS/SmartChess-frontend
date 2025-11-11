@@ -6,11 +6,21 @@ interface IProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'primary' | 'secondary' | 'transparent';
+  className?: string;
 }
 
-export function Button({ children, onClick, type = 'button', variant = 'primary' }: IProps) {
+export function Button({
+  children,
+  onClick,
+  type = 'button',
+  variant = 'primary',
+  className
+}: IProps) {
   return (
-    <button type={type} onClick={onClick} className={`${styles['button']} ${styles[variant]}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${styles['button']} ${styles[variant]} ${className}`}>
       {children}
     </button>
   );
