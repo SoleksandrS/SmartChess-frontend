@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, TState } from 'store';
+import type { IResponseMeta } from 'types/response.types';
 import queryString from 'query-string';
 import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
@@ -26,6 +27,7 @@ export function Games() {
   const userData = useSelector((state: TState) => state.auth.data);
   const loading = useSelector((state: TState) => state.games.loading);
   const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
+  const gamesMeta = useSelector((state: TState) => state.games.meta) as IResponseMeta;
   const dispatch: AppDispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ export function Games() {
   const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
   const page = +(searchParams.get('page') || '1');
+  const totalPages = gamesMeta?.totalPages || 0;
 
   const query = useMemo(() => {
     const isStatus = Object.values(EPageGamesStatus).includes(statusFilter as EPageGamesStatus);
@@ -54,7 +57,6 @@ export function Games() {
     setSearchParams({ tab: activeTab, status: statusFilter, page: String(page) });
   };
 
-  const totalPages = 10;
   const joinableGames: ISimpleGame[] = [];
 
   const handleSelectGameType = (mode: 'ai' | 'player') => {
@@ -186,36 +188,38 @@ export function Games() {
         </div>
       )}
 
-      <div className={styles['pagination']}>
-        <button
-          disabled={page <= 1}
-          onClick={() => handlePageChange(page - 1)}
-          className={styles['btn']}>
-          ←
-        </button>
+      {activeTab === 'my' && !!totalPages && (
+        <div className={styles['pagination']}>
+          <button
+            disabled={page <= 1}
+            onClick={() => handlePageChange(page - 1)}
+            className={styles['btn']}>
+            ←
+          </button>
 
-        {pages.map((p, i) =>
-          p === '...' ? (
-            <span key={`dots-${i}`} className={styles['dots']}>
-              ...
-            </span>
-          ) : (
-            <button
-              key={p}
-              onClick={() => handlePageChange(Number(p))}
-              className={`${styles['btn']} ${page === p ? styles['active'] : ''}`}>
-              {p}
-            </button>
-          )
-        )}
+          {pages.map((p, i) =>
+            p === '...' ? (
+              <span key={`dots-${i}`} className={styles['dots']}>
+                ...
+              </span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => handlePageChange(Number(p))}
+                className={`${styles['btn']} ${page === p ? styles['active'] : ''}`}>
+                {p}
+              </button>
+            )
+          )}
 
-        <button
-          disabled={page >= totalPages}
-          onClick={() => handlePageChange(page + 1)}
-          className={styles['btn']}>
-          →
-        </button>
-      </div>
+          <button
+            disabled={page >= totalPages}
+            onClick={() => handlePageChange(page + 1)}
+            className={styles['btn']}>
+            →
+          </button>
+        </div>
+      )}
 
       {showModal && (
         <NewGameModal onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
