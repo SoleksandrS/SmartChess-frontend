@@ -14,5 +14,6 @@ export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
 export { NewGameModal } from './NewGameModal/NewGameModal';
 export { NotFoundGame } from './NotFoundGame/NotFoundGame';
+export { OpponentTurnOverlay } from './OpponentTurnOverlay/OpponentTurnOverlay';
 
 export type { ChessBoardRef } from './ChessBoard/ChessBoard';
