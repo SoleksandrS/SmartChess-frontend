@@ -5,6 +5,7 @@ import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard
 import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
 import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
 import { ChessResultModal } from 'components/ChessResultModal/ChessResultModal';
+import { OpponentTurnOverlay } from 'components/OpponentTurnOverlay/OpponentTurnOverlay';
 
 import styles from './AdvancedChessBoard.module.scss';
 
@@ -34,6 +35,14 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     if (game.whitePlayerId === user.id) return 'white';
   }, [game.blackPlayerId, game.whitePlayerId, user.id]);
 
+  const isMyTurn = useMemo(() => {
+    if (!boardOrientation) return false;
+    return (
+      (game.turn === EChessSide.WHITE && boardOrientation === 'white') ||
+      (game.turn === EChessSide.BLACK && boardOrientation === 'black')
+    );
+  }, [game.turn, boardOrientation]);
+
   useEffect(() => {
     if (!game.fen || !boardRef.current) return;
     boardRef.current.updateBoard(game.fen);
@@ -60,12 +69,23 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
           moveCount={game.moveNumber}
           status={gameStatus}
         />
-        <ChessBoard
-          ref={boardRef}
-          initFen={game.fen}
-          boardOrientation={boardOrientation}
-          onMove={onMove}
-        />
+        <div className={styles['board-wrapper']}>
+          <ChessBoard
+            ref={boardRef}
+            initFen={game.fen}
+            boardOrientation={boardOrientation}
+            onMove={onMove}
+          />
+          {isMyTurn && !game.result && (
+            <OpponentTurnOverlay
+              opponentName={
+                game.turn === EChessSide.WHITE
+                  ? game.whitePlayer?.username || 'AI'
+                  : game.blackPlayer?.username || 'AI'
+              }
+            />
+          )}
+        </div>
         <ChessSidebarHistory moves={game.moves} onPreviewMove={onPreviewMove} />
       </div>
       {isResultOpened && (
