@@ -36,7 +36,7 @@ export function Game() {
 
   return (
     <div className={styles['page']}>
-      <h1 className={styles['title']}>Play vs AI</h1>
+      <h1 className={styles['title']}>Casual Game</h1>
       {userData && game ? (
         <AdvancedChessBoard user={userData} game={game} onMove={onMoveHandler} />
       ) : (
