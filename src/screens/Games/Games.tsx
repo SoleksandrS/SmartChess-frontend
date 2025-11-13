@@ -9,7 +9,7 @@ import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
-import { Button, NewGameModal } from 'components';
+import { Button, ModalNewGame } from 'components';
 
 import { FaPlus } from 'react-icons/fa';
 
@@ -222,7 +222,7 @@ export function Games() {
       )}
 
       {showModal && (
-        <NewGameModal onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
+        <ModalNewGame onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
       )}
     </div>
   );

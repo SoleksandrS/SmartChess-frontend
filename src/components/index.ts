@@ -12,7 +12,7 @@ export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
 export { Input } from './Input/Input';
 export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
-export { NewGameModal } from './NewGameModal/NewGameModal';
+export { ModalNewGame } from './ModalNewGame/ModalNewGame';
 export { NotFoundGame } from './NotFoundGame/NotFoundGame';
 export { OpponentTurnOverlay } from './OpponentTurnOverlay/OpponentTurnOverlay';
 
