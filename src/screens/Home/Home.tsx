@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChessRulesModal } from 'components';
+import { ModalChessRules } from 'components';
 import { AITraining, Features, HeroBanner, Leaderboard } from './components';
 
 import styles from './Home.module.scss';
@@ -13,7 +13,7 @@ export function Home() {
       <Features />
       <Leaderboard />
       <AITraining />
-      <ChessRulesModal isOpen={isModalOpened} onClose={() => setIsModalOpened(false)} />
+      <ModalChessRules isOpen={isModalOpened} onClose={() => setIsModalOpened(false)} />
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Modal } from 'components';
-import { sections, type SectionKey } from './ChessRulesModal.models';
+import { sections, type SectionKey } from './ModalChessRules.models';
 
-import styles from './ChessRulesModal.module.scss';
+import styles from './ModalChessRules.module.scss';
 
 interface IProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function ChessRulesModal({ isOpen, onClose }: IProps) {
+export function ModalChessRules({ isOpen, onClose }: IProps) {
   const [activeSection, setActiveSection] = useState<SectionKey>('general');
 
   if (!isOpen) return null;
