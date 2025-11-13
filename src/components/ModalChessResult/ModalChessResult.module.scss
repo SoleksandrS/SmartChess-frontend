@@ -1,17 +1,5 @@
 @use 'sass:color';
 @use 'styles/colors' as colors;
-@use 'styles/variables' as vars;
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
-}
 
 .modal {
   background: color.adjust(colors.$bg, $lightness: 6%);
@@ -22,7 +10,10 @@
   max-width: 400px;
   width: 90%;
   position: relative;
-  animation: popUp 0.3s ease;
+}
+
+.content {
+  animation: fadeInScale 0.25s ease forwards;
 }
 
 .title {
@@ -56,17 +47,25 @@
   background: radial-gradient(circle, #f44336 0%, #1e1e2e 80%);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes popUp {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    scale: 0.9;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.1); opacity: 1; }
+  0%,
+  100% {
+    scale: 1;
+    opacity: 0.9;
+  }
+  50% {
+    scale: 1.1;
+    opacity: 1;
+  }
 }

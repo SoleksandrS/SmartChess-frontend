@@ -4,7 +4,7 @@ import { EChessResult, EChessSide, EGameStatus, type ICurrentUser, type IGame } 
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
 import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
 import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
-import { ChessResultModal } from 'components/ChessResultModal/ChessResultModal';
+import { ModalChessResult } from 'components/ModalChessResult/ModalChessResult';
 import { OpponentTurnOverlay } from 'components/OpponentTurnOverlay/OpponentTurnOverlay';
 
 import styles from './AdvancedChessBoard.module.scss';
@@ -89,7 +89,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
         <ChessSidebarHistory moves={game.moves} onPreviewMove={onPreviewMove} />
       </div>
       {isResultOpened && (
-        <ChessResultModal result={gameStatus} onClose={() => setIsResultOpened(false)} />
+        <ModalChessResult result={gameStatus} onClose={() => setIsResultOpened(false)} />
       )}
     </>
   );

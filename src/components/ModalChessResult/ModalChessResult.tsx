@@ -1,21 +1,15 @@
-import { useEffect } from 'react';
 import { EGameStatus } from 'models';
+import { Modal } from 'components/Modal/Modal';
 import { Button } from 'components/Button/Button';
 
-import styles from './ChessResultModal.module.scss';
+import styles from './ModalChessResult.module.scss';
 
 interface IProps {
   result: EGameStatus;
   onClose: () => void;
 }
 
-export function ChessResultModal({ result, onClose }: IProps) {
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onClose]);
-
+export function ModalChessResult({ result, onClose }: IProps) {
   const getTitle = () => {
     switch (result) {
       case EGameStatus.WIN:
@@ -24,6 +18,8 @@ export function ChessResultModal({ result, onClose }: IProps) {
         return 'You Lost!';
       case EGameStatus.DRAW:
         return 'It’s a Draw!';
+      default:
+        return '';
     }
   };
 
@@ -35,17 +31,19 @@ export function ChessResultModal({ result, onClose }: IProps) {
         return 'Your opponent took your king... better luck next time.';
       case EGameStatus.DRAW:
         return 'Neither side could prevail.';
+      default:
+        return '';
     }
   };
 
   return (
-    <div className={styles['overlay']} onClick={onClose}>
-      <div className={styles['modal']} onClick={(e) => e.stopPropagation()}>
+    <Modal onClose={onClose} className={styles['modal']}>
+      <div className={styles['content']}>
         <div className={`${styles['animation']} ${styles[`animation-${result}`]}`} />
         <h2 className={styles['title']}>{getTitle()}</h2>
         <p className={styles['subtitle']}>{getSubtitle()}</p>
         <Button onClick={onClose}>Close</Button>
       </div>
-    </div>
+    </Modal>
   );
 }
