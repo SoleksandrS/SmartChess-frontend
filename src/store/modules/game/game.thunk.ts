@@ -19,14 +19,10 @@ export const getGameDataThunk = (id: string) => async (dispatch: AppDispatch) =>
 
 export const makeGameMoveThunk =
   (id: string, move: string, fen: string) => async (dispatch: AppDispatch) => {
-    dispatch(setLoading(true));
-
     try {
       await api.put<TMakeMoveBody>(ENDPOINTS.GAME_MOVE(id), { move });
     } catch (err) {
       catchErrorWithToastr(err);
       dispatch(updateGameData({ values: { fen }, moves: [] }));
-    } finally {
-      dispatch(setLoading(false));
     }
   };
