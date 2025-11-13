@@ -76,7 +76,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
             boardOrientation={boardOrientation}
             onMove={onMove}
           />
-          {isMyTurn && !game.result && (
+          {!isMyTurn && !game.result && (
             <OpponentTurnOverlay
               opponentName={
                 game.turn === EChessSide.WHITE
