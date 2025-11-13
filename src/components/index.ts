@@ -1,7 +1,6 @@
 export { AdvancedChessBoard } from './AdvancedChessBoard/AdvancedChessBoard';
 export { Button } from './Button/Button';
 export { ChessBoard } from './ChessBoard/ChessBoard';
-export { ChessRulesModal } from './ChessRulesModal/ChessRulesModal';
 export { ChessSidebarData } from './ChessSidebarData/ChessSidebarData';
 export { ChessSidebarHistory } from './ChessSidebarHistory/ChessSidebarHistory';
 export { Footer } from './Footer/Footer';
@@ -12,6 +11,7 @@ export { Input } from './Input/Input';
 export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
 export { ModalChessResult } from './ModalChessResult/ModalChessResult';
+export { ModalChessRules } from './ModalChessRules/ModalChessRules';
 export { ModalNewGame } from './ModalNewGame/ModalNewGame';
 export { NotFoundGame } from './NotFoundGame/NotFoundGame';
 export { OpponentTurnOverlay } from './OpponentTurnOverlay/OpponentTurnOverlay';
