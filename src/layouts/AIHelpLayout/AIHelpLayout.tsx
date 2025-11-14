@@ -9,6 +9,7 @@ interface IProps {
 }
 
 export function AIHelpLayout({ children, className }: IProps) {
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -16,6 +17,13 @@ export function AIHelpLayout({ children, className }: IProps) {
   const mockHelp = {
     move: 'e2 → e4',
     reason: 'This move opens the diagonal for your queen and bishop, and helps control the center.'
+  };
+
+  const onClickHandler = async () => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
+    setIsOpen(true);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -40,7 +48,7 @@ export function AIHelpLayout({ children, className }: IProps) {
 
       <div ref={wrapperRef} className={styles['wrapper']}>
         {isOpen && <AIHelpLayoutBubble {...mockHelp} onClose={() => setIsOpen(false)} />}
-        <AIHelpLayoutButton onClick={() => setIsOpen(true)} />
+        <AIHelpLayoutButton loading={loading} onClick={() => void onClickHandler()} />
       </div>
     </div>
   );
