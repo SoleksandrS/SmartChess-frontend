@@ -17,12 +17,13 @@ export function AIHelpLayout({ children, className }: IProps) {
   };
 
   return (
-    <div className={`${styles['wrapper']} ${className}`}>
+    <div className={`${styles['layout']} ${className}`}>
       {children}
 
-      {isOpen && <AIHelpLayoutBubble {...mockHelp} onClose={() => setIsOpen(false)} />}
-
-      <AIHelpLayoutButton onClick={() => setIsOpen(true)} />
+      <div className={styles['wrapper']}>
+        {isOpen && <AIHelpLayoutBubble {...mockHelp} onClose={() => setIsOpen(false)} />}
+        <AIHelpLayoutButton onClick={() => setIsOpen(true)} />
+      </div>
     </div>
   );
 }

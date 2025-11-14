@@ -1,5 +1,11 @@
-.wrapper {
+.layout {
   position: relative;
   height: 100%;
   padding-bottom: calc(2rem + 52px) !important;
+}
+
+.wrapper {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
 }

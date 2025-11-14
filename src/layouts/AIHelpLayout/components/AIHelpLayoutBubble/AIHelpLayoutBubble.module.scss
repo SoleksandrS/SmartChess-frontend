@@ -2,22 +2,20 @@
 
 .bubble {
   position: absolute;
-  bottom: 92px;
-  right: 14px;
-
+  top: -12px;
+  right: -10px;
   width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   background: colors.$bg-light;
   color: colors.$text-primary;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   padding: 16px;
   z-index: 12;
-
-  animation: fadeIn 0.25s ease-out;
-
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  transform: translate(0, -100%);
+  animation: fadeIn 0.3s ease-out;
 }
 
 .title {
@@ -46,12 +44,11 @@
   position: absolute;
   top: 6px;
   right: 6px;
-
+  display: flex;
   background: none;
   border: none;
   color: colors.$text-secondary;
   cursor: pointer;
-
   transition: transform 0.15s ease;
 
   &:hover {
@@ -61,12 +58,10 @@
 
 .arrow {
   position: absolute;
-  bottom: -10px;
+  bottom: -8px;
   right: 28px;
-
   width: 16px;
   height: 16px;
-
   background: colors.$bg-light;
   transform: rotate(45deg);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
@@ -75,10 +70,10 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    // transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    // transform: translateY(0);
   }
 }
