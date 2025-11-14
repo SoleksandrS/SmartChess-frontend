@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import type { TState } from 'store';
+import { EChessSide } from 'models';
 import { AIHelpLayoutBubble, AIHelpLayoutButton } from './components';
 
 import styles from './AIHelpLayout.module.scss';
@@ -9,10 +12,22 @@ interface IProps {
 }
 
 export function AIHelpLayout({ children, className }: IProps) {
+  const userData = useSelector((state: TState) => state.auth.data);
+  const game = useSelector((state: TState) => state.game.data);
+
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const isBtnAvailable = useMemo(() => {
+    if (!userData || !game || game.result) return false;
+
+    const isWhite = game.turn === EChessSide.WHITE && game.whitePlayerId === userData.id;
+    const isBlack = game.turn === EChessSide.BLACK && game.blackPlayerId === userData.id;
+
+    return isWhite || isBlack;
+  }, [userData, game]);
 
   const mockHelp = {
     move: 'e2 → e4',
@@ -48,7 +63,11 @@ export function AIHelpLayout({ children, className }: IProps) {
 
       <div ref={wrapperRef} className={styles['wrapper']}>
         {isOpen && <AIHelpLayoutBubble {...mockHelp} onClose={() => setIsOpen(false)} />}
-        <AIHelpLayoutButton loading={loading} onClick={() => void onClickHandler()} />
+        <AIHelpLayoutButton
+          loading={loading}
+          disabled={!isBtnAvailable}
+          onClick={() => void onClickHandler()}
+        />
       </div>
     </div>
   );

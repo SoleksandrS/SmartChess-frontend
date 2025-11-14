@@ -22,4 +22,11 @@
     transform: scale(1.05);
     background: color.adjust(colors.$accent-ai, $lightness: 5%);
   }
+
+  &:disabled {
+    background: colors.$accent-ai;
+    transform: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
