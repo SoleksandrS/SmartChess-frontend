@@ -5,6 +5,7 @@ import type { AppDispatch, TState } from 'store';
 import type { Move } from 'chess.js';
 import { getGameDataThunk, makeGameMoveThunk } from 'store/modules/game/game.thunk';
 import { clearGameData } from 'store/modules/game/game.actions';
+import { AIHelpLayout } from 'layouts';
 import { AdvancedChessBoard, MainLoader, NotFoundGame } from 'components';
 import { MainSocketService } from 'socket/main.socket.service';
 
@@ -35,7 +36,7 @@ export function Game() {
   }, [game?.id]);
 
   return (
-    <div className={styles['page']}>
+    <AIHelpLayout className={styles['page']}>
       <h1 className={styles['title']}>Casual Game</h1>
       {userData && game ? (
         <AdvancedChessBoard user={userData} game={game} onMove={onMoveHandler} />
@@ -43,6 +44,6 @@ export function Game() {
         <NotFoundGame />
       )}
       {loading && <MainLoader />}
-    </div>
+    </AIHelpLayout>
   );
 }
