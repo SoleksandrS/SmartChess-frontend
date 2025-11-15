@@ -9,7 +9,7 @@ import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
-import { Button, ModalNewGame } from 'components';
+import { Button, MatchmakingModal, ModalNewGame } from 'components';
 
 import { FaPlus } from 'react-icons/fa';
 
@@ -33,6 +33,7 @@ export function Games() {
   const navigate = useNavigate();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isMMOpened, setIsMMOpened] = useState(false);
 
   const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
@@ -66,6 +67,10 @@ export function Games() {
       const callback = (id: string) => void navigate(`${ROUTES.GAMES}/${id}`);
       void dispatch(createGameVsAIThunk(userData.id, callback));
     }
+    if (mode === 'player') {
+      setIsMMOpened(true);
+    }
+    setIsModalOpened(false);
   };
 
   useEffect(() => {
@@ -224,6 +229,7 @@ export function Games() {
       {isModalOpened && (
         <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
+      {isMMOpened && <MatchmakingModal onCancel={() => setIsMMOpened(false)} />}
     </div>
   );
 }

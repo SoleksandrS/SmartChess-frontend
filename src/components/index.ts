@@ -9,6 +9,7 @@ export { Header } from './Header/Header';
 export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
 export { Input } from './Input/Input';
 export { MainLoader } from './MainLoader/MainLoader';
+export { MatchmakingModal } from './MatchmakingModal/MatchmakingModal';
 export { Modal } from './Modal/Modal';
 export { ModalChessResult } from './ModalChessResult/ModalChessResult';
 export { ModalChessRules } from './ModalChessRules/ModalChessRules';
