@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import type { TState } from 'store';
 import { EChessSide } from 'models';
 import { api, ENDPOINTS } from 'services/api';
+import { catchErrorWithToastr } from 'utils/catchErrorWithToastr';
 import { AIHelpLayoutBubble, AIHelpLayoutButton } from './components';
 import type { IAdvice } from './AIHelpLayout.types';
 
@@ -40,7 +41,7 @@ export function AIHelpLayout({ children, className }: IProps) {
       const { data } = await api.get<IAdvice>(ENDPOINTS.GAME_ADVICE(game.id));
       setAdvice(data);
     } catch (err) {
-      console.log('EXAEXA - err', err);
+      catchErrorWithToastr(err);
     } finally {
       setLoading(false);
     }
