@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import type { TState } from 'store';
 import { EChessSide } from 'models';
 import { AIHelpLayoutBubble, AIHelpLayoutButton } from './components';
+import type { IAdvice } from './AIHelpLayout.types';
 
 import styles from './AIHelpLayout.module.scss';
 
@@ -29,8 +30,8 @@ export function AIHelpLayout({ children, className }: IProps) {
     return isWhite || isBlack;
   }, [userData, game]);
 
-  const mockHelp = {
-    move: 'e2 → e4',
+  const mockAdvice: IAdvice = {
+    move: 'e2e4',
     reason: 'This move opens the diagonal for your queen and bishop, and helps control the center.'
   };
 
@@ -62,7 +63,7 @@ export function AIHelpLayout({ children, className }: IProps) {
       {children}
 
       <div ref={wrapperRef} className={styles['wrapper']}>
-        {isOpen && <AIHelpLayoutBubble {...mockHelp} onClose={() => setIsOpen(false)} />}
+        {isOpen && <AIHelpLayoutBubble advice={mockAdvice} onClose={() => setIsOpen(false)} />}
         <AIHelpLayoutButton
           loading={loading}
           disabled={!isBtnAvailable}
