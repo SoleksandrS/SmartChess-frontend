@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { TState } from 'store';
 import { EChessSide } from 'models';
+import { api, ENDPOINTS } from 'services/api';
 import { AIHelpLayoutBubble, AIHelpLayoutButton } from './components';
 import type { IAdvice } from './AIHelpLayout.types';
 
@@ -17,7 +18,7 @@ export function AIHelpLayout({ children, className }: IProps) {
   const game = useSelector((state: TState) => state.game.data);
 
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [advice, setAdvice] = useState<IAdvice | null>(null);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -30,16 +31,19 @@ export function AIHelpLayout({ children, className }: IProps) {
     return isWhite || isBlack;
   }, [userData, game]);
 
-  const mockAdvice: IAdvice = {
-    move: 'e2e4',
-    reason: 'This move opens the diagonal for your queen and bishop, and helps control the center.'
-  };
-
   const onClickHandler = async () => {
+    if (!game) return;
+
     setLoading(true);
-    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
-    setIsOpen(true);
-    setLoading(false);
+
+    try {
+      const { data } = await api.get<IAdvice>(ENDPOINTS.GAME_ADVICE(game.id));
+      setAdvice(data);
+    } catch (err) {
+      console.log('EXAEXA - err', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export function AIHelpLayout({ children, className }: IProps) {
       if (!wrapper) return;
 
       if (!wrapper.contains(event.target as Node)) {
-        setIsOpen(false);
+        setAdvice(null);
       }
     };
 
@@ -63,7 +67,7 @@ export function AIHelpLayout({ children, className }: IProps) {
       {children}
 
       <div ref={wrapperRef} className={styles['wrapper']}>
-        {isOpen && <AIHelpLayoutBubble advice={mockAdvice} onClose={() => setIsOpen(false)} />}
+        {advice && <AIHelpLayoutBubble advice={advice} onClose={() => setAdvice(null)} />}
         <AIHelpLayoutButton
           loading={loading}
           disabled={!isBtnAvailable}
