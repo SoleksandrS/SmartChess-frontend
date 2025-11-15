@@ -2,7 +2,9 @@
 @use 'styles/variables' as vars;
 
 .page {
-  background-color: colors.$bg;
+  max-width: vars.$max-width;
+  width: 100%;
+  margin: 0 auto;
   color: colors.$text-primary;
   text-align: center;
   padding: vars.$container-padding;
