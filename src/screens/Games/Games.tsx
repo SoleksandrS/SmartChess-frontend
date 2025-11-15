@@ -32,7 +32,7 @@ export function Games() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
@@ -148,7 +148,7 @@ export function Games() {
     <div className={styles['page']}>
       <div className={styles['header']}>
         <h1 className={styles['title']}>Games</h1>
-        <Button onClick={() => setShowModal(true)}>
+        <Button onClick={() => setIsModalOpened(true)}>
           <FaPlus /> New Game
         </Button>
       </div>
@@ -221,8 +221,8 @@ export function Games() {
         </div>
       )}
 
-      {showModal && (
-        <ModalNewGame onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
+      {isModalOpened && (
+        <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
     </div>
   );
