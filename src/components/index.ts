@@ -5,6 +5,7 @@ export { ChessSidebarData } from './ChessSidebarData/ChessSidebarData';
 export { ChessSidebarHistory } from './ChessSidebarHistory/ChessSidebarHistory';
 export { Footer } from './Footer/Footer';
 export { Form } from './Form/Form';
+export { GameItem } from './GameItem/GameItem';
 export { Header } from './Header/Header';
 export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
 export { HeaderMatchmaking } from './HeaderMatchmaking/HeaderMatchmaking';

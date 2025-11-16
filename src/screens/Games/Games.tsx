@@ -9,8 +9,8 @@ import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
 import { matchmakingJoinThunk } from 'store/modules/socket/socket.thunk';
-import { EChessResult, EChessSide, type ISimpleGame } from 'models';
-import { Button, ModalNewGame } from 'components';
+import { type ISimpleGame } from 'models';
+import { Button, GameItem, ModalNewGame } from 'components';
 
 import { FaPlus } from 'react-icons/fa';
 
@@ -71,44 +71,16 @@ export function Games() {
     void dispatch(getMyGamesDataThunk(search));
   }, [dispatch, query]);
 
-  const renderGameRow = (game: ISimpleGame) => {
-    const white = game.whitePlayer?.username ?? 'AI';
-    const black = game.blackPlayer?.username ?? 'AI';
-    const result =
-      game.result === EChessResult.CHECKMATE && game.turn === EChessSide.WHITE
-        ? 'White wins'
-        : game.result === EChessResult.CHECKMATE && game.turn === EChessSide.BLACK
-          ? 'Black wins'
-          : game.result === EChessResult.DRAW
-            ? 'Draw'
-            : 'In progress';
-
-    return (
-      <div
-        key={game.id}
-        className={styles['game-row']}
-        onClick={() => void navigate(`${ROUTES.GAMES}/${game.id}`)}>
-        <div className={styles['players']}>
-          <span className={styles['player']}>{white}</span>
-          <span className={styles['vs']}>vs</span>
-          <span className={styles['player']}>{black}</span>
-        </div>
-        <div className={styles['info']}>
-          <span className={styles['moves']}>Moves: {game.moveNumber}</span>
-          <span className={styles['turn']}>
-            Turn: {game.turn === EChessSide.WHITE ? 'White' : 'Black'}
-          </span>
-        </div>
-        <div className={styles['result']}>{result}</div>
-        <div className={styles['date']}>{new Date(game.createdAt).toLocaleDateString()}</div>
-      </div>
-    );
-  };
-
   const renderGamesList = (games: ISimpleGame[], placeholder: string) => {
     if (loading) return <p>Loading...</p>;
     if (!games || games.length === 0) return <p className={styles['empty']}>{placeholder}</p>;
-    return <div className={styles['games-list']}>{games.map(renderGameRow)}</div>;
+    return (
+      <div className={styles['games-list']}>
+        {games.map((game) => (
+          <GameItem key={game.id} game={game} />
+        ))}
+      </div>
+    );
   };
 
   const getPaginationRange = (current: number, total: number) => {
