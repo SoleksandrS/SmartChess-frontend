@@ -56,6 +56,10 @@ class MainSocketService {
       console.log('[MainSocketService] Received done matchmaking:', data);
       dispatch(matchmakingDoneThunk(data));
     });
+
+    this.socket.on(ESocketEvent.DISCONNECT, () => {
+      dispatch(clearSocketData());
+    });
   }
 
   public joinToGame(gameId: string) {
@@ -73,14 +77,14 @@ class MainSocketService {
     this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE);
   }
 
-  public disconnect(dispatch: AppDispatch) {
+  public disconnect() {
     if (!this.socket) return;
 
     this.socket.off(ESocketEvent.MAIN_CONNECT);
     this.socket.off(ESocketEvent.GAME_UPDATE);
     this.socket.off(ESocketEvent.MATCHMAKING_LEAVE);
     this.socket.off(ESocketEvent.MATCHMAKING_DONE);
-    dispatch(clearSocketData());
+    this.socket.off(ESocketEvent.DISCONNECT);
 
     console.log('[MainSocketService] All listeners are disconnected');
   }

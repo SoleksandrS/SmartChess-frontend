@@ -1,5 +1,6 @@
 export enum ESocketEvent {
   CONNECT = 'connect',
+  DISCONNECT = 'disconnect',
   CONNECT_ERROR = 'connect_error',
   MAIN_CONNECT = 'main-connect',
   GAME_JOIN = 'game:join',
