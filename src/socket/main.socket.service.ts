@@ -38,12 +38,12 @@ class MainSocketService {
       if (data) dispatch(setSocketLoading(false));
     });
 
-    this.socket.on(ESocketEvent.UPDATE_GAME, (data: TMakeMoveBody) => {
+    this.socket.on(ESocketEvent.GAME_UPDATE, (data: TMakeMoveBody) => {
       console.log('[MainSocketService] Received game updates:', data);
       dispatch(updateGameData(data));
     });
 
-    this.socket.on(ESocketEvent.DONE_MATCHMAKING, (data: { gameId: number }) => {
+    this.socket.on(ESocketEvent.MATCHMAKING_DONE, (data: { gameId: number }) => {
       console.log('[MainSocketService] Received done matchmaking:', data);
       void navigate(`${ROUTES.GAMES}/${data.gameId}`);
     });
@@ -51,23 +51,23 @@ class MainSocketService {
 
   public joinToGame(gameId: string) {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.JOIN_TO_GAME, { gameId });
+    this.socket.emit(ESocketEvent.GAME_JOIN, { gameId });
   }
 
   public joinToMatchmaking(id: number) {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.JOIN_TO_MATCHMAKING, { id });
+    this.socket.emit(ESocketEvent.MATCHMAKING_JOIN, { id });
   }
 
   public leaveFromMatchmaking(id: number) {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.LEAVE_FROM_MATCHMAKING, { id });
+    this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE, { id });
   }
 
   public disconnect() {
     if (!this.socket) return;
 
-    this.socket.off(ESocketEvent.UPDATE_GAME);
+    this.socket.off(ESocketEvent.GAME_UPDATE);
 
     console.log('[MainSocketService] All listeners are disconnected');
   }
