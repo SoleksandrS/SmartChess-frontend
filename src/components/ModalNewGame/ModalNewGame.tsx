@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import type { TState } from 'store';
 import { Modal } from 'components/Modal/Modal';
 import { Button } from 'components/Button/Button';
 
@@ -11,6 +13,8 @@ interface ModalNewGameProps {
 }
 
 export function ModalNewGame({ onClose, onSelect }: ModalNewGameProps) {
+  const loading = useSelector((state: TState) => state.socket.matchmakingLoading);
+
   return (
     <Modal onClose={onClose} className={styles['modal']}>
       <button className={styles['close-btn']} onClick={onClose}>
@@ -27,7 +31,9 @@ export function ModalNewGame({ onClose, onSelect }: ModalNewGameProps) {
           <p>Challenge our smart chess bot.</p>
         </div>
 
-        <div className={styles['option']} onClick={() => onSelect('player')}>
+        <div
+          className={`${styles['option']} ${loading ? styles['disabled'] : ''}`}
+          onClick={!loading ? () => onSelect('player') : undefined}>
           <FaUserFriends size={40} className={styles['icon']} />
           <h3>Play vs Player</h3>
           <p>Invite or wait for another player.</p>
