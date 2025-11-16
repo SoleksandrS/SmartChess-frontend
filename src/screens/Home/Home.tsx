@@ -13,7 +13,7 @@ export function Home() {
       <Features />
       <Leaderboard />
       <AITraining />
-      <ModalChessRules isOpen={isModalOpened} onClose={() => setIsModalOpened(false)} />
+      {isModalOpened && <ModalChessRules onClose={() => setIsModalOpened(false)} />}
     </div>
   );
 }

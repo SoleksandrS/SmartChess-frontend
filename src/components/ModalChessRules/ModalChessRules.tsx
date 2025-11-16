@@ -5,14 +5,11 @@ import { sections, type SectionKey } from './ModalChessRules.models';
 import styles from './ModalChessRules.module.scss';
 
 interface IProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-export function ModalChessRules({ isOpen, onClose }: IProps) {
+export function ModalChessRules({ onClose }: IProps) {
   const [activeSection, setActiveSection] = useState<SectionKey>('general');
-
-  if (!isOpen) return null;
 
   const currentContent = sections.find((s) => s.key === activeSection)?.content;
 
