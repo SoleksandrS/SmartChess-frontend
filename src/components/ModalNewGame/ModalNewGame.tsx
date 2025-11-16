@@ -7,12 +7,12 @@ import { FaRobot, FaUserFriends, FaTimes } from 'react-icons/fa';
 
 import styles from './ModalNewGame.module.scss';
 
-interface ModalNewGameProps {
+interface IProps {
   onClose: () => void;
   onSelect: (mode: 'ai' | 'player') => void;
 }
 
-export function ModalNewGame({ onClose, onSelect }: ModalNewGameProps) {
+export function ModalNewGame({ onClose, onSelect }: IProps) {
   const loading = useSelector((state: TState) => state.socket.matchmakingLoading);
 
   return (
