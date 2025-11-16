@@ -3,9 +3,9 @@ import { ESocketEvent } from './ESocketEvent';
 import type { AppDispatch } from 'store';
 import { setSocketLoading } from 'store/modules/socket/socket.actions';
 import { updateGameData } from 'store/modules/game/game.actions';
+import { matchmakingDoneThunk } from 'store/modules/socket/socket.thunk';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
-import { navigate } from 'utils/navigation';
-import { ROUTES } from 'constants/routes';
+import type { TMatchmakingDoneBody } from 'store/modules/socket/socket.types';
 
 class MainSocketService {
   private static instance: MainSocketService;
@@ -43,9 +43,9 @@ class MainSocketService {
       dispatch(updateGameData(data));
     });
 
-    this.socket.on(ESocketEvent.MATCHMAKING_DONE, (data: { gameId: number }) => {
+    this.socket.on(ESocketEvent.MATCHMAKING_DONE, (data: TMatchmakingDoneBody) => {
       console.log('[MainSocketService] Received done matchmaking:', data);
-      void navigate(`${ROUTES.GAMES}/${data.gameId}`);
+      dispatch(matchmakingDoneThunk(data));
     });
   }
 

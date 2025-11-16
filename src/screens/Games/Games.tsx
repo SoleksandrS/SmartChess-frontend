@@ -8,7 +8,7 @@ import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
-import { MainSocketService } from 'socket/main.socket.service';
+import { matchmakingJoinThunk, matchmakingLeaveThunk } from 'store/modules/socket/socket.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, MatchmakingModal, ModalNewGame } from 'components';
 
@@ -27,6 +27,7 @@ const statusBtns = [
 export function Games() {
   const userData = useSelector((state: TState) => state.auth.data);
   const loading = useSelector((state: TState) => state.games.loading);
+  const matchmakingLoading = useSelector((state: TState) => state.socket.matchmakingLoading);
   const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
   const gamesMeta = useSelector((state: TState) => state.games.meta) as IResponseMeta;
   const dispatch: AppDispatch = useDispatch();
@@ -34,7 +35,6 @@ export function Games() {
   const navigate = useNavigate();
 
   const [isModalOpened, setIsModalOpened] = useState(false);
-  const [isMMOpened, setIsMMOpened] = useState(false);
 
   const statusFilter = searchParams.get('status') || 'all';
   const page = +(searchParams.get('page') || '1');
@@ -62,19 +62,14 @@ export function Games() {
       void dispatch(createGameVsAIThunk(userData.id, callback));
     }
     if (mode === 'player') {
-      setIsMMOpened(true);
-      const service = MainSocketService.getInstance();
-      service.joinToMatchmaking(userData.id);
+      void dispatch(matchmakingJoinThunk(userData.id));
     }
     setIsModalOpened(false);
   };
 
   const handleCancelMM = () => {
     if (!userData) return;
-
-    setIsMMOpened(false);
-    const service = MainSocketService.getInstance();
-    service.leaveFromMatchmaking(userData.id);
+    void dispatch(matchmakingLeaveThunk(userData.id));
   };
 
   useEffect(() => {
@@ -206,7 +201,7 @@ export function Games() {
       {isModalOpened && (
         <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
-      {isMMOpened && <MatchmakingModal onCancel={handleCancelMM} />}
+      {matchmakingLoading && <MatchmakingModal onCancel={handleCancelMM} />}
     </div>
   );
 }
