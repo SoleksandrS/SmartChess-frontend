@@ -2,7 +2,11 @@ import { Button } from 'components';
 
 import styles from './HeroBanner.module.scss';
 
-export function HeroBanner() {
+interface IProps {
+  onModalOpen: () => void;
+}
+
+export function HeroBanner({ onModalOpen }: IProps) {
   return (
     <section className={styles['hero-banner']}>
       <h1 className={styles['title']}>Play & Learn Chess with AI</h1>
@@ -11,7 +15,9 @@ export function HeroBanner() {
       </p>
       <div className={styles['buttons']}>
         <Button variant="secondary">Play Now</Button>
-        <Button variant="transparent">Learn Chess</Button>
+        <Button variant="transparent" onClick={onModalOpen}>
+          Learn Chess
+        </Button>
       </div>
     </section>
   );
