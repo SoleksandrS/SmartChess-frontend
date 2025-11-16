@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal } from 'components';
-import { sections, type SectionKey } from './ModalChessRules.models';
+import { sections, type SectionKey } from './ModalChessRules.models.tsx';
 
 import styles from './ModalChessRules.module.scss';
 
@@ -28,7 +28,10 @@ export function ModalChessRules({ onClose }: IProps) {
 
       {currentSection && (
         <div className={styles['content']}>
-          <h2>{currentSection.title}</h2>
+          <div className={styles['header']}>
+            {currentSection.icons}
+            <h2>{currentSection.title}</h2>
+          </div>
           <div className={styles['content-list']}>
             {currentSection.content.map((text, idx) => (
               <p key={idx}>{text}</p>

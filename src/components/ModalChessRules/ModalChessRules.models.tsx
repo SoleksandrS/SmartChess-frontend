@@ -1,3 +1,12 @@
+import {
+  FaChessBishop,
+  FaChessKing,
+  FaChessKnight,
+  FaChessPawn,
+  FaChessQueen,
+  FaChessRook
+} from 'react-icons/fa';
+
 export type SectionKey =
   | 'general'
   | 'pawn'
@@ -12,6 +21,7 @@ export type SectionKey =
 
 interface Section {
   key: SectionKey;
+  icons?: React.ReactNode[];
   title: string;
   content: string[];
 }
@@ -30,6 +40,7 @@ export const sections: Section[] = [
   },
   {
     key: 'pawn',
+    icons: [<FaChessPawn key={1} />],
     title: 'Pawn',
     content: [
       'The pawn is the most numerous and basic piece in chess, with each player starting the game with eight pawns. White pawns are positioned on the second rank, while Black pawns are on the seventh rank. Despite being simple in appearance, pawns play a fundamental role in the game by controlling space and supporting stronger pieces.',
@@ -40,6 +51,7 @@ export const sections: Section[] = [
   },
   {
     key: 'knight',
+    icons: [<FaChessKnight key={1} />],
     title: 'Knight',
     content: [
       'The knight is a unique and versatile piece in chess, with each player starting the game with two knights. White knights are initially placed on the b1 and g1 squares, while Black knights occupy b8 and g8. Unlike most other pieces, the knight moves in an “L-shape,” which consists of moving two squares in one direction—either vertically or horizontally—and then one square perpendicular to that direction. This distinctive movement allows the knight to jump over other pieces, making it the only piece in chess that can bypass obstacles on the board.',
@@ -50,6 +62,7 @@ export const sections: Section[] = [
   },
   {
     key: 'bishop',
+    icons: [<FaChessBishop key={1} />],
     title: 'Bishop',
     content: [
       'The bishop is a long-range piece in chess, with each player starting the game with two bishops. White bishops begin on c1 and f1, while Black bishops start on c8 and f8. Bishops move diagonally across the board for any number of squares, as long as their path is not blocked by other pieces. Each bishop is confined to squares of a single color—either light or dark—throughout the game, which gives rise to the strategic concept of controlling squares of a specific color.',
@@ -60,6 +73,7 @@ export const sections: Section[] = [
   },
   {
     key: 'rook',
+    icons: [<FaChessRook key={1} />],
     title: 'Rook',
     content: [
       'The rook is a powerful long-range piece in chess, with each player starting the game with two rooks. White rooks are placed on a1 and h1, while Black rooks occupy a8 and h8. The rook moves any number of squares horizontally or vertically, as long as its path is not blocked by other pieces. This ability to traverse ranks and files makes the rook an important piece for controlling open lines and supporting other pieces.',
@@ -70,6 +84,7 @@ export const sections: Section[] = [
   },
   {
     key: 'queen',
+    icons: [<FaChessQueen key={1} />],
     title: 'Queen',
     content: [
       'The queen is the most powerful piece in chess, with each player starting the game with one queen. White’s queen begins on d1, and Black’s queen starts on d8. The queen combines the movement abilities of both the rook and the bishop, allowing it to move any number of squares horizontally, vertically, or diagonally, as long as its path is not blocked by other pieces. This combination of range and flexibility makes the queen extremely versatile and capable of influencing almost any part of the board.',
@@ -80,6 +95,7 @@ export const sections: Section[] = [
   },
   {
     key: 'king',
+    icons: [<FaChessKing key={1} />],
     title: 'King',
     content: [
       'The king is the most important piece in chess, with each player starting the game with one king. White’s king begins on e1, and Black’s king starts on e8. The king moves one square in any direction—horizontally, vertically, or diagonally—allowing it to step cautiously across the board. Despite its limited mobility compared to other pieces, the king’s safety is the primary concern in the game, as losing the king means losing the match.',
@@ -90,6 +106,7 @@ export const sections: Section[] = [
   },
   {
     key: 'castling',
+    icons: [<FaChessRook key={1} />, <FaChessKing key={2} />],
     title: 'Castling',
     content: [
       'Castling is a special move in chess that involves both the king and one of the rooks, designed to improve king safety and connect the rooks. It is the only move in chess where a player moves two pieces in a single turn. Castling can be performed on either the kingside (short castling) or queenside (long castling). In kingside castling, the king moves two squares toward the rook on its right, and the rook jumps over the king to the square immediately next to it. In queenside castling, the king moves two squares toward the rook on its left, and that rook moves to the square immediately next to the king.',
@@ -100,6 +117,7 @@ export const sections: Section[] = [
   },
   {
     key: 'pawn-promotion',
+    icons: [<FaChessPawn key={1} />],
     title: 'Pawn promotion',
     content: [
       'Pawn promotion is a special rule in chess that occurs when a pawn reaches the opponent’s back rank—the eighth rank for White or the first rank for Black. Upon reaching this rank, the pawn must be promoted to another piece, which can be a queen, rook, bishop, or knight of the same color. The choice of piece is not limited by previously captured pieces, meaning a player can have multiple queens, rooks, bishops, or knights if desired.',
@@ -110,6 +128,7 @@ export const sections: Section[] = [
   },
   {
     key: 'en-passant',
+    icons: [<FaChessPawn key={1} />],
     title: 'En passant',
     content: [
       'En passant is a special pawn capture in chess that occurs under very specific conditions. It can happen when a pawn moves two squares forward from its starting position, landing beside an opponent’s pawn. The opposing pawn is then allowed to capture it as if it had only moved one square forward, but this capture must be done immediately on the next move, or the opportunity is lost.',
