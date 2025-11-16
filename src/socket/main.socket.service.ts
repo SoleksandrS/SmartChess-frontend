@@ -34,9 +34,6 @@ class MainSocketService {
       console.log('[MainSocketService] Sent connect event with userId:', id);
     };
 
-    if (this.socket.connected) emitConnect();
-    else this.socket.once('connect', emitConnect);
-
     this.socket.on(ESocketEvent.MAIN_CONNECT, (data: boolean) => {
       console.log('[MainSocketService] Socket handshake:', data);
       if (data) dispatch(setSocketLoading(false));
@@ -56,28 +53,41 @@ class MainSocketService {
       console.log('[MainSocketService] Received done matchmaking:', data);
       dispatch(matchmakingDoneThunk(data));
     });
+
+    this.socket.on(ESocketEvent.DISCONNECT, () => {
+      dispatch(clearSocketData());
+    });
+
+    if (!this.socket.connected) {
+      this.socket.once('connect', emitConnect);
+      this.socket.connect();
+    } else emitConnect();
   }
 
   public joinToGame(gameId: string) {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.GAME_JOIN, { gameId });
   }
 
   public joinToMatchmaking() {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.MATCHMAKING_JOIN);
   }
 
   public leaveFromMatchmaking() {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE);
   }
 
-  public disconnect(dispatch: AppDispatch) {
+  public disconnect() {
     if (!this.socket) return;
 
+    this.socket.disconnect();
+    this.socket.off(ESocketEvent.MAIN_CONNECT);
     this.socket.off(ESocketEvent.GAME_UPDATE);
-    dispatch(clearSocketData());
+    this.socket.off(ESocketEvent.MATCHMAKING_LEAVE);
+    this.socket.off(ESocketEvent.MATCHMAKING_DONE);
+    this.socket.off(ESocketEvent.DISCONNECT);
 
     console.log('[MainSocketService] All listeners are disconnected');
   }
