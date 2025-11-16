@@ -1,3 +1,3 @@
 export const LIMITS = {
-  GAMES: 5
+  GAMES: 10
 };
