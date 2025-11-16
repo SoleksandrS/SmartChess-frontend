@@ -54,14 +54,14 @@ class MainSocketService {
     this.socket.emit(ESocketEvent.GAME_JOIN, { gameId });
   }
 
-  public joinToMatchmaking(id: number) {
+  public joinToMatchmaking() {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.MATCHMAKING_JOIN, { id });
+    this.socket.emit(ESocketEvent.MATCHMAKING_JOIN);
   }
 
-  public leaveFromMatchmaking(id: number) {
+  public leaveFromMatchmaking() {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE, { id });
+    this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE);
   }
 
   public disconnect(dispatch: AppDispatch) {

@@ -61,7 +61,7 @@ export function Games() {
       void dispatch(createGameVsAIThunk(userData.id, callback));
     }
     if (mode === 'player') {
-      void dispatch(matchmakingJoinThunk(userData.id));
+      void dispatch(matchmakingJoinThunk());
     }
     setIsModalOpened(false);
   };

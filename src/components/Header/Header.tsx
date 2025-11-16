@@ -16,8 +16,7 @@ export function Header() {
   const navigate = useNavigate();
 
   const onCancel = () => {
-    if (!userData) return;
-    void dispatch(matchmakingLeaveThunk(userData.id));
+    void dispatch(matchmakingLeaveThunk());
   };
 
   const onLogout = () => {
