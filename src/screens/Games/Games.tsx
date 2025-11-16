@@ -8,6 +8,7 @@ import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
+import { MainSocketService } from 'socket/main.socket.service';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, MatchmakingModal, ModalNewGame } from 'components';
 
@@ -62,8 +63,18 @@ export function Games() {
     }
     if (mode === 'player') {
       setIsMMOpened(true);
+      const service = MainSocketService.getInstance();
+      service.joinToMatchmaking(userData.id);
     }
     setIsModalOpened(false);
+  };
+
+  const handleCancelMM = () => {
+    if (!userData) return;
+
+    setIsMMOpened(false);
+    const service = MainSocketService.getInstance();
+    service.leaveFromMatchmaking(userData.id);
   };
 
   useEffect(() => {
@@ -195,7 +206,7 @@ export function Games() {
       {isModalOpened && (
         <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
-      {isMMOpened && <MatchmakingModal onCancel={() => setIsMMOpened(false)} />}
+      {isMMOpened && <MatchmakingModal onCancel={handleCancelMM} />}
     </div>
   );
 }

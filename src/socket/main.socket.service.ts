@@ -47,6 +47,16 @@ class MainSocketService {
     this.socket.emit(ESocketEvent.JOIN_TO_GAME, { gameId });
   }
 
+  public joinToMatchmaking(id: number) {
+    if (!this.socket) return;
+    this.socket.emit(ESocketEvent.JOIN_TO_MATCHMAKING, { id });
+  }
+
+  public leaveFromMatchmaking(id: number) {
+    if (!this.socket) return;
+    this.socket.emit(ESocketEvent.LEAVE_FROM_MATCHMAKING, { id });
+  }
+
   public disconnect() {
     if (!this.socket) return;
 
