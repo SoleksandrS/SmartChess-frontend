@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { TState } from 'store';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { ROUTES } from 'constants/routes';
 
@@ -10,20 +12,32 @@ interface IProps {
 }
 
 export function GameItem({ game }: IProps) {
+  const userData = useSelector((state: TState) => state.auth.data);
   const navigate = useNavigate();
 
   const white = useMemo(() => game.whitePlayer?.username ?? 'AI', [game.whitePlayer]);
   const black = useMemo(() => game.blackPlayer?.username ?? 'AI', [game.blackPlayer]);
 
   const result = useMemo(() => {
-    return game.result === EChessResult.CHECKMATE && game.turn === EChessSide.WHITE
-      ? 'White wins'
-      : game.result === EChessResult.CHECKMATE && game.turn === EChessSide.BLACK
-        ? 'Black wins'
-        : game.result === EChessResult.DRAW
-          ? 'Draw'
-          : 'In progress';
-  }, [game.result, game.turn]);
+    if (!userData) return 'Unknown';
+    if (!game.result) return 'In progress';
+    if (game.result === EChessResult.DRAW) return 'Draw';
+
+    const isWhiteWinner = game.result === EChessResult.CHECKMATE && game.turn === EChessSide.WHITE;
+    const isBlackWinner = game.result === EChessResult.CHECKMATE && game.turn === EChessSide.BLACK;
+    if (
+      (isWhiteWinner && game.whitePlayerId === userData.id) ||
+      (isBlackWinner && game.blackPlayerId === userData.id)
+    )
+      return 'Victory';
+    if (
+      (isWhiteWinner && game.blackPlayerId === userData.id) ||
+      (isBlackWinner && game.whitePlayerId === userData.id)
+    )
+      return 'Defeat';
+
+    return 'Unknown';
+  }, [game.blackPlayerId, game.result, game.turn, game.whitePlayerId, userData]);
 
   return (
     <div
