@@ -34,9 +34,6 @@ class MainSocketService {
       console.log('[MainSocketService] Sent connect event with userId:', id);
     };
 
-    if (this.socket.connected) emitConnect();
-    else this.socket.once('connect', emitConnect);
-
     this.socket.on(ESocketEvent.MAIN_CONNECT, (data: boolean) => {
       console.log('[MainSocketService] Socket handshake:', data);
       if (data) dispatch(setSocketLoading(false));
@@ -60,6 +57,11 @@ class MainSocketService {
     this.socket.on(ESocketEvent.DISCONNECT, () => {
       dispatch(clearSocketData());
     });
+
+    if (!this.socket.connected) {
+      this.socket.once('connect', emitConnect);
+      this.socket.connect();
+    } else emitConnect();
   }
 
   public joinToGame(gameId: string) {
@@ -80,6 +82,7 @@ class MainSocketService {
   public disconnect() {
     if (!this.socket) return;
 
+    this.socket.disconnect();
     this.socket.off(ESocketEvent.MAIN_CONNECT);
     this.socket.off(ESocketEvent.GAME_UPDATE);
     this.socket.off(ESocketEvent.MATCHMAKING_LEAVE);
