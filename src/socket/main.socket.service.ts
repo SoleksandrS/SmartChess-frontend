@@ -59,17 +59,17 @@ class MainSocketService {
   }
 
   public joinToGame(gameId: string) {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.GAME_JOIN, { gameId });
   }
 
   public joinToMatchmaking() {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.MATCHMAKING_JOIN);
   }
 
   public leaveFromMatchmaking() {
-    if (!this.socket) return;
+    if (!this.socket || !this.socket.connected) throw new Error('Socket isn`t connected');
     this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE);
   }
 
