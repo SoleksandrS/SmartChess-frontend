@@ -4,14 +4,21 @@ import type { AppDispatch, TState } from 'store';
 import { ROUTES } from 'constants/routes';
 import { STORAGE_KEYS } from 'constants/localStorage';
 import { clearAuthData } from 'store/modules/auth/auth.actions';
-import { HeaderDropdownMenu } from 'components';
+import { matchmakingLeaveThunk } from 'store/modules/socket/socket.thunk';
+import { HeaderDropdownMenu, HeaderMatchmaking } from 'components';
 
 import styles from './Header.module.scss';
 
 export function Header() {
   const userData = useSelector((state: TState) => state.auth.data);
+  const matchmakingLoading = useSelector((state: TState) => state.socket.matchmakingLoading);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+
+  const onCancel = () => {
+    if (!userData) return;
+    void dispatch(matchmakingLeaveThunk(userData.id));
+  };
 
   const onLogout = () => {
     localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
@@ -33,7 +40,10 @@ export function Header() {
               Sign In
             </NavLink>
           ) : (
-            <HeaderDropdownMenu username={userData.username} onLogout={onLogout} />
+            <>
+              {matchmakingLoading && <HeaderMatchmaking onCancel={onCancel} />}
+              <HeaderDropdownMenu username={userData.username} onLogout={onLogout} />
+            </>
           )}
         </div>
       </div>

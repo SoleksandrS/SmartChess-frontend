@@ -8,9 +8,9 @@ import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
-import { matchmakingJoinThunk, matchmakingLeaveThunk } from 'store/modules/socket/socket.thunk';
+import { matchmakingJoinThunk } from 'store/modules/socket/socket.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
-import { Button, MatchmakingModal, ModalNewGame } from 'components';
+import { Button, ModalNewGame } from 'components';
 
 import { FaPlus } from 'react-icons/fa';
 
@@ -27,7 +27,6 @@ const statusBtns = [
 export function Games() {
   const userData = useSelector((state: TState) => state.auth.data);
   const loading = useSelector((state: TState) => state.games.loading);
-  const matchmakingLoading = useSelector((state: TState) => state.socket.matchmakingLoading);
   const games = useSelector((state: TState) => state.games.data) as ISimpleGame[];
   const gamesMeta = useSelector((state: TState) => state.games.meta) as IResponseMeta;
   const dispatch: AppDispatch = useDispatch();
@@ -65,11 +64,6 @@ export function Games() {
       void dispatch(matchmakingJoinThunk(userData.id));
     }
     setIsModalOpened(false);
-  };
-
-  const handleCancelMM = () => {
-    if (!userData) return;
-    void dispatch(matchmakingLeaveThunk(userData.id));
   };
 
   useEffect(() => {
@@ -201,7 +195,6 @@ export function Games() {
       {isModalOpened && (
         <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
-      {matchmakingLoading && <MatchmakingModal onCancel={handleCancelMM} />}
     </div>
   );
 }
