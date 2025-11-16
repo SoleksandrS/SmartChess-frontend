@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io-client';
 import { ESocketEvent } from './ESocketEvent';
 import type { AppDispatch } from 'store';
-import { setSocketLoading } from 'store/modules/socket/socket.actions';
+import { clearSocketData, setSocketLoading } from 'store/modules/socket/socket.actions';
 import { updateGameData } from 'store/modules/game/game.actions';
 import { matchmakingDoneThunk } from 'store/modules/socket/socket.thunk';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
@@ -64,10 +64,11 @@ class MainSocketService {
     this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE, { id });
   }
 
-  public disconnect() {
+  public disconnect(dispatch: AppDispatch) {
     if (!this.socket) return;
 
     this.socket.off(ESocketEvent.GAME_UPDATE);
+    dispatch(clearSocketData());
 
     console.log('[MainSocketService] All listeners are disconnected');
   }

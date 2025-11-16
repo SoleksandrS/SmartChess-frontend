@@ -34,7 +34,7 @@ function App() {
     mainSocketService.initConnection(userData.id, dispatch);
 
     return () => {
-      mainSocketService.disconnect();
+      mainSocketService.disconnect(dispatch);
     };
   }, [dispatch, userData]);
 
