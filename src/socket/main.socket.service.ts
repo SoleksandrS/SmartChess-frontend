@@ -1,9 +1,15 @@
 import { Socket } from 'socket.io-client';
 import { ESocketEvent } from './ESocketEvent';
 import type { AppDispatch } from 'store';
-import { setSocketLoading } from 'store/modules/socket/socket.actions';
+import {
+  clearSocketData,
+  setMMLoading,
+  setSocketLoading
+} from 'store/modules/socket/socket.actions';
 import { updateGameData } from 'store/modules/game/game.actions';
+import { matchmakingDoneThunk } from 'store/modules/socket/socket.thunk';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
+import type { TMatchmakingDoneBody } from 'store/modules/socket/socket.types';
 
 class MainSocketService {
   private static instance: MainSocketService;
@@ -36,21 +42,42 @@ class MainSocketService {
       if (data) dispatch(setSocketLoading(false));
     });
 
-    this.socket.on(ESocketEvent.UPDATE_GAME, (data: TMakeMoveBody) => {
+    this.socket.on(ESocketEvent.GAME_UPDATE, (data: TMakeMoveBody) => {
       console.log('[MainSocketService] Received game updates:', data);
       dispatch(updateGameData(data));
+    });
+
+    this.socket.on(ESocketEvent.MATCHMAKING_LEAVE, () => {
+      console.log('[MainSocketService] Received leave matchmaking:');
+      dispatch(setMMLoading(false));
+    });
+
+    this.socket.on(ESocketEvent.MATCHMAKING_DONE, (data: TMatchmakingDoneBody) => {
+      console.log('[MainSocketService] Received done matchmaking:', data);
+      dispatch(matchmakingDoneThunk(data));
     });
   }
 
   public joinToGame(gameId: string) {
     if (!this.socket) return;
-    this.socket.emit(ESocketEvent.JOIN_TO_GAME, { gameId });
+    this.socket.emit(ESocketEvent.GAME_JOIN, { gameId });
   }
 
-  public disconnect() {
+  public joinToMatchmaking() {
+    if (!this.socket) return;
+    this.socket.emit(ESocketEvent.MATCHMAKING_JOIN);
+  }
+
+  public leaveFromMatchmaking() {
+    if (!this.socket) return;
+    this.socket.emit(ESocketEvent.MATCHMAKING_LEAVE);
+  }
+
+  public disconnect(dispatch: AppDispatch) {
     if (!this.socket) return;
 
-    this.socket.off(ESocketEvent.UPDATE_GAME);
+    this.socket.off(ESocketEvent.GAME_UPDATE);
+    dispatch(clearSocketData());
 
     console.log('[MainSocketService] All listeners are disconnected');
   }

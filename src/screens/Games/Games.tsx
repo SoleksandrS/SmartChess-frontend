@@ -8,6 +8,7 @@ import { ROUTES } from 'constants/routes';
 import { LIMITS } from 'constants/limits';
 import { EPageGamesStatus } from 'types/filter.enums';
 import { createGameVsAIThunk, getMyGamesDataThunk } from 'store/modules/games/games.thunk';
+import { matchmakingJoinThunk } from 'store/modules/socket/socket.thunk';
 import { EChessResult, EChessSide, type ISimpleGame } from 'models';
 import { Button, ModalNewGame } from 'components';
 
@@ -32,9 +33,8 @@ export function Games() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const activeTab = searchParams.get('tab') || 'my';
   const statusFilter = searchParams.get('status') || 'all';
   const page = +(searchParams.get('page') || '1');
   const totalPages = gamesMeta?.totalPages || 0;
@@ -45,19 +45,13 @@ export function Games() {
     return { status, page, limit: LIMITS.GAMES };
   }, [page, statusFilter]);
 
-  const handleTabChange = (tab: string) => {
-    setSearchParams({ tab });
-  };
-
   const handleGameStatusChange = (status: string) => {
-    setSearchParams({ tab: activeTab, status });
+    setSearchParams({ status });
   };
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ tab: activeTab, status: statusFilter, page: String(page) });
+    setSearchParams({ status: statusFilter, page: String(page) });
   };
-
-  const joinableGames: ISimpleGame[] = [];
 
   const handleSelectGameType = (mode: 'ai' | 'player') => {
     if (!userData) return;
@@ -66,17 +60,16 @@ export function Games() {
       const callback = (id: string) => void navigate(`${ROUTES.GAMES}/${id}`);
       void dispatch(createGameVsAIThunk(userData.id, callback));
     }
+    if (mode === 'player') {
+      void dispatch(matchmakingJoinThunk());
+    }
+    setIsModalOpened(false);
   };
 
   useEffect(() => {
     const search = `?${queryString.stringify(query)}`;
-
-    if (activeTab === 'my') {
-      void dispatch(getMyGamesDataThunk(search));
-    } else {
-      console.log('');
-    }
-  }, [dispatch, activeTab, query]);
+    void dispatch(getMyGamesDataThunk(search));
+  }, [dispatch, query]);
 
   const renderGameRow = (game: ISimpleGame) => {
     const white = game.whitePlayer?.username ?? 'AI';
@@ -148,47 +141,25 @@ export function Games() {
     <div className={styles['page']}>
       <div className={styles['header']}>
         <h1 className={styles['title']}>Games</h1>
-        <Button onClick={() => setShowModal(true)}>
+        <Button onClick={() => setIsModalOpened(true)}>
           <FaPlus /> New Game
         </Button>
       </div>
 
-      <div className={styles['tabs']}>
-        <button
-          className={`${styles['tab']} ${activeTab === 'my' ? styles['active'] : ''}`}
-          onClick={() => handleTabChange('my')}>
-          My Games
-        </button>
-        <button
-          className={`${styles['tab']} ${activeTab === 'join' ? styles['active'] : ''}`}
-          onClick={() => handleTabChange('join')}>
-          Joinable Games
-        </button>
-
-        {activeTab === 'my' && (
-          <div className={styles['filters']}>
-            {statusBtns.map(({ value, text }) => (
-              <button
-                key={value}
-                className={`${styles['btn']} ${statusFilter === value ? styles['selected'] : ''}`}
-                onClick={() => handleGameStatusChange(value)}>
-                {text}
-              </button>
-            ))}
-          </div>
-        )}
+      <div className={styles['filters']}>
+        {statusBtns.map(({ value, text }) => (
+          <button
+            key={value}
+            className={`${styles['btn']} ${statusFilter === value ? styles['selected'] : ''}`}
+            onClick={() => handleGameStatusChange(value)}>
+            {text}
+          </button>
+        ))}
       </div>
 
-      {activeTab === 'my' && renderGamesList(games, 'No games yet. Create one!')}
+      {renderGamesList(games, 'No games yet. Create one!')}
 
-      {activeTab === 'join' && (
-        <div className={styles['joinable-section']}>
-          <p className={styles['work-in-progress']}>🚧 Feature in progress...</p>
-          {renderGamesList(joinableGames, 'No joinable games yet.')}
-        </div>
-      )}
-
-      {activeTab === 'my' && !!totalPages && (
+      {!!totalPages && (
         <div className={styles['pagination']}>
           <button
             disabled={page <= 1}
@@ -221,8 +192,8 @@ export function Games() {
         </div>
       )}
 
-      {showModal && (
-        <ModalNewGame onClose={() => setShowModal(false)} onSelect={handleSelectGameType} />
+      {isModalOpened && (
+        <ModalNewGame onClose={() => setIsModalOpened(false)} onSelect={handleSelectGameType} />
       )}
     </div>
   );

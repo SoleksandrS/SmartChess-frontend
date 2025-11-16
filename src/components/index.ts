@@ -7,6 +7,7 @@ export { Footer } from './Footer/Footer';
 export { Form } from './Form/Form';
 export { Header } from './Header/Header';
 export { HeaderDropdownMenu } from './HeaderDropdownMenu/HeaderDropdownMenu';
+export { HeaderMatchmaking } from './HeaderMatchmaking/HeaderMatchmaking';
 export { Input } from './Input/Input';
 export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
