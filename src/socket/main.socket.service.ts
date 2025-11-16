@@ -76,7 +76,10 @@ class MainSocketService {
   public disconnect(dispatch: AppDispatch) {
     if (!this.socket) return;
 
+    this.socket.off(ESocketEvent.MAIN_CONNECT);
     this.socket.off(ESocketEvent.GAME_UPDATE);
+    this.socket.off(ESocketEvent.MATCHMAKING_LEAVE);
+    this.socket.off(ESocketEvent.MATCHMAKING_DONE);
     dispatch(clearSocketData());
 
     console.log('[MainSocketService] All listeners are disconnected');
