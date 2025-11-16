@@ -11,7 +11,7 @@ interface IProps {
 export function ModalChessRules({ onClose }: IProps) {
   const [activeSection, setActiveSection] = useState<SectionKey>('general');
 
-  const currentContent = sections.find((s) => s.key === activeSection)?.content;
+  const currentSection = sections.find((s) => s.key === activeSection);
 
   return (
     <Modal onClose={onClose} className={styles['modal']}>
@@ -26,14 +26,16 @@ export function ModalChessRules({ onClose }: IProps) {
         ))}
       </div>
 
-      <div className={styles['content']}>
-        <h2>{sections.find((s) => s.key === activeSection)?.title}</h2>
-        <div className={styles['content-list']}>
-          {currentContent?.map((text, idx) => (
-            <p key={idx}>{text}</p>
-          ))}
+      {currentSection && (
+        <div className={styles['content']}>
+          <h2>{currentSection.title}</h2>
+          <div className={styles['content-list']}>
+            {currentSection.content.map((text, idx) => (
+              <p key={idx}>{text}</p>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   );
 }
