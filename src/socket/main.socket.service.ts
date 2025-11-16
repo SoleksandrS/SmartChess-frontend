@@ -1,7 +1,11 @@
 import { Socket } from 'socket.io-client';
 import { ESocketEvent } from './ESocketEvent';
 import type { AppDispatch } from 'store';
-import { clearSocketData, setSocketLoading } from 'store/modules/socket/socket.actions';
+import {
+  clearSocketData,
+  setMMLoading,
+  setSocketLoading
+} from 'store/modules/socket/socket.actions';
 import { updateGameData } from 'store/modules/game/game.actions';
 import { matchmakingDoneThunk } from 'store/modules/socket/socket.thunk';
 import type { TMakeMoveBody } from 'store/modules/game/game.types';
@@ -41,6 +45,11 @@ class MainSocketService {
     this.socket.on(ESocketEvent.GAME_UPDATE, (data: TMakeMoveBody) => {
       console.log('[MainSocketService] Received game updates:', data);
       dispatch(updateGameData(data));
+    });
+
+    this.socket.on(ESocketEvent.MATCHMAKING_LEAVE, () => {
+      console.log('[MainSocketService] Received leave matchmaking:');
+      dispatch(setMMLoading(false));
     });
 
     this.socket.on(ESocketEvent.MATCHMAKING_DONE, (data: TMatchmakingDoneBody) => {
