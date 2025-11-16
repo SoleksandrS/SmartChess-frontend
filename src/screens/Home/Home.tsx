@@ -5,15 +5,15 @@ import { AITraining, Features, HeroBanner, Leaderboard } from './components';
 import styles from './Home.module.scss';
 
 export function Home() {
-  const [isModalOpened, setIsModalOpened] = useState(true);
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
     <div className={styles['page']}>
-      <HeroBanner />
+      <HeroBanner onModalOpen={() => setIsModalOpened(true)} />
       <Features />
       <Leaderboard />
       <AITraining />
-      <ModalChessRules isOpen={isModalOpened} onClose={() => setIsModalOpened(false)} />
+      {isModalOpened && <ModalChessRules onClose={() => setIsModalOpened(false)} />}
     </div>
   );
 }

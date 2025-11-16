@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import { Modal } from 'components';
-import { sections, type SectionKey } from './ModalChessRules.models';
+import { sections, type SectionKey } from './ModalChessRules.models.tsx';
 
 import styles from './ModalChessRules.module.scss';
 
 interface IProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-export function ModalChessRules({ isOpen, onClose }: IProps) {
+export function ModalChessRules({ onClose }: IProps) {
   const [activeSection, setActiveSection] = useState<SectionKey>('general');
 
-  if (!isOpen) return null;
-
-  const currentContent = sections.find((s) => s.key === activeSection)?.content;
+  const currentSection = sections.find((s) => s.key === activeSection);
 
   return (
     <Modal onClose={onClose} className={styles['modal']}>
@@ -29,14 +26,19 @@ export function ModalChessRules({ isOpen, onClose }: IProps) {
         ))}
       </div>
 
-      <div className={styles['content']}>
-        <h2>{sections.find((s) => s.key === activeSection)?.title}</h2>
-        <div className={styles['content-list']}>
-          {currentContent?.map((text, idx) => (
-            <p key={idx}>{text}</p>
-          ))}
+      {currentSection && (
+        <div className={styles['content']}>
+          <div className={styles['header']}>
+            {currentSection.icons}
+            <h2>{currentSection.title}</h2>
+          </div>
+          <div className={styles['content-list']}>
+            {currentSection.content.map((text, idx) => (
+              <p key={idx}>{text}</p>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   );
 }

@@ -48,8 +48,20 @@
   overflow-y: auto;
   color: colors.$text-primary;
 
-  h2 {
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 1rem;
+
+    svg {
+      display: flex;
+      color: colors.$accent-ai;
+      font-size: 24px;
+    }
+  }
+
+  h2 {
     color: colors.$accent-ai;
   }
 
