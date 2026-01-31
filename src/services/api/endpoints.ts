@@ -20,4 +20,10 @@ export class ENDPOINTS {
   static GAME = (id: string) => `${this.GAMES}/${id}`;
   static GAME_MOVE = (id: string) => `${this.GAME(id)}/move`;
   static GAME_ADVICE = (id: string) => `${this.GAME(id)}/advice`;
+
+  // ==========================
+  // Game analysis
+  // ==========================
+  static GAME_ANALYSIS = `/game-analysis`;
+  static GAME_ANALYSIS_ONE = (id: string) => `${this.GAME_ANALYSIS}/${id}`;
 }
