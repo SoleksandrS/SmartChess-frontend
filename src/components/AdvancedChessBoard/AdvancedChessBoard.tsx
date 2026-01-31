@@ -44,6 +44,11 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     void dispatch(getGameAnalysisDataThunk(game.id));
   };
 
+  const onCloseGameAnalysis = () => {
+    void dispatch(clearGameAnalysisData());
+    setIsAnalysisOpened(false);
+  };
+
   const boardOrientation = useMemo(() => {
     if (game.blackPlayerId === user.id) return 'black';
     if (game.whitePlayerId === user.id) return 'white';
@@ -107,7 +112,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
       {isResultOpened && (
         <ModalChessResult result={gameStatus} onClose={() => setIsResultOpened(false)} />
       )}
-      {isAnalysisOpened && <ModalGameAnalysis onClose={() => setIsAnalysisOpened(false)} />}
+      {isAnalysisOpened && <ModalGameAnalysis onClose={onCloseGameAnalysis} />}
     </>
   );
 }
