@@ -1,8 +1,13 @@
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from 'store';
+import { getGameAnalysisDataThunk } from 'store/modules/game-analysis/game-analysis.thunk';
 import { EChessSide } from 'models';
+import { Button } from 'components/Button/Button';
 
 import styles from './ChessSidebarData.module.scss';
 
 interface IProps {
+  id: string;
   whitePlayer: string;
   blackPlayer: string;
   currentTurn: EChessSide;
@@ -11,12 +16,19 @@ interface IProps {
 }
 
 export function ChessSidebarData({
+  id,
   whitePlayer,
   blackPlayer,
   currentTurn,
   moveCount,
   status
 }: IProps) {
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleAnalyzeGame = () => {
+    void dispatch(getGameAnalysisDataThunk(id));
+  };
+
   const getStatusLabel = () => {
     switch (status) {
       case 'win':
@@ -63,6 +75,8 @@ export function ChessSidebarData({
           <span className={styles['value']}>{getStatusLabel()}</span>
         </div>
       </div>
+
+      {status !== 'playing' && <Button onClick={handleAnalyzeGame}>Analyze</Button>}
     </aside>
   );
 }

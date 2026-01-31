@@ -63,6 +63,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     <>
       <div className={styles['chess-board']}>
         <ChessSidebarData
+          id={game.id}
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
           currentTurn={game.turn}
