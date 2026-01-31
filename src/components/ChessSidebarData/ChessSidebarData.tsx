@@ -1,4 +1,5 @@
 import { EChessSide } from 'models';
+import { Button } from 'components/Button/Button';
 
 import styles from './ChessSidebarData.module.scss';
 
@@ -8,6 +9,7 @@ interface IProps {
   currentTurn: EChessSide;
   moveCount: number;
   status: 'playing' | 'win' | 'draw' | 'lose';
+  onAnalyzeGame: () => void;
 }
 
 export function ChessSidebarData({
@@ -15,7 +17,8 @@ export function ChessSidebarData({
   blackPlayer,
   currentTurn,
   moveCount,
-  status
+  status,
+  onAnalyzeGame
 }: IProps) {
   const getStatusLabel = () => {
     switch (status) {
@@ -63,6 +66,8 @@ export function ChessSidebarData({
           <span className={styles['value']}>{getStatusLabel()}</span>
         </div>
       </div>
+
+      {status !== 'playing' && <Button onClick={onAnalyzeGame}>Analyze</Button>}
     </aside>
   );
 }

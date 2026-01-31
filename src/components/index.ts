@@ -14,6 +14,7 @@ export { MainLoader } from './MainLoader/MainLoader';
 export { Modal } from './Modal/Modal';
 export { ModalChessResult } from './ModalChessResult/ModalChessResult';
 export { ModalChessRules } from './ModalChessRules/ModalChessRules';
+export { ModalGameAnalysis } from './ModalGameAnalysis/ModalGameAnalysis';
 export { ModalNewGame } from './ModalNewGame/ModalNewGame';
 export { NotFoundGame } from './NotFoundGame/NotFoundGame';
 export { OpponentTurnOverlay } from './OpponentTurnOverlay/OpponentTurnOverlay';
