@@ -1,0 +1,80 @@
+@use 'styles/colors' as colors;
+
+.modal {
+  background: #1e1e2e;
+  padding: 30px;
+  border-radius: 16px;
+  width: 520px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  color: colors.$text-primary;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: colors.$accent-ai;
+  }
+}
+
+.title {
+  font-size: 24px;
+  color: colors.$accent-ai;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title-icon {
+  color: colors.$accent-ai;
+}
+
+.analysis {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px 18px;
+  border-radius: 12px;
+  line-height: 1.6;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  max-height: 320px;
+  overflow-y: auto;
+  white-space: pre-line;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: colors.$accent-ai;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

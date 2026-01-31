@@ -1,13 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from 'store';
 import type { Move } from 'chess.js';
+import { getGameAnalysisDataThunk } from 'store/modules/game-analysis/game-analysis.thunk';
 import { EChessResult, EChessSide, EGameStatus, type ICurrentUser, type IGame } from 'models';
 import { ChessBoard, type ChessBoardRef } from 'components/ChessBoard/ChessBoard';
 import { ChessSidebarData } from 'components/ChessSidebarData/ChessSidebarData';
 import { ChessSidebarHistory } from 'components/ChessSidebarHistory/ChessSidebarHistory';
 import { ModalChessResult } from 'components/ModalChessResult/ModalChessResult';
+import { ModalGameAnalysis } from 'components/ModalGameAnalysis/ModalGameAnalysis';
 import { OpponentTurnOverlay } from 'components/OpponentTurnOverlay/OpponentTurnOverlay';
 
 import styles from './AdvancedChessBoard.module.scss';
+import { clearGameAnalysisData } from 'store/modules/game-analysis/game-analysis.actions';
 
 interface IProps {
   user: ICurrentUser;
@@ -16,8 +21,11 @@ interface IProps {
 }
 
 export function AdvancedChessBoard({ user, game, onMove }: IProps) {
+  const dispatch: AppDispatch = useDispatch();
+
   const [gameStatus, setGameStatus] = useState<EGameStatus>(EGameStatus.PLAYING);
   const [isResultOpened, setIsResultOpened] = useState(false);
+  const [isAnalysisOpened, setIsAnalysisOpened] = useState(false);
 
   const boardRef = useRef<ChessBoardRef>(null);
 
@@ -28,6 +36,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
 
   const onPreviewMove = (fen: string) => {
     boardRef.current?.updatePreview(fen);
+  };
+
+  const onAnalyzeGame = () => {
+    void dispatch(clearGameAnalysisData());
+    setIsAnalysisOpened(true);
+    void dispatch(getGameAnalysisDataThunk(game.id));
   };
 
   const boardOrientation = useMemo(() => {
@@ -63,12 +77,12 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
     <>
       <div className={styles['chess-board']}>
         <ChessSidebarData
-          id={game.id}
           whitePlayer={game?.whitePlayer?.username || 'AI'}
           blackPlayer={game?.blackPlayer?.username || 'AI'}
           currentTurn={game.turn}
           moveCount={game.moveNumber}
           status={gameStatus}
+          onAnalyzeGame={onAnalyzeGame}
         />
         <div className={styles['board-wrapper']}>
           <ChessBoard
@@ -89,9 +103,11 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
         </div>
         <ChessSidebarHistory moves={game.moves} onPreviewMove={onPreviewMove} />
       </div>
+
       {isResultOpened && (
         <ModalChessResult result={gameStatus} onClose={() => setIsResultOpened(false)} />
       )}
+      {isAnalysisOpened && <ModalGameAnalysis onClose={() => setIsAnalysisOpened(false)} />}
     </>
   );
 }
