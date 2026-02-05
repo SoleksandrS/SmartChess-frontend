@@ -27,11 +27,15 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
   const [isResultOpened, setIsResultOpened] = useState(false);
   const [isAnalysisOpened, setIsAnalysisOpened] = useState(false);
 
+  const wasResultOpenedRef = useRef(false);
   const boardRef = useRef<ChessBoardRef>(null);
 
   const updateGameStatus = (value: EGameStatus) => {
     setGameStatus(value);
+    if (wasResultOpenedRef.current) return;
+
     setIsResultOpened(true);
+    wasResultOpenedRef.current = true;
   };
 
   const onPreviewMove = (fen: string) => {
