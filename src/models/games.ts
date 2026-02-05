@@ -31,6 +31,7 @@ export interface IGame {
   blackPlayerId?: number;
   whitePlayer?: { username: string };
   blackPlayer?: { username: string };
+  isAnalysisPrepared: boolean;
   moves: IGameMove[];
   createdAt: Date;
 }

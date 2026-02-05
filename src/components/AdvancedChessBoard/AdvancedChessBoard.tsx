@@ -87,6 +87,7 @@ export function AdvancedChessBoard({ user, game, onMove }: IProps) {
           currentTurn={game.turn}
           moveCount={game.moveNumber}
           status={gameStatus}
+          isAnalysisAvailable={game.isAnalysisPrepared}
           onAnalyzeGame={onAnalyzeGame}
         />
         <div className={styles['board-wrapper']}>
