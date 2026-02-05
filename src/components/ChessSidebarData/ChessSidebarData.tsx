@@ -9,6 +9,7 @@ interface IProps {
   currentTurn: EChessSide;
   moveCount: number;
   status: 'playing' | 'win' | 'draw' | 'lose';
+  isAnalysisAvailable: boolean;
   onAnalyzeGame: () => void;
 }
 
@@ -18,6 +19,7 @@ export function ChessSidebarData({
   currentTurn,
   moveCount,
   status,
+  isAnalysisAvailable,
   onAnalyzeGame
 }: IProps) {
   const getStatusLabel = () => {
@@ -67,7 +69,11 @@ export function ChessSidebarData({
         </div>
       </div>
 
-      {status !== 'playing' && <Button onClick={onAnalyzeGame}>Analyze</Button>}
+      {status !== 'playing' && (
+        <Button disabled={!isAnalysisAvailable} onClick={onAnalyzeGame}>
+          {isAnalysisAvailable ? 'Analyze' : 'Analyzing...'}
+        </Button>
+      )}
     </aside>
   );
 }
